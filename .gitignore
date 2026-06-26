@@ -1,0 +1,22 @@
+# Credentials - NEVER commit
+.env
+*.env
+auth.json
+config.json
+
+# State files
+*.state.json
+*_state.json
+
+# Output
+cron/output/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+
+# OS
+.DS_Store
+Thumbs.db
