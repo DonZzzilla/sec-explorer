@@ -421,7 +421,11 @@ const T = {
         ...(sec.filings||[]).map(s => ({...s, _type:'sec_comments'})),
         ...(pat.critical||[]).map(s => ({...s, _type:'patents', company:s.drug, subject:`${s.brand}`, materiality:{level:'HIGH',score:10}, urgency:s.urgency, date:s.expiry_window})),
         ...(pat.watch||[]).map(s => ({...s, _type:'patents', company:s.drug, subject:`${s.brand}`, materiality:{level:'MEDIUM',score:6}, urgency:s.urgency, date:s.expiry_window})),
-        ...(ins.filings||[]).map(s => ({...s, _type:'insider'})),
+        ...(ins.filings||[]).map(s => ({
+          ...s,
+          _type: 'insider',
+          materiality: s.materiality || (s.signal ? { level: s.signal.level, score: s.signal.score, keywords: s.signal.signals } : undefined)
+        })),
       ];
       all.sort((a, b) => (b.materiality?.score||0) - (a.materiality?.score||0));
       const grid = document.getElementById('signalsGrid');
@@ -443,7 +447,13 @@ const T = {
     if (!items.length) {
       el.innerHTML = `<div style="color:var(--text-muted);padding:1rem 0;font-size:0.85rem;">No ${type} signals yet.</div>`;
     } else {
-      el.innerHTML = items.map(s => this.renderSignalCard(s, type)).join('');
+      const mapped = items.map(s => {
+        if (type === 'insider' && s.signal && !s.materiality) {
+          return {...s, materiality: { level: s.signal.level, score: s.signal.score, keywords: s.signal.signals }};
+        }
+        return s;
+      });
+      el.innerHTML = mapped.map(s => this.renderSignalCard(s, type)).join('');
       this.initScrollReveal();
     }
   },
