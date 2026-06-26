@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SEC Explorer — Public Data Signals</title>
+  <meta name="description" content="Free government data, automated monitoring, actionable financial signals">
+  <link rel="stylesheet" href="./css/style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📊</text></svg>">
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="header-inner">
+      <div class="logo">
+        <div class="logo-icon">📊</div>
+        <div>
+          <h1>SEC Explorer</h1>
+          <span>Public Data Signals</span>
+        </div>
+      </div>
+      <div class="header-actions">
+        <div class="nav-links">
+          <a href="#" class="active" data-page="dashboard">Dashboard</a>
+          <a href="#" data-page="learn">Learn</a>
+          <a href="#" data-page="signals">All Signals</a>
+          <a href="#" data-page="about">About</a>
+        </div>
+        <button class="theme-toggle" id="themeToggle"><span>☀️</span></button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Dashboard Page -->
+  <main class="main">
+    <section id="dashboard" class="page-section active">
+      <!-- Stats Bar -->
+      <div class="stats-bar">
+        <div class="stat-card">
+          <div class="stat-label"><span class="live-dot"></span> Active Signals</div>
+          <div class="stat-value" id="totalSignals">0</div>
+          <div class="stat-sub">Updated <span id="lastUpdate">loading...</span></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">SEC Comment Letters</div>
+          <div class="stat-value" id="secCount" style="color: var(--accent-red);">0</div>
+          <div class="stat-sub">Material questions detected</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Patent Cliffs</div>
+          <div class="stat-value" id="patentCount" style="color: var(--accent-yellow);">0</div>
+          <div class="stat-sub">Drugs losing exclusivity</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Insider Trades</div>
+          <div class="stat-value" id="insiderCount" style="color: var(--accent-green);">0</div>
+          <div class="stat-sub">CEO/Director transactions</div>
+        </div>
+      </div>
+
+      <!-- Filter Tabs -->
+      <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 1.5rem; flex-wrap: wrap; gap: 1rem;">
+        <div class="section-title">🔔 Latest Signals</div>
+        <div class="filter-tabs">
+          <button class="filter-tab active" data-filter="all">All</button>
+          <button class="filter-tab" data-filter="high">� High Only</button>
+          <button class="filter-tab" data-filter="medium">🟡 Medium</button>
+          <button class="filter-tab" data-filter="easy">� Easy Plays</button>
+        </div>
+      </div>
+
+      <!-- Signals Grid -->
+      <div class="signals-grid" id="signalsGrid">
+        <!-- Populated by JS -->
+      </div>
+    </section>
+
+    <!-- Learn Page -->
+    <section id="learn" class="page-section">
+      <div class="section-header">
+        <div class="section-title">📚 Learn Everything</div>
+      </div>
+      <p style="color: var(--text-secondary); margin-bottom: 1.5rem; max-width: 700px;">
+        New here? Every concept below has <span class="tooltip-trigger" data-tooltip="sec-comment">?</span> tooltips.
+        Hover or tap any question mark to understand what things mean. No jargon without explanation.
+      </p>
+      <div class="learn-grid" id="learnGrid">
+        <!-- Populated by JS -->
+      </div>
+    </section>
+
+    <!-- All Signals Page -->
+    <section id="signals" class="page-section">
+      <div class="section-header">
+        <div class="section-title">📡 All Signals by Category</div>
+      </div>
+
+      <h3 style="margin: 1.5rem 0 1rem; color: var(--accent-red); display: flex; align-items: center; gap: 0.5rem;">
+        SEC Comment Letters
+        <span class="section-count">Material questions from the SEC</span>
+      </h3>
+      <div class="signals-grid" id="secGrid"></div>
+
+      <h3 style="margin: 2rem 0 1rem; color: var(--accent-yellow); display: flex; align-items: center; gap: 0.5rem;">
+        Patent Expirations
+        <span class="section-count">Blockbuster drugs losing exclusivity</span>
+      </h3>
+      <div class="signals-grid" id="patentGrid"></div>
+
+      <h3 style="margin: 2rem 0 1rem; color: var(--accent-green); display: flex; align-items: center; gap: 0.5rem;">
+        Insider Trading
+        <span class="section-count">CEO/CFO/Director buy/sell activity</span>
+      </h3>
+      <div class="signals-grid" id="insiderGrid"></div>
+    </section>
+
+    <!-- About Page -->
+    <section id="about" class="page-section">
+      <div class="section-header">
+        <div class="section-title">ℹ️ About This Project</div>
+      </div>
+      <div style="max-width: 800px;">
+        <div class="learn-card" style="margin-bottom: 1rem;">
+          <div class="learn-icon">�</div>
+          <h3>What Is This?</h3>
+          <p>A collection of automated monitors that scan free, public government data (SEC EDGAR, USPTO, FDA) for actionable financial signals. Everything here is <strong>completely free</strong> and runs on a $100 Raspberry Pi. No API keys needed.</p>
+        </div>
+        <div class="learn-card" style="margin-bottom: 1rem;">
+          <div class="learn-icon">�</div>
+          <h3>Why Does This Work?</h3>
+          <p>The information is already public and free. The advantage is <strong>automation</strong>. The SEC receives 30,000+ filings daily. No human can read them all. Our monitors scan every 3 hours and flag the ones that historically predict stock movements.</p>
+        </div>
+        <div class="learn-card" style="margin-bottom: 1rem;">
+          <div class="learn-icon">⚠️</div>
+          <h3>Risk Disclaimer</h3>
+          <p>Every signal has a chance of failure. This is <strong>educational and research only</strong> — NOT financial advice. Always do your own research. Never invest more than you can afford to lose. The "potential earnings" shown are optimistic estimates, not guarantees.</p>
+        </div>
+        <div class="learn-card" style="margin-bottom: 1rem;">
+          <div class="learn-icon">�️</div>
+          <h3>How It Works</h3>
+          <p><strong>Step 1:</strong> Monitor fetches daily index from SEC EDGAR<br>
+          <strong>Step 2:</strong> Filters out ETF/fund/routine filings<br>
+          <strong>Step 3:</strong> Downloads actual filings (parallel)<br>
+          <strong>Step 4:</strong> Scores materiality via keywords + structure<br>
+          <strong>Step 5:</strong> Updates this dashboard with new signals</p>
+        </div>
+        <div class="learn-card">
+          <div class="learn-icon">�</div>
+          <h3>Open Source</h3>
+          <p>Full source code on GitHub. Contributions welcome. If you find this useful, share it with someone who wants an edge in the markets without paying $100K for a Bloomberg terminal.</p>
+          <a href="https://github.com/DonZzzilla/sec-explorer" target="_blank" style="color: var(--accent-blue); font-size: 0.9rem; margin-top: 0.5rem; display: inline-block;">github.com/DonZzzilla/sec-explorer →</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p>SEC Explorer — Built on a Raspberry Pi �</p>
+    <p>All data is public & every 3 hours via cron.</p>
+    <p style="margin-top: 0.5rem;">Not financial advice. <a href="https://github.com/DonZzzilla/sec-explorer">Open source on GitHub</a></p>
+  </footer>
+
+  <script src="./js/app.js"></script>
+</body>
+</html>
