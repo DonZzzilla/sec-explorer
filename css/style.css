@@ -403,7 +403,7 @@ body::before {
 .endeavor-card h3 { font-size: 1rem; font-weight: 700; margin-bottom: 0.4rem; }
 .endeavor-card p { font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6; }
 .endeavor-diagram { margin-top: 1rem; padding: 0.75rem; background: var(--bg-surface); border-radius: var(--radius-sm); border: 1px solid var(--border); overflow-x: auto; }
-.endeavor-diagram pre { font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; color: var(--text-muted); line-height: 1.6; white-space: pre; }
+.endeavor-diagram pre { font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; color: var(--accent-cyan); line-height: 1.6; white-space: pre; }
 
 /* ── MONETIZE GRID ─────────────────────────────────────────────── */
 .monetize-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.25rem; max-width: 1200px; margin: 0 auto; }
@@ -429,6 +429,12 @@ body::before {
 .about-card h3 { font-size: 1rem; font-weight: 700; margin-bottom: 0.5rem; }
 .about-card p { font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6; }
 .about-card p strong { color: var(--accent-red); }
+
+/* ── DEEP LEARN LINK ───────────────────────────────────────────── */
+.deep-link { display: inline-block; margin-top: 0.75rem; font-size: 0.78rem; font-weight: 600; color: var(--accent-purple); transition: color 0.2s; }
+.deep-link:hover { color: var(--accent-cyan); }
+
+.running-total { display: inline-flex; align-items: center; gap: 0.3rem; font-size: 0.72rem; font-family: 'JetBrains Mono', monospace; color: var(--accent-cyan); }
 
 /* ── FOOTER ────────────────────────────────────────────────────── */
 .footer { margin-top: 4rem; padding: 2rem; border-top: 1px solid var(--border); text-align: center; }

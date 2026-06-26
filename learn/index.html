@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SEC Explorer — Deep Dive</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    .deep-page { max-width: 860px; margin: 0 auto; padding: 6rem 2rem 3rem; }
+    .deep-page .back-link { display: inline-flex; align-items: center; gap: 0.4rem; color: var(--accent-blue); font-size: 0.82rem; font-weight: 500; margin-bottom: 2rem; transition: gap 0.2s; }
+    .deep-page .back-link:hover { gap: 0.6rem; }
+    .deep-page h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 900; letter-spacing: -0.03em; line-height: 1.1; margin-bottom: 0.5rem; }
+    .deep-page .subtitle { font-size: 1.05rem; color: var(--text-secondary); margin-bottom: 2.5rem; line-height: 1.6; }
+    .deep-section { margin-bottom: 2.5rem; padding: 1.5rem; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); }
+    .deep-section h2 { font-size: 1.2rem; font-weight: 700; margin-bottom: 0.75rem; color: var(--accent-blue); }
+    .deep-section p { font-size: 0.9rem; color: var(--text-secondary); line-height: 1.75; margin-bottom: 0.75rem; }
+    .deep-section p:last-child { margin-bottom: 0; }
+    .deep-section p strong { color: var(--text-primary); }
+    .deep-section p em { color: var(--accent-cyan); font-style: normal; }
+    .deep-section pre { background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 1rem; font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; color: var(--text-muted); line-height: 1.6; overflow-x: auto; white-space: pre; }
+    .deep-section ul { margin: 0.5rem 0; padding-left: 1.25rem; }
+    .deep-section li { font-size: 0.88rem; color: var(--text-secondary); line-height: 1.6; margin-bottom: 0.3rem; }
+    .deep-section li strong { color: var(--text-primary); }
+    .exhibit-label { display: inline-block; background: var(--glow-blue); color: var(--accent-blue); font-size: 0.65rem; font-weight: 700; letter-spacing: 0.06em; padding: 0.15rem 0.5rem; border-radius: 999px; margin-bottom: 0.5rem; text-transform: uppercase; }
+    .exhibit-source { display: block; font-size: 0.7rem; color: var(--text-dim); margin-top: 0.5rem; font-style: italic; }
+    .nav-footer { display: flex; justify-content: space-between; margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid var(--border); }
+    .nav-footer a { color: var(--accent-blue); font-size: 0.82rem; font-weight: 500; display: flex; align-items: center; gap: 0.4rem; }
+  </style>
+</head>
+<body>
+  <div class="cursor-dot" id="cursorDot"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+  <canvas id="particleCanvas"></canvas>
+  <div class="scanlines"></div>
+
+  <header class="header" id="mainHeader">
+    <div class="header-inner">
+      <a href="../index.html#learn" class="logo" data-cursor="hover">
+        <div class="logo-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+        </div>
+        <div class="logo-text">
+          <h1>SEC EXPLORER</h1>
+          <span class="logo-tagline">FREE DATA · REAL SIGNALS</span>
+        </div>
+      </a>
+      <div class="header-right">
+        <nav class="nav">
+          <a href="../index.html#home" class="nav-link" data-cursor="hover"><span class="nav-label">Dashboard</span></a>
+          <a href="../index.html#signals" class="nav-link" data-cursor="hover"><span class="nav-label">Signals</span></a>
+          <a href="../index.html#learn" class="nav-link active" data-cursor="hover"><span class="nav-label">Learn</span></a>
+          <a href="../index.html#endeavors" class="nav-link" data-cursor="hover"><span class="nav-label">Endeavors</span></a>
+          <a href="../index.html#monetize" class="nav-link" data-cursor="hover"><span class="nav-label">Monetize</span></a>
+        </nav>
+        <button class="theme-btn" id="themeBtn" data-cursor="hover"><span>◐</span></button>
+      </div>
+    </div>
+  </header>
+
+  <main class="deep-page" id="deepContent">
+    <!-- Content injected by JS -->
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <span class="footer-logo">SEC EXPLORER</span>
+        <span class="footer-tagline">Open source intelligence platform</span>
+      </div>
+    </div>
+  </footer>
+
+  <div class="tooltip-popup" id="tooltipPopup"></div>
+  <script src="../js/app.js"></script>
+  <script src="../js/deep-pages.js"></script>
+</body>
+</html>

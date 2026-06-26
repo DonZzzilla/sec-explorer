@@ -3,7 +3,9 @@
 // ═══════════════════════════════════════════════════════════════════════
 
 const T = {
-  // ── INIT ─────────────────────────────────────────────────────
+  // Persistent running total
+  runningTotal: parseInt(localStorage.getItem('runningTotal') || '0'),
+
   init() {
     const saved = localStorage.getItem('theme') || 'dark';
     document.documentElement.setAttribute('data-theme', saved);
@@ -15,9 +17,9 @@ const T = {
     this.initHudCounter();
     this.initMobileMenu();
     this.initHashRouting();
+    this.updateRunningTotalDisplay();
   },
 
-  // ── THEME ────────────────────────────────────────────────────
   toggle() {
     const cur = document.documentElement.getAttribute('data-theme');
     const next = cur === 'dark' ? 'light' : 'dark';
@@ -25,12 +27,12 @@ const T = {
     localStorage.setItem('theme', next);
     this.updateThemeBtn(next);
   },
+
   updateThemeBtn(t) {
     const span = document.querySelector('#themeBtn span');
-    if (span) span.textContent = t === 'dark' ? '�' : '◑';
+    if (span) span.textContent = t === 'dark' ? '☀' : '☽';
   },
 
-  // ── HASH ROUTING (deep links) ────────────────────────────────
   initHashRouting() {
     const handleHash = () => {
       const page = window.location.hash.replace('#', '') || 'home';
@@ -41,20 +43,16 @@ const T = {
     handleHash();
   },
 
-  // ── MOBILE MENU ──────────────────────────────────────────────
   initMobileMenu() {
     const btn = document.getElementById('mobileMenuBtn');
     const nav = document.getElementById('mobileNav');
     if (!btn || !nav) return;
     btn.addEventListener('click', () => nav.classList.toggle('open'));
     nav.querySelectorAll('.mobile-nav-link').forEach(link => {
-      link.addEventListener('click', () => {
-        nav.classList.remove('open');
-      });
+      link.addEventListener('click', () => nav.classList.remove('open'));
     });
   },
 
-  // ── CUSTOM CURSOR ────────────────────────────────────────────
   initCursor() {
     const dot = document.getElementById('cursorDot');
     const ring = document.getElementById('cursorRing');
@@ -80,7 +78,6 @@ const T = {
     document.addEventListener('touchstart', () => { dot.style.display = 'none'; ring.style.display = 'none'; }, { once: true });
   },
 
-  // ── PARTICLES ────────────────────────────────────────────────
   initParticles() {
     const canvas = document.getElementById('particleCanvas');
     if (!canvas) return;
@@ -129,7 +126,6 @@ const T = {
     animate();
   },
 
-  // ── SCROLL REVEAL ────────────────────────────────────────────
   initScrollReveal() {
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
@@ -143,14 +139,12 @@ const T = {
     document.querySelectorAll('.reveal-up, .reveal-scale').forEach(el => observer.observe(el));
   },
 
-  // ── HEADER SCROLL ────────────────────────────────────────────
   initHeaderScroll() {
     const header = document.getElementById('mainHeader');
     if (!header) return;
     window.addEventListener('scroll', () => header.classList.toggle('scrolled', window.scrollY > 50), { passive: true });
   },
 
-  // ── HUD ──────────────────────────────────────────────────────
   initHudCounter() {
     const bar = document.getElementById('hudBar');
     if (bar) setTimeout(() => bar.style.width = '94%', 800);
@@ -161,7 +155,6 @@ const T = {
     update(); setInterval(update, 30000);
   },
 
-  // ── NAVIGATION ───────────────────────────────────────────────
   show(id) {
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
     document.querySelectorAll('.nav-link').forEach(a => a.classList.remove('active'));
@@ -175,18 +168,18 @@ const T = {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   },
 
-  // ── TOOLTIPS ─────────────────────────────────────────────────
   showTooltip(el, key) {
     const content = this.tooltips[key];
     if (!content) return;
     const popup = document.getElementById('tooltipPopup');
     const rect = el.getBoundingClientRect();
     const title = key.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
-    popup.innerHTML = `<h4>${title}</h4><p>${content}</p><a href="#learn" class="learn-more" data-page="learn">Learn more →</a>`;
+    popup.innerHTML = `<h4>${title}</h4><p>${content}</p><a href="learn/#${key}" class="learn-more" data-page="learn">Full breakdown →</a>`;
     popup.style.left = `${Math.min(rect.left, window.innerWidth - 340)}px`;
     popup.style.top = `${rect.bottom + 8}px`;
     popup.classList.add('visible');
   },
+
   hideTooltip() { document.getElementById('tooltipPopup')?.classList.remove('visible'); },
 
   tooltips: {
@@ -214,12 +207,11 @@ const T = {
     'volatility': 'How much the stock price swings. High vol = big potential gains AND losses.',
   },
 
-  // ── RENDER ───────────────────────────────────────────────────
   renderSignalCard(signal, type) {
     const level = (signal.materiality?.level || signal.signal?.level || 'low').toLowerCase();
     const score = signal.materiality?.score || signal.signal?.score || 0;
     const keywords = signal.materiality?.keywords || [];
-    const emoji = { sec_comments: '�', patents: '◈', insider: '�' }[type] || '◇';
+    const emoji = { sec_comments: '⬡', patents: '◈', insider: '◉' }[type] || '◇';
     const typeLabel = { sec_comments: 'SEC Comment', patents: 'Patent Cliff', insider: 'Insider Trade' }[type];
     const diff = signal.difficulty || (level === 'high' ? 3 : level === 'medium' ? 2 : 1);
     const diffLabel = diff >= 3 ? 'Hard' : diff >= 2 ? 'Medium' : 'Easy';
@@ -231,8 +223,8 @@ const T = {
     let earnHtml = '';
     if (buy > 0 || sell > 0 || signal.potentialEarnings) {
       earnHtml = '<div class="earnings-box"><div class="earnings-title">Intelligence Summary</div>';
-      if (buy > 0) earnHtml += `<div class="earnings-amount">&#9650; BUY $${Number(buy).toLocaleString()}</div>`;
-      if (sell > 0) earnHtml += `<div class="earnings-amount" style="color:var(--accent-red)">&#9660; SELL $${Number(sell).toLocaleString()}</div>`;
+      if (buy > 0) earnHtml += `<div class="earnings-amount">▲ BUY $${Number(buy).toLocaleString()}</div>`;
+      if (sell > 0) earnHtml += `<div class="earnings-amount" style="color:var(--accent-red)">▼ SELL $${Number(sell).toLocaleString()}</div>`;
       if (signal.price) earnHtml += `<div class="earnings-range">@ $${signal.price}/share</div>`;
       if (signal.date) earnHtml += `<div class="earnings-range">${signal.date}</div>`;
       if (signal.potentialEarnings) earnHtml += `<div class="earnings-title" style="margin-top:0.5rem;">Potential</div><div class="earnings-amount">${signal.potentialEarnings}</div>`;
@@ -291,7 +283,8 @@ const T = {
 
   renderLearnCard(card) {
     const tp = (card.tooltips || []).map(k => `<span class="tooltip-trigger" data-key="${k}" data-cursor="hover">?</span>`).join(' ');
-    return `<div class="learn-card" data-cursor="hover"><div class="learn-card-logo">${card.icon}</div><h3>${card.title}</h3><p>${card.text}</p><div class="tooltips-inline">${tp}</div></div>`;
+    const deepLink = card.deepLink || card.tooltips?.[0] || '';
+    return `<div class="learn-card" data-cursor="hover"><div class="learn-card-logo">${card.icon}</div><h3>${card.title}</h3><p>${card.text}</p><div class="tooltips-inline">${tp}</div>${deepLink ? `<a href="learn/#${deepLink}" class="deep-link" data-cursor="hover">Full breakdown →</a>` : ''}</div>`;
   },
 
   renderEndeavorCard(e, idx) {
@@ -305,15 +298,14 @@ const T = {
       <div class="tooltips-inline">${tp}</div></div>`;
   },
 
-  // ── DATA ─────────────────────────────────────────────────────
   learnCards: [
-    { icon: '◇', title: 'What is EDGAR?', text: 'The SEC\'s free public database. Every public company must file their financial reports here. Updated every 10 minutes. Hedge funds pay $100K+/year for tools that just read EDGAR faster. We made it free.', tooltips: ['edgar'] },
-    { icon: '�', title: 'SEC Comment Letters', text: 'When the SEC reviews a financial report, they send a letter with questions. Every question is public. It\'s like seeing the teacher\'s answer key before the exam.', tooltips: ['sec-comment', 'going-concern', 'revenue-recognition'] },
-    { icon: '�', title: 'Patent Cliffs', text: 'Drug companies have 20-year monopolies. When the patent expires, ANY company can make a cheap generic. Lipitor went from $12B/year to $2B. Knowing when = knowing which stocks will drop.', tooltips: ['patent-cliff'] },
-    { icon: '◉', title: 'Why Follow Insiders?', text: 'CEOs know their company better than anyone. When they buy their own stock, they think it\'s going up. Insider buying beats the market by 6-8% per year.', tooltips: ['insider-buy', 'cluster-buy', 'form4-filing'] },
-    { icon: '⚠', title: 'Going Concern', text: 'The SEC is formally warning that the company might not survive. Companies with going concern warnings have an 80% chance of bankruptcy within 2 years.', tooltips: ['going-concern', 'fraud'] },
-    { icon: '◆', title: 'Profit Potential', text: 'SEC comments: 5-40% over 2-8 weeks. Patent cliffs: 20-80% over 6-18 months. Insider buying: 5-30% over 6 months. Always use stop losses.', tooltips: ['potential-earnings', 'chance-of-fail'] },
-    { icon: '◎', title: 'How to Trade', text: 'Each signal card has a step-by-step walkthrough. Click any signal → see "Action Protocol." Difficulty level shown on every card.', tooltips: ['difficulty', 'min-capital', 'timeframe'] },
+    { icon: '◇', title: 'What is EDGAR?', text: 'The SEC\'s free public database. Every public company must file their financial reports here. Updated every 10 minutes. Hedge funds pay $100K+/year for tools that just read EDGAR faster. We made it free.', tooltips: ['edgar'], deepLink: 'edgar' },
+    { icon: '⬡', title: 'SEC Comment Letters', text: 'When the SEC reviews a financial report, they send a letter with questions. Every question is public. It\'s like seeing the teacher\'s answer key before the exam.', tooltips: ['sec-comment', 'going-concern', 'revenue-recognition'], deepLink: 'sec-comments' },
+    { icon: '◈', title: 'Patent Cliffs', text: 'Drug companies have 20-year monopolies. When the patent expires, ANY company can make a cheap generic. Lipitor went from $12B/year to $2B. Knowing when = knowing which stocks will drop.', tooltips: ['patent-cliff'], deepLink: 'patent-cliffs' },
+    { icon: '◉', title: 'Why Follow Insiders?', text: 'CEOs know their company better than anyone. When they buy their own stock, they think it\'s going up. Insider buying beats the market by 6-8% per year.', tooltips: ['insider-buy', 'cluster-buy', 'form4-filing'], deepLink: 'insider-trading' },
+    { icon: '⚠', title: 'Going Concern', text: 'The SEC is formally warning that the company might not survive. Companies with going concern warnings have an 80% chance of bankruptcy within 2 years.', tooltips: ['going-concern', 'fraud'], deepLink: 'going-concern' },
+    { icon: '◆', title: 'Profit Potential', text: 'SEC comments: 5-40% over 2-8 weeks. Patent cliffs: 20-80% over 6-18 months. Insider buying: 5-30% over 6 months. Always use stop losses.', tooltips: ['potential-earnings', 'chance-of-fail'], deepLink: 'potential-earnings' },
+    { icon: '◎', title: 'How to Trade', text: 'Each signal card has a step-by-step walkthrough. Click any signal → see "Action Protocol." Difficulty level shown on every card.', tooltips: ['difficulty', 'min-capital', 'timeframe'], deepLink: 'trading-guide' },
     { icon: '◌', title: 'Understanding Risk', text: 'Every signal has a "chance of fail." AI might hallucinate. Government data is raw truth. EDUCATIONAL, not financial advice.', tooltips: ['chance-of-fail'] },
   ],
 
@@ -324,7 +316,7 @@ const T = {
     { icon: '◈', title: 'Patent Cliff Hunter', text: 'Blockbuster drugs lose patent protection every year. Brand-name stock crashes 20-80%. We track 20 major drugs.',
       diagram: 'Patent Protected → Monopoly Pricing\n    ↓ (20 years)\nPatent Expires → Generics Allowed\n    ↓\nBrand Name Sales Drop 80%\n    ↓\nStock Price Crashes 20-80%\n    ↓\nGeneric Competitors Rise',
       tooltips: ['patent-cliff'], coming: false },
-    { icon: '�', title: 'Insider Trading Tracker', text: 'CEOs must report every buy/sell within 2 days. Cluster buying (3+ insiders) is the strongest signal.',
+    { icon: '◉', title: 'Insider Trading Tracker', text: 'CEOs must report every buy/sell within 2 days. Cluster buying (3+ insiders) is the strongest signal.',
       diagram: 'CEO/Director buys shares\n    ↓\nFiles Form 4 within 48hrs (public)\n    ↓\nWe detect the filing\n    ↓\nIs it CLUSTER buying?\n(3+ insiders same time)\n    ↓\nSTRONG BUY signal (~65% success)',
       tooltips: ['insider-buy', 'cluster-buy', 'form4-filing'], coming: false },
     { icon: '◐', title: '8-K Material Events', text: 'Companies must file 8-K within 4 days of material events — M&A, restatements, CEO firing, cyber breach. Stocks move 5-20% overnight.',
@@ -348,7 +340,11 @@ const T = {
       features: ['All DEGEN features', 'White-label dashboard', 'Custom data pipelines', 'Slack/Teams integration', 'Priority support', 'Custom reports'] },
   ],
 
-  // ── INITIALIZE ───────────────────────────────────────────────
+  updateRunningTotalDisplay() {
+    const el = document.getElementById('runningTotalDisplay');
+    if (el) el.textContent = this.runningTotal.toLocaleString();
+  },
+
   async initPage() {
     this.init();
     this.bindEvents();
@@ -398,16 +394,29 @@ const T = {
       const pat = results[1].status === 'fulfilled' ? await results[1].value.json() : { critical: [], watch: [] };
       const ins = results[2].status === 'fulfilled' ? await results[2].value.json() : { filings: [] };
       const total = (sec.filings?.length||0) + (pat.critical?.length||0) + (pat.watch?.length||0) + (ins.filings?.length||0);
+
+      // Update running total (persistent, only goes up)
+      this.runningTotal += total;
+      localStorage.setItem('runningTotal', this.runningTotal.toString());
+      this.updateRunningTotalDisplay();
+
       this.animateValue('totalSignals', total);
       this.animateValue('secCount', sec.filings?.length || 0);
       this.animateValue('patentCount', (pat.critical?.length||0) + (pat.watch?.length||0));
       this.animateValue('insiderCount', ins.filings?.length || 0);
       this.animateValue('hudSignals', total);
+
       const secEl = document.getElementById('secCatCount'); if (secEl) secEl.textContent = sec.filings?.length || 0;
       const patEl = document.getElementById('patCatCount'); if (patEl) patEl.textContent = (pat.critical?.length||0) + (pat.watch?.length||0);
       const insEl = document.getElementById('insCatCount'); if (insEl) insEl.textContent = ins.filings?.length || 0;
+
+      // Full timestamp with date
+      const now = new Date();
+      const dateStr = now.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' });
+      const timeStr = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false });
       const lastUpdate = document.getElementById('lastUpdate');
-      if (lastUpdate) lastUpdate.textContent = `Last scan: ${new Date().toLocaleTimeString()}`;
+      if (lastUpdate) lastUpdate.textContent = `Last scan: ${dateStr} at ${timeStr}`;
+
       const all = [
         ...(sec.filings||[]).map(s => ({...s, _type:'sec_comments'})),
         ...(pat.critical||[]).map(s => ({...s, _type:'patents', company:s.drug, subject:`${s.brand}`, materiality:{level:'HIGH',score:10}, urgency:s.urgency, date:s.expiry_window})),
