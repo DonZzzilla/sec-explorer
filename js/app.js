@@ -299,14 +299,18 @@ const T = {
   },
 
   learnCards: [
-    { icon: '◇', title: 'What is EDGAR?', text: 'The SEC\'s free public database. Every public company must file their financial reports here. Updated every 10 minutes. Hedge funds pay $100K+/year for tools that just read EDGAR faster. We made it free.', tooltips: ['edgar'], deepLink: 'edgar' },
-    { icon: '⬡', title: 'SEC Comment Letters', text: 'When the SEC reviews a financial report, they send a letter with questions. Every question is public. It\'s like seeing the teacher\'s answer key before the exam.', tooltips: ['sec-comment', 'going-concern', 'revenue-recognition'], deepLink: 'sec-comments' },
-    { icon: '◈', title: 'Patent Cliffs', text: 'Drug companies have 20-year monopolies. When the patent expires, ANY company can make a cheap generic. Lipitor went from $12B/year to $2B. Knowing when = knowing which stocks will drop.', tooltips: ['patent-cliff'], deepLink: 'patent-cliffs' },
+    { icon: '◇', title: 'What is EDGAR?', text: 'EDGAR = Electronic Data Gathering, Analysis, and Retrieval. It\'s the SEC\'s free public filing system — every public company is required to dump their financial reports here. Updated every 10 minutes. Hedge funds pay $100K+/year for tools that just read EDGAR faster. We made it free.', tooltips: ['edgar'], deepLink: 'edgar' },
+    { icon: '⬡', title: 'SEC Comment Letters', text: 'When the SEC reviews a financial report, they send a letter with questions. Every question is public. It\'s like seeing the teacher\'s answer key before the exam.', tooltips: ['sec-comment', 'going-concern', 'revenue-recognition'], deepLink: 'sec-comment' },
+    { icon: '◈', title: 'Patent Cliffs', text: 'Drug companies have 20-year monopolies. When the patent expires, ANY company can make a cheap generic. Lipitor went from $12B/year to $2B. Knowing when = knowing which stocks will drop.', tooltips: ['patent-cliff'], deepLink: 'patent-cliff' },
     { icon: '◉', title: 'Why Follow Insiders?', text: 'CEOs know their company better than anyone. When they buy their own stock, they think it\'s going up. Insider buying beats the market by 6-8% per year.', tooltips: ['insider-buy', 'cluster-buy', 'form4-filing'], deepLink: 'insider-trading' },
     { icon: '⚠', title: 'Going Concern', text: 'The SEC is formally warning that the company might not survive. Companies with going concern warnings have an 80% chance of bankruptcy within 2 years.', tooltips: ['going-concern', 'fraud'], deepLink: 'going-concern' },
     { icon: '◆', title: 'Profit Potential', text: 'SEC comments: 5-40% over 2-8 weeks. Patent cliffs: 20-80% over 6-18 months. Insider buying: 5-30% over 6 months. Always use stop losses.', tooltips: ['potential-earnings', 'chance-of-fail'], deepLink: 'potential-earnings' },
     { icon: '◎', title: 'How to Trade', text: 'Each signal card has a step-by-step walkthrough. Click any signal → see "Action Protocol." Difficulty level shown on every card.', tooltips: ['difficulty', 'min-capital', 'timeframe'], deepLink: 'trading-guide' },
     { icon: '◌', title: 'Understanding Risk', text: 'Every signal has a "chance of fail." AI might hallucinate. Government data is raw truth. EDUCATIONAL, not financial advice.', tooltips: ['chance-of-fail'] },
+    { icon: '◈', title: 'Revenue Recognition', text: 'How companies count their money — and why the timing matters. The SEC questions revenue recognition when they suspect companies are booking fake sales.', tooltips: ['revenue-recognition'], deepLink: 'revenue-recognition' },
+    { icon: '⚙', title: 'Material Weakness', text: 'When a company\'s internal financial controls are broken, you can\'t trust their numbers. Here\'s what that means.', tooltips: ['material-weakness'], deepLink: 'material-weakness' },
+    { icon: '✦', title: 'Cluster Buying', text: 'When 3+ insiders buy at the same time, it\'s one of the strongest signals in finance. Here\'s why — and how to trade it.', tooltips: ['cluster-buy'], deepLink: 'cluster-buy' },
+    { icon: '◐', title: 'Form 4 Filings', text: 'The paper trail of insider trades. How to read the forms that CEOs must file when they buy or sell their own stock.', tooltips: ['form4-filing'], deepLink: 'form4-filing' },
   ],
 
   endeavorCards: [
