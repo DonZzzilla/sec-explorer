@@ -1,0 +1,181 @@
+{
+  "timestamp": "2026-06-26T05:54:40.581941",
+  "status": "found",
+  "total_tracked": 20,
+  "critical_count": 7,
+  "watch_count": 10,
+  "critical": [
+    {
+      "drug": "lenalidomide",
+      "brand": "Revlimid",
+      "company": "BMS/Celgene",
+      "ticker": "BMY",
+      "expiry_window": "2025-2026",
+      "years_until_expiry": -1,
+      "urgency": "EXPIRED/EXPIRING NOW",
+      "score": 10
+    },
+    {
+      "drug": "rivaroxaban",
+      "brand": "Xarelto",
+      "company": "Bayer/J&J",
+      "ticker": "BAYRY",
+      "expiry_window": "2024-2025",
+      "years_until_expiry": -2,
+      "urgency": "EXPIRED/EXPIRING NOW",
+      "score": 10
+    },
+    {
+      "drug": "semaglutide",
+      "brand": "Ozempic/Wegovy",
+      "company": "Novo Nordisk",
+      "ticker": "NVO",
+      "expiry_window": "2026-2028",
+      "years_until_expiry": 0,
+      "urgency": "EXPIRED/EXPIRING NOW",
+      "score": 10
+    },
+    {
+      "drug": "ibrutinib",
+      "brand": "Imbruvica",
+      "company": "AbbVie/AbbVie",
+      "ticker": "ABBV",
+      "expiry_window": "2027-2028",
+      "years_until_expiry": 1,
+      "urgency": "WITHIN 1 YEAR",
+      "score": 8
+    },
+    {
+      "drug": "acalabrutinib",
+      "brand": "Calquence",
+      "company": "AstraZeneca",
+      "ticker": "AZN",
+      "expiry_window": "2027-2028",
+      "years_until_expiry": 1,
+      "urgency": "WITHIN 1 YEAR",
+      "score": 8
+    },
+    {
+      "drug": "dupilumab",
+      "brand": "Dupixent",
+      "company": "Regeneron/Sanofi",
+      "ticker": "REGN",
+      "expiry_window": "2027-2028",
+      "years_until_expiry": 1,
+      "urgency": "WITHIN 1 YEAR",
+      "score": 8
+    },
+    {
+      "drug": "erdafitinib",
+      "brand": "Balversa",
+      "company": "J&J",
+      "ticker": "JNJ",
+      "expiry_window": "2027-2028",
+      "years_until_expiry": 1,
+      "urgency": "WITHIN 1 YEAR",
+      "score": 8
+    }
+  ],
+  "watch": [
+    {
+      "drug": "pomalidomide",
+      "brand": "Pomalyst",
+      "company": "BMS/Celgene",
+      "ticker": "BMY",
+      "expiry_window": "2028-2029",
+      "years_until_expiry": 2,
+      "urgency": "WITHIN 2 YEARS",
+      "score": 6
+    },
+    {
+      "drug": "venetoclax",
+      "brand": "Venclexta",
+      "company": "AbbVie/Genentech",
+      "ticker": "ABBV",
+      "expiry_window": "2028-2029",
+      "years_until_expiry": 2,
+      "urgency": "WITHIN 2 YEARS",
+      "score": 6
+    },
+    {
+      "drug": "apixaban",
+      "brand": "Eliquis",
+      "company": "BMS/Pfizer",
+      "ticker": "BMY",
+      "expiry_window": "2028-2031",
+      "years_until_expiry": 2,
+      "urgency": "WITHIN 2 YEARS",
+      "score": 6
+    },
+    {
+      "drug": "empagliflozin",
+      "brand": "Jardiance",
+      "company": "Boehringer/Eli Lilly",
+      "ticker": "LLY",
+      "expiry_window": "2028-2031",
+      "years_until_expiry": 2,
+      "urgency": "WITHIN 2 YEARS",
+      "score": 6
+    },
+    {
+      "drug": "risankizumab",
+      "brand": "Skyrizi",
+      "company": "AbbVie",
+      "ticker": "ABBV",
+      "expiry_window": "2028-2029",
+      "years_until_expiry": 2,
+      "urgency": "WITHIN 2 YEARS",
+      "score": 6
+    },
+    {
+      "drug": "tislelizumab",
+      "brand": "Tevimbra",
+      "company": "Beigene",
+      "ticker": "BGNE",
+      "expiry_window": "2028-2029",
+      "years_until_expiry": 2,
+      "urgency": "WITHIN 2 YEARS",
+      "score": 6
+    },
+    {
+      "drug": "sotorasib",
+      "brand": "Lumakras",
+      "company": "Amgen",
+      "ticker": "AMGN",
+      "expiry_window": "2028-2029",
+      "years_until_expiry": 2,
+      "urgency": "WITHIN 2 YEARS",
+      "score": 6
+    },
+    {
+      "drug": "adagrasib",
+      "brand": "Krazati",
+      "company": "Mirati/BMS",
+      "ticker": "BMY",
+      "expiry_window": "2028-2029",
+      "years_until_expiry": 2,
+      "urgency": "WITHIN 2 YEARS",
+      "score": 6
+    },
+    {
+      "drug": "tirzepatide",
+      "brand": "Mounjaro/Zepbound",
+      "company": "Eli Lilly",
+      "ticker": "LLY",
+      "expiry_window": "2029-2032",
+      "years_until_expiry": 3,
+      "urgency": "WITHIN 3 YEARS",
+      "score": 4
+    },
+    {
+      "drug": "darolutamide",
+      "brand": "Nubeqa",
+      "company": "Bayer/Orion",
+      "ticker": "BAYRY",
+      "expiry_window": "2029-2030",
+      "years_until_expiry": 3,
+      "urgency": "WITHIN 3 YEARS",
+      "score": 4
+    }
+  ]
+}
