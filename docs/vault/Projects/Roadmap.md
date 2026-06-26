@@ -1,16 +1,12 @@
----
-created: 2026-06-25
-tags: roadmap, expansion, data-sources
----
-
 # Roadmap
 
 ## Phase 2 — More Data Sources (Next)
 
 ### SEC Filings
-- [ ] **Form 4 (Insider Trading)** — CEO/CFO buy/sell patterns. 48hr filing window = early signal.
-- [ ] **8-K Material Events** — M&A announcements, restatements, executive changes, cybersecurity incidents
-- [ ] **10-K/10-Q Section 1A (Risk Factors)** — Extract year-over-year changes. New risks = new problems.
+- [x] **Comment Letters (CORRESP)** — SEC→company questions
+- [x] **Insider Trading (Form 4)** — CEO/CFO buy/sell patterns
+- [ ] **8-K Material Events** — M&A, restatements, exec changes, cybersecurity incidents
+- [ ] **10-K/10-Q Section 1A** (Risk Factors) — Extract year-over-year changes. New risks = new problems.
 - [ ] **Proxy Statements (DEF 14A)** — Executive compensation trends, board shakeups, shareholder proposals
 - [ ] **Schedule 13D/G** — Activist investor accumulations (>5% positions)
 - [ ] **Form S-1** — IPO pipeline tracking

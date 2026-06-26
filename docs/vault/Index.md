@@ -5,13 +5,14 @@ tags: index, project/sec-explorer
 
 # SEC Explorer Vault
 
-Public data arbitrate toolkit — monitoring free government data for financial alpha.
+Public data arbitrage toolkit — monitoring free government data for financial alpha.
 
 ## Maps of Content
 
 ### Tools
 - [[SEC Comment Letter Monitor]] — EDGAR CORRESP tracking
 - [[Patent Expiration Monitor]] — Pharma patent cliffs
+- [[Insider Trading Monitor]] — Form 4 CEO/CFO/Director trades
 
 ### Data Sources
 - [[EDGAR]] — SEC filing system
@@ -22,6 +23,7 @@ Public data arbitrate toolkit — monitoring free government data for financial 
 - [[EDGAR URL Construction]] — File path format gotchas
 - [[Materiality Scoring]] — How we score SEC comment severity
 - [[Filtering Patterns]] — Excluding noise (ETFs, funds, SPACs)
+- [[Form 4 XML Parsing]] — Insider trading data structure
 
 ### Expansion
 - [[Roadmap]] — Phase 2-4 data sources
