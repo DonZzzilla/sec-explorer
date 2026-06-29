@@ -1,0 +1,65 @@
+{
+  "timestamp": "2026-06-27T15:49:51.211702",
+  "total_scanned": 894,
+  "significant": 21,
+  "high_count": 9,
+  "medium_count": 1,
+  "high": [
+    {
+      "company": "PETMED EXPRESS INC",
+      "owner": "KRULIK DOUGLAS",
+      "owner_type": "OFFICER",
+      "date": "2026-06-26",
+      "shares": "32500",
+      "price": "0",
+      "action": "BUY"
+    },
+    {
+      "company": "FEDEX CORP",
+      "owner": "ADAMS GINA F.",
+      "owner_type": "OFFICER",
+      "date": "2026-06-25",
+      "shares": "4734",
+      "price": "0",
+      "action": "BUY"
+    },
+    {
+      "company": "FEDEX CORP",
+      "owner": "Brightman Tracy B",
+      "owner_type": "OFFICER",
+      "date": "2026-06-25",
+      "shares": "4734",
+      "price": "0",
+      "action": "BUY"
+    },
+    {
+      "company": "FEDEX CORP",
+      "owner": "Carere Brie",
+      "owner_type": "OFFICER",
+      "date": "2026-06-25",
+      "shares": "4734",
+      "price": "0",
+      "action": "BUY"
+    },
+    {
+      "company": "FEDEX CORP",
+      "owner": "Preet Kawal",
+      "owner_type": "OFFICER",
+      "date": "2026-06-25",
+      "shares": "4734",
+      "price": "0",
+      "action": "BUY"
+    }
+  ],
+  "medium": [
+    {
+      "company": "FEDEX CORP",
+      "owner": "MARTIN R BRAD",
+      "owner_type": "DIRECTOR",
+      "date": "2026-06-25",
+      "shares": "8711",
+      "price": "0",
+      "action": "BUY"
+    }
+  ]
+}

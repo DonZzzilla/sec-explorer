@@ -1,0 +1,8 @@
+{
+  "monitor": "patent_expiry",
+  "status": "found",
+  "last_updated": "2026-06-28T17:51:48.869044",
+  "critical_count": 7,
+  "watch_count": 10,
+  "total_tracked": 20
+}

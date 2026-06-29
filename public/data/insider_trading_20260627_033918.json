@@ -1,0 +1,94 @@
+{
+  "timestamp": "2026-06-27T03:39:18.811821",
+  "status": "found",
+  "total_scanned": 894,
+  "significant": 21,
+  "filings": [
+    {
+      "company": "PETMED EXPRESS INC",
+      "owner": "KRULIK DOUGLAS",
+      "owner_type": "OFFICER",
+      "signal": {
+        "score": 13,
+        "level": "HIGH",
+        "signals": ["OFFICER_TRADE", "PURE_BUY", "MEDIUM_BUY"],
+        "total_buy": 32500,
+        "total_sell": 0
+      },
+      "transactions": [{"action": "BUY", "date": "2026-06-26", "shares": "32500", "price": "0", "owned_after": "102500", "security": "Common Stock"}],
+      "edgar_url": "https://www.sec.gov/edgar/data/1040130/0002035815-26-000002.txt"
+    },
+    {
+      "company": "FEDEX CORP",
+      "owner": "ADAMS GINA F.",
+      "owner_type": "OFFICER",
+      "signal": {"score": 11, "level": "HIGH", "signals": ["OFFICER_TRADE", "PURE_BUY", "SMALL_BUY"], "total_buy": 4734, "total_sell": 0},
+      "transactions": [{"action": "BUY", "date": "2026-06-25", "shares": "4734", "price": "0", "owned_after": "24137", "security": "Common Stock"}],
+      "edgar_url": "https://www.sec.gov/edgar/data/1048911/0001048911-26-000052.txt"
+    },
+    {
+      "company": "FEDEX CORP",
+      "owner": "Brightman Tracy B",
+      "owner_type": "OFFICER",
+      "signal": {"score": 11, "level": "HIGH", "signals": ["OFFICER_TRADE", "PURE_BUY", "SMALL_BUY"], "total_buy": 4734, "total_sell": 0},
+      "transactions": [{"action": "BUY", "date": "2026-06-25", "shares": "4734", "price": "0", "owned_after": "15786", "security": "Common Stock"}],
+      "edgar_url": "https://www.sec.gov/edgar/data/1048911/0001048911-26-000054.txt"
+    },
+    {
+      "company": "FEDEX CORP",
+      "owner": "Carere Brie",
+      "owner_type": "OFFICER",
+      "signal": {"score": 11, "level": "HIGH", "signals": ["OFFICER_TRADE", "PURE_BUY", "SMALL_BUY"], "total_buy": 4734, "total_sell": 0},
+      "transactions": [{"action": "BUY", "date": "2026-06-25", "shares": "4734", "price": "0", "owned_after": "28296", "security": "Common Stock"}],
+      "edgar_url": "https://www.sec.gov/edgar/data/1048911/0001048911-26-000056.txt"
+    },
+    {
+      "company": "FEDEX CORP",
+      "owner": "Preet Kawal",
+      "owner_type": "OFFICER",
+      "signal": {"score": 11, "level": "HIGH", "signals": ["OFFICER_TRADE", "PURE_BUY", "SMALL_BUY"], "total_buy": 4734, "total_sell": 0},
+      "transactions": [{"action": "BUY", "date": "2026-06-25", "shares": "4734", "price": "0", "owned_after": "15687", "security": "Common Stock"}],
+      "edgar_url": "https://www.sec.gov/edgar/data/1048911/0001048911-26-000062.txt"
+    },
+    {
+      "company": "FEDEX CORP",
+      "owner": "Ray Scott L",
+      "owner_type": "OFFICER",
+      "signal": {"score": 11, "level": "HIGH", "signals": ["OFFICER_TRADE", "PURE_BUY", "SMALL_BUY"], "total_buy": 4734, "total_sell": 0},
+      "transactions": [{"action": "BUY", "date": "2026-06-25", "shares": "4734", "price": "0", "owned_after": "19376", "security": "Common Stock"}],
+      "edgar_url": "https://www.sec.gov/edgar/data/1048911/0001048911-26-000064.txt"
+    },
+    {
+      "company": "FEDEX CORP",
+      "owner": "Russ Claude F",
+      "owner_type": "OFFICER",
+      "signal": {"score": 11, "level": "HIGH", "signals": ["OFFICER_TRADE", "PURE_BUY", "SMALL_BUY"], "total_buy": 1635, "total_sell": 0},
+      "transactions": [{"action": "BUY", "date": "2026-06-25", "shares": "1635", "price": "0", "owned_after": "5177", "security": "Common Stock"}],
+      "edgar_url": "https://www.sec.gov/edgar/data/1048911/0001048911-26-000066.txt"
+    },
+    {
+      "company": "FEDEX CORP",
+      "owner": "Subramaniam Rajesh",
+      "owner_type": "DIRECTOR",
+      "signal": {"score": 11, "level": "HIGH", "signals": ["DIRECTOR_TRADE", "PURE_BUY", "MEDIUM_BUY"], "total_buy": 14591, "total_sell": 0},
+      "transactions": [{"action": "BUY", "date": "2026-06-25", "shares": "14591", "price": "0", "owned_after": "105683", "security": "Common Stock"}],
+      "edgar_url": "https://www.sec.gov/edgar/data/1048911/0001048911-26-000070.txt"
+    },
+    {
+      "company": "FEDEX CORP",
+      "owner": "Talwar Vishal",
+      "owner_type": "OFFICER",
+      "signal": {"score": 11, "level": "HIGH", "signals": ["OFFICER_TRADE", "PURE_BUY", "SMALL_BUY"], "total_buy": 4734, "total_sell": 0},
+      "transactions": [{"action": "BUY", "date": "2026-06-25", "shares": "4734", "price": "0", "owned_after": "14036", "security": "Common Stock"}],
+      "edgar_url": "https://www.sec.gov/edgar/data/1048911/0001048911-26-000072.txt"
+    },
+    {
+      "company": "FEDEX CORP",
+      "owner": "MARTIN R BRAD",
+      "owner_type": "DIRECTOR",
+      "signal": {"score": 9, "level": "MEDIUM", "signals": ["DIRECTOR_TRADE", "PURE_BUY", "SMALL_BUY"], "total_buy": 8711, "total_sell": 0},
+      "transactions": [{"action": "BUY", "date": "2026-06-25", "shares": "8711", "price": "0", "owned_after": "49550", "security": "Common Stock"}],
+      "edgar_url": "https://www.sec.gov/edgar/data/1048911/0001048911-26-000060.txt"
+    }
+  ]
+}

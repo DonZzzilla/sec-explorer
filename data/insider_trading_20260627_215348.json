@@ -1,11 +1,7 @@
-/usr/lib/python3/dist-packages/requests/__init__.py:109: RequestsDependencyWarning: urllib3 (2.7.0) or chardet (5.1.0)/charset_normalizer (3.0.1) doesn't match a supported version!
-  warnings.warn(
-/home/donzzz/.local/lib/python3.11/site-packages/urllib3/poolmanager.py:329: FutureWarning: The 'strict' parameter is no longer needed on Python 3+. This will raise an error in urllib3 v3.0.
-  warnings.warn(
 {
-  "timestamp": "2026-06-28T02:42:17.562237",
+  "timestamp": "2026-06-27T21:53:48.212675",
   "status": "found",
-  "total_scanned": 446,
+  "total_scanned": 894,
   "significant": 21,
   "filings": [
     {
