@@ -1,10 +1,138 @@
 {
-  "timestamp": "2026-06-28T23:48:02.019037",
-  "status": "no_new_filings",
-  "message": "No new SEC comment letters found in last 3 days.",
-  "errors": [
-    "No index for 2026-06-28",
-    "No index for 2026-06-27"
+  "timestamp": "2026-07-25T05:40:40.231813",
+  "status": "found",
+  "total_new": 35,
+  "significant_count": 6,
+  "filings": [
+    {
+      "company": "Iveda Solutions, Inc.",
+      "cik": "1397183",
+      "form_type": "UPLOAD",
+      "date": "20260127",
+      "subject": "Iveda Solutions, Inc.",
+      "referenced_filing": "Form S-1 (January 23, 2026)",
+      "materiality": {
+        "score": 6,
+        "level": "MEDIUM",
+        "keywords": [
+          "disclosure"
+        ],
+        "signals": [
+          "SEC_QUESTIONS:1",
+          "LONG_LETTER"
+        ]
+      },
+      "letter_preview": "LETTER\n1\nfilename1.pdf\n\nbegin 644 filename1\nM)5!$1BTQ+C<*)>+CS],*-2 P(&]B:@H\\/\"]&:6QT97(O1FQA=&5$96-O9&4O\nM3&5N9W1H(#@Q,#X^O&29'N\nM3]O8:*]I:11S(9&.2#GK/DT>=8>4; 1)7:6V84@VS\\RGPT/R/DB*$-R[2%B>\nM0I8P^LHR=UUUP;N;CL-2!U^#^^\"/=?#NF@./8-T$<9J/PT-6IK\"N@S>?A!I$\nM?X H6T 41MG;];_!U?JE,BM81,*P9'P4+L5>UO#7X=>\"M",
+      "edgar_url": "https://www.sec.gov/edgar/data/1397183/0000000000-26-000961.txt"
+    },
+    {
+      "company": "bioAffinity Technologies, Inc.",
+      "cik": "1712762",
+      "form_type": "UPLOAD",
+      "date": "20260507",
+      "subject": "bioAffinity Technologies, Inc.",
+      "referenced_filing": "Form S-1 (April 30, 2026)",
+      "materiality": {
+        "score": 6,
+        "level": "MEDIUM",
+        "keywords": [
+          "disclosure"
+        ],
+        "signals": [
+          "SEC_QUESTIONS:1",
+          "LONG_LETTER"
+        ]
+      },
+      "letter_preview": "\n\n LETTER\n 1\n filename1.pdf\n\n \nbegin 644 filename1\nM)5!$1BTQ+C +CS],*-2 P(&]B:@H\\/\"]&:6QT97(O1FQA=&5$96-O9&4O\nM3&5N9W1H(#$P.3 ^/G-T B+=!C\nM@?Q DFD.!09%__]2+21%*[*=&:! ,=#$BT1Q>7RD_&> V9S2WPSCA* -4IIMQP=/Y9?AHC#?& !B#\nM-Y-O[\"7^WND:X^#?Y=/YU_#U_\"@US*.+0LTRV@>A WY4U>=S*W*P#'N@P\nM3:-AXX\",PBC,P5I@-NI6-F>",
+      "edgar_url": "https://www.sec.gov/edgar/data/1712762/0000000000-26-004703.txt"
+    },
+    {
+      "company": "SOCIETY PASS INCORPORATED.",
+      "cik": "1817511",
+      "form_type": "UPLOAD",
+      "date": "20260127",
+      "subject": "SOCIETY PASS INCORPORATED.",
+      "referenced_filing": "Form S-1 (January 20, 2026)",
+      "materiality": {
+        "score": 6,
+        "level": "MEDIUM",
+        "keywords": [
+          "disclosure"
+        ],
+        "signals": [
+          "SEC_QUESTIONS:1",
+          "LONG_LETTER"
+        ]
+      },
+      "letter_preview": "LETTER\n1\nfilename1.pdf\n\nbegin 644 filename1\nM)5!$1BTQ+C<*)>+CS],*-2 P(&]B:@H\\/\"]&:6QT97(O1FQA=&5$96-O9&4O\nM3&5N9W1H(#@R,SX^0)01_LLR=UWWP_JZG,%?!;\\%3\\*$*WM]2H!%4;1\"G^;@\\)&4*51.\\^Y7)\nM@>D]1/D$HC#*?JK^\"A;5.3(K2(3 L\"1T!\"[97K*A:^\"38/+Q^[\"TC GUJ-E&\nM\\!867W@]6/',X;YM1DW!D7=W/[A;5G_!PLUK!W>?9_?+A?GE3+>;D\nM2",
+      "edgar_url": "https://www.sec.gov/edgar/data/1817511/0000000000-26-001007.txt"
+    },
+    {
+      "company": "Nuburu, Inc.",
+      "cik": "1814215",
+      "form_type": "UPLOAD",
+      "date": "20260206",
+      "subject": "Nuburu, Inc.",
+      "referenced_filing": "Form S-1 (January 30, 2026)",
+      "materiality": {
+        "score": 6,
+        "level": "MEDIUM",
+        "keywords": [
+          "disclosure"
+        ],
+        "signals": [
+          "SEC_QUESTIONS:1",
+          "LONG_LETTER"
+        ]
+      },
+      "letter_preview": "LETTER\n1\nfilename1.pdf\n\nbegin 644 filename1\nM)5!$1BTQ+C<*)>+CS],*-2 P(&]B:@H\\/\"]&:6QT97(O1FQA=&5$96-O9&4O\nM3&5N9W1H(#IM\\JA=@)(G$]6A)8U^<78_G#V$GJ*LBL'?JXR5\nM.109HZ>B\\._;,7I_-W+8ZNB/Z\"GZN(O>WW+@\">SZ*,W+>7G,ZAQV7?3N%ALS\nM\"7.\"8@5)G!0_[?Z.;G;7RJ)B\"0GCFO%9^&% :X7JC(:_Q-AH)7\\LS>N4\\:#<\nMZ/5F+[&'FW^QG9Q\\1OC",
+      "edgar_url": "https://www.sec.gov/edgar/data/1814215/0000000000-26-001287.txt"
+    },
+    {
+      "company": "Envoy Medical, Inc.",
+      "cik": "1840877",
+      "form_type": "UPLOAD",
+      "date": "20250902",
+      "subject": "Envoy Medical, Inc.",
+      "referenced_filing": "Form S-1 (August 27, 2025)",
+      "materiality": {
+        "score": 6,
+        "level": "MEDIUM",
+        "keywords": [
+          "disclosure"
+        ],
+        "signals": [
+          "SEC_QUESTIONS:1",
+          "LONG_LETTER"
+        ]
+      },
+      "letter_preview": "LETTER\n1\nfilename1.pdf\n\nbegin 644 filename1\nM)5!$1BTQ+C<*)>+CS],*-2 P(&]B:@H\\/\"]&:6QT97(O1FQA=&5$96-O9&4O\nM3&5N9W1H(#@S-SX^2<]15L7@WU5&RAR*\nMC.!'40#OH\\^W/86YCOZ)GJ.K5?3YA@)-8-5&:5Z.8V.\"STWT:2FV3O1K82\"9\nM01(G^1^K?Z/%ZCVRJ$B\"P+@B60!>&:$@1>QO'IM5..WO&^D$7 EF\nMX!LS3WMV.(//LLFF(^17]B1F<'4YI_)8@F0AH7 8&^N",
+      "edgar_url": "https://www.sec.gov/edgar/data/1840877/0000000000-25-009438.txt"
+    },
+    {
+      "company": "BioRestorative Therapies, Inc.",
+      "cik": "1505497",
+      "form_type": "CORRESP",
+      "date": "20260210",
+      "subject": "Form 4 - BioRestorative Therapies, Inc.",
+      "referenced_filing": "Form S-1",
+      "materiality": {
+        "score": 5,
+        "level": "MEDIUM",
+        "keywords": [
+          "disclosure",
+          "acknowledge"
+        ],
+        "signals": [
+          "LONG_LETTER"
+        ]
+      },
+      "letter_preview": "CORRESP\n1\nfilename1.htm\n\n \n  \n \n \n  \n   BioRestorative Therapies, Inc.\n  \n\n  \n   40 Marcus Drive, Suite One\n  \n\n  \n   Melville, New York 11747\n  \n\n  \u00a0\n  \n\n  \u00a0\n  \n\n  \n   \n    \n     \u00a0\n     \n\n    \n    \n     \u00a0\n     \n\n    \n    \n     \n      February 10, 2026\n     \n\n    \n   \n\n  \u00a0\n  \n\n  \n    \n     \u00a0\n    \n\n ",
+      "edgar_url": "https://www.sec.gov/edgar/data/1505497/0001021771-26-000020.txt"
+    }
   ],
-  "filings": []
+  "all_filings_count": 25,
+  "errors": [
+    "No index for 2026-07-25"
+  ]
 }
