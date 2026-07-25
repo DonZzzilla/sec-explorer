@@ -1,531 +1,584 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Insider Trading Monitor</title>
-<style>
-body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0d1117; color: #c9d1d9; margin: 0; padding: 20px; }
-h1 { color: #58a6ff; border-bottom: 1px solid #21262d; padding-bottom: 12px; }
-h2 { color: #58a6ff; margin-top: 32px; border-bottom: 1px solid #21262d; padding-bottom: 8px; }
-.meta { color: #8b949e; font-size: 14px; margin-bottom: 24px; }
-.card { background: #161b22; border: 1px solid #21262d; border-radius: 8px; padding: 16px; margin-bottom: 12px; }
-.card.high { border-left: 4px solid #f85149; }
-.card.medium { border-left: 4px solid #d29922; }
-.card.watch { border-left: 4px solid #58a6ff; }
-.level { font-weight: bold; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
-.level.high { color: #f85149; }
-.level.medium { color: #d29922; }
-.level.watch { color: #58a6ff; }
-.company { font-size: 18px; font-weight: 600; color: #f0f6fc; margin: 4px 0; }
-.owner { color: #8b949e; font-size: 14px; }
-.tx { margin-top: 8px; font-size: 14px; }
-.buy { color: #3fb950; }
-.sell { color: #f85149; }
-.drug { font-size: 16px; font-weight: 600; color: #f0f6fc; margin: 4px 0; }
-.ticker { font-size: 13px; color: #58a6ff; font-weight: bold; }
-.expiry { font-size: 13px; color: #8b949e; margin-top: 4px; }
-a { color: #58a6ff; text-decoration: none; }
-a:hover { text-decoration: underline; }
-.footer { color: #484f58; font-size: 12px; margin-top: 32px; border-top: 1px solid #21262d; padding-top: 12px; }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SEC Insider & Patent Monitor</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 1000px; margin: 0 auto; padding: 20px; background: #f5f5f5; }
+        .container { background: white; border-radius: 8px; padding: 20px; margin-bottom: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        h1 { color: #1a1a2e; margin-top: 0; }
+        .meta { color: #666; font-size: 14px; margin-bottom: 20px; }
+        .signal { padding: 12px; margin: 10px 0; border-radius: 6px; border-left: 4px solid; }
+        .signal.HIGH { background: #fff5f5; border-color: #e53e3e; }
+        .signal.MEDIUM { background: #fffaf0; border-color: #dd6b20; }
+        .signal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+        .company { font-weight: 600; font-size: 16px; color: #1a1a2e; }
+        .badge { padding: 2px 8px; border-radius: 4px; font-size: 12px; font-weight: 600; }
+        .badge.HIGH { background: #e53e3e; color: white; }
+        .badge.MEDIUM { background: #dd6b20; color: white; }
+        .details { font-size: 14px; color: #444; }
+        .detail-row { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 8px; }
+        .detail-item { font-size: 13px; }
+        .label { color: #666666; }
+        .value { font-weight: 500; }
+        .cluster-note { background: #ebf8ff; border: 1px solid #90cdf4; border-radius: 6px; padding: 10px 14px; margin: 12px 0; font-size: 14px; color: #2b6cb0; }
+        .footer { margin-top: 20px; padding-top: 20px; border-top: 1px solid #eee; color: #666; font-size: 13px; text-align: center; }
+        .patent-card { padding: 10px 14px; margin: 8px 0; border-radius: 6px; border-left: 4px solid; font-size: 14px; }
+        .patent-card.critical { background: #fff5f5; border-color: #e53e3e; }
+        .patent-card.watch { background: #fffaf0; border-color: #dd6b20; }
+        .patent-card.healthy { background: #f0fff4; border-color: #38a169; }
+        .patent-drug { font-weight: 600; }
+        .patent-ticker { font-family: monospace; font-weight: 600; background: #edf2f7; padding: 1px 6px; border-radius: 3px; }
+        .urgency-badge { font-size: 11px; padding: 1px 6px; border-radius: 3px; font-weight: 600; }
+        .urgency-badge.expired { background: #e53e3e; color: white; }
+        .urgency-badge.year1 { background: #dd6b20; color: white; }
+        .urgency-badge.year2 { background: #d69e2e; color: white; }
+        .urgency-badge.year3 { background: #718096; color: white; }
+        .patent-section-title { font-size: 16px; font-weight: 600; margin: 16px 0 8px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>👔 Insider Trading Monitor + 💊 Patent Expiry Tracker</h1>
+        <div class="meta" id="insider-meta">Loading insider data...</div>
+        <div id="high-signals"></div>
+        <div id="medium-signals"></div>
+        <div class="footer">👔 Insider Monitor — every 3h. Form 4 filed within 2 business days of trade.</div>
+    </div>
 
-<script id="patent-expiry-data" type="application/json">{
-  "timestamp": "2026-06-27T18:28:42.375935",
+    <div class="container">
+        <h1>💊 Patent Expiration Monitor</h1>
+        <div class="meta" id="patent-meta">Loading patent data...</div>
+        <div id="patent-critical"></div>
+        <div id="patent-watch"></div>
+        <div id="patent-healthy"></div>
+        <div class="footer">📊 Patent Monitor — every 3h. Data: USPTO + FDA Orange Book. Patent cliffs predict generic competition 6-18 months ahead.</div>
+
+    <div class="container">
+        <h1>📋 SEC Comment Letter Monitor</h1>
+        <div class="meta" id="sec-meta">Loading SEC comment data...</div>
+        <div id="sec-signals"></div>
+        <div class="footer">📊 SEC Comment Monitor — every 3h. Filtered for operating companies only (excludes ETFs/funds).</div>
+    </div>
+
+    </div>
+
+    <script>
+        // ===== INSIDER DATA =====
+        // ===== INSIDER DATA =====
+        const insiderData = {
+  "timestamp": "2026-07-17T23:42:38.794323",
   "status": "found",
-  "total_tracked": 20,
-  "critical_count": 7,
-  "watch_count": 10,
-  "critical": [
+  "total_scanned": 1364,
+  "significant": 29,
+  "filings": [
     {
-      "drug": "lenalidomide",
-      "brand": "Revlimid",
-      "company": "BMS/Celgene",
-      "ticker": "BMY",
-      "expiry_window": "2025-2026",
-      "years_until_expiry": -1,
-      "urgency": "EXPIRED/EXPIRING NOW",
-      "score": 10
+      "company": "Jefferies Financial Group Inc.",
+      "owner": "SUMITOMO MITSUI FINANCIAL GROUP, INC.",
+      "owner_type": "DIRECTOR",
+      "signal": {
+        "score": 13,
+        "level": "HIGH",
+        "signals": [
+          "DIRECTOR_TRADE",
+          "PURE_BUY",
+          "LARGE_BUY"
+        ],
+        "total_buy": 5906542,
+        "total_sell": 0
+      },
+      "transactions": [
+        {
+          "action": "BUY",
+          "date": "2026-07-15",
+          "shares": "5906542",
+          "price": "53.96",
+          "owned_after": "8566379",
+          "security": "Common Stock"
+        }
+      ],
+      "edgar_url": "https://www.sec.gov/edgar/data/1022837/0001193125-26-306696.txt"
     },
     {
-      "drug": "rivaroxaban",
-      "brand": "Xarelto",
-      "company": "Bayer/J&J",
-      "ticker": "BAYRY",
-      "expiry_window": "2024-2025",
-      "years_until_expiry": -2,
-      "urgency": "EXPIRED/EXPIRING NOW",
-      "score": 10
+      "company": "BJs RESTAURANTS INC",
+      "owner": "Amin Birju Prakash",
+      "owner_type": "OFFICER",
+      "signal": {
+        "score": 11,
+        "level": "HIGH",
+        "signals": [
+          "OFFICER_TRADE",
+          "PURE_BUY",
+          "SMALL_BUY"
+        ],
+        "total_buy": 3010,
+        "total_sell": 0
+      },
+      "transactions": [
+        {
+          "action": "BUY",
+          "date": "2026-07-15",
+          "shares": "3010",
+          "price": "0",
+          "owned_after": "3010",
+          "security": "Common Stock"
+        }
+      ],
+      "edgar_url": "https://www.sec.gov/edgar/data/1013488/0001193125-26-306714.txt"
     },
     {
-      "drug": "semaglutide",
-      "brand": "Ozempic/Wegovy",
-      "company": "Novo Nordisk",
-      "ticker": "NVO",
-      "expiry_window": "2026-2028",
-      "years_until_expiry": 0,
-      "urgency": "EXPIRED/EXPIRING NOW",
-      "score": 10
+      "company": "BJs RESTAURANTS INC",
+      "owner": "Van Ashley Allison",
+      "owner_type": "OFFICER",
+      "signal": {
+        "score": 11,
+        "level": "HIGH",
+        "signals": [
+          "OFFICER_TRADE",
+          "PURE_BUY",
+          "SMALL_BUY"
+        ],
+        "total_buy": 2580,
+        "total_sell": 0
+      },
+      "transactions": [
+        {
+          "action": "BUY",
+          "date": "2026-07-15",
+          "shares": "2580",
+          "price": "0",
+          "owned_after": "2580",
+          "security": "Common Stock"
+        }
+      ],
+      "edgar_url": "https://www.sec.gov/edgar/data/1013488/0001193125-26-306715.txt"
     },
     {
-      "drug": "ibrutinib",
-      "brand": "Imbruvica",
-      "company": "AbbVie/AbbVie",
-      "ticker": "ABBV",
-      "expiry_window": "2027-2028",
-      "years_until_expiry": 1,
-      "urgency": "WITHIN 1 YEAR",
-      "score": 8
+      "company": "BJs RESTAURANTS INC",
+      "owner": "Saxena Monika",
+      "owner_type": "OFFICER",
+      "signal": {
+        "score": 11,
+        "level": "HIGH",
+        "signals": [
+          "OFFICER_TRADE",
+          "PURE_BUY",
+          "SMALL_BUY"
+        ],
+        "total_buy": 4300,
+        "total_sell": 0
+      },
+      "transactions": [
+        {
+          "action": "BUY",
+          "date": "2026-07-15",
+          "shares": "4300",
+          "price": "0",
+          "owned_after": "4300",
+          "security": "Common Stock"
+        }
+      ],
+      "edgar_url": "https://www.sec.gov/edgar/data/1013488/0001193125-26-306716.txt"
     },
     {
-      "drug": "acalabrutinib",
-      "brand": "Calquence",
-      "company": "AstraZeneca",
-      "ticker": "AZN",
-      "expiry_window": "2027-2028",
-      "years_until_expiry": 1,
-      "urgency": "WITHIN 1 YEAR",
-      "score": 8
+      "company": "Liberty Latin America Ltd.",
+      "owner": "GOULD PAUL A",
+      "owner_type": "DIRECTOR",
+      "signal": {
+        "score": 11,
+        "level": "HIGH",
+        "signals": [
+          "DIRECTOR_TRADE",
+          "PURE_BUY",
+          "MEDIUM_BUY"
+        ],
+        "total_buy": 81300,
+        "total_sell": 0
+      },
+      "transactions": [
+        {
+          "action": "BUY",
+          "date": "2026-06-16",
+          "shares": "81300",
+          "price": "0",
+          "owned_after": "81300",
+          "security": "Series A Preference Shares"
+        }
+      ],
+      "edgar_url": "https://www.sec.gov/edgar/data/1018211/0001018211-26-000016.txt"
     },
     {
-      "drug": "dupilumab",
-      "brand": "Dupixent",
-      "company": "Regeneron/Sanofi",
-      "ticker": "REGN",
-      "expiry_window": "2027-2028",
-      "years_until_expiry": 1,
-      "urgency": "WITHIN 1 YEAR",
-      "score": 8
+      "company": "INSEEGO CORP.",
+      "owner": "Miller Brian",
+      "owner_type": "DIRECTOR",
+      "signal": {
+        "score": 9,
+        "level": "MEDIUM",
+        "signals": [
+          "DIRECTOR_TRADE",
+          "PURE_BUY",
+          "SMALL_BUY"
+        ],
+        "total_buy": 1431,
+        "total_sell": 0
+      },
+      "transactions": [
+        {
+          "action": "BUY",
+          "date": "2026-07-15",
+          "shares": "1431",
+          "price": "0",
+          "owned_after": "10858",
+          "security": "Common Stock"
+        }
+      ],
+      "edgar_url": "https://www.sec.gov/edgar/data/1022652/0000950142-26-002125.txt"
     },
     {
-      "drug": "erdafitinib",
-      "brand": "Balversa",
-      "company": "J&J",
-      "ticker": "JNJ",
-      "expiry_window": "2027-2028",
-      "years_until_expiry": 1,
-      "urgency": "WITHIN 1 YEAR",
-      "score": 8
-    }
-  ],
-  "watch": [
-    {
-      "drug": "pomalidomide",
-      "brand": "Pomalyst",
-      "company": "BMS/Celgene",
-      "ticker": "BMY",
-      "expiry_window": "2028-2029",
-      "years_until_expiry": 2,
-      "urgency": "WITHIN 2 YEARS",
-      "score": 6
+      "company": "Intellicheck, Inc.",
+      "owner": "Ullman David E",
+      "owner_type": "DIRECTOR",
+      "signal": {
+        "score": 9,
+        "level": "MEDIUM",
+        "signals": [
+          "DIRECTOR_TRADE",
+          "PURE_BUY",
+          "SMALL_BUY"
+        ],
+        "total_buy": 3149,
+        "total_sell": 0
+      },
+      "transactions": [
+        {
+          "action": "BUY",
+          "date": "2026-07-15",
+          "shares": "3149",
+          "price": "3.97",
+          "owned_after": "57097",
+          "security": "Common Stock, $.001 par value"
+        }
+      ],
+      "edgar_url": "https://www.sec.gov/edgar/data/1040896/0001196690-26-000004.txt"
     },
     {
-      "drug": "venetoclax",
-      "brand": "Venclexta",
-      "company": "AbbVie/Genentech",
-      "ticker": "ABBV",
-      "expiry_window": "2028-2029",
-      "years_until_expiry": 2,
-      "urgency": "WITHIN 2 YEARS",
-      "score": 6
+      "company": "Intellicheck, Inc.",
+      "owner": "Smith Guy L",
+      "owner_type": "DIRECTOR",
+      "signal": {
+        "score": 9,
+        "level": "MEDIUM",
+        "signals": [
+          "DIRECTOR_TRADE",
+          "PURE_BUY",
+          "SMALL_BUY"
+        ],
+        "total_buy": 7557,
+        "total_sell": 0
+      },
+      "transactions": [
+        {
+          "action": "BUY",
+          "date": "2026-07-15",
+          "shares": "7557",
+          "price": "3.97",
+          "owned_after": "431159",
+          "security": "Common Stock, $.001 par value"
+        }
+      ],
+      "edgar_url": "https://www.sec.gov/edgar/data/1040896/0001326916-26-000006.txt"
     },
     {
-      "drug": "apixaban",
-      "brand": "Eliquis",
-      "company": "BMS/Pfizer",
-      "ticker": "BMY",
-      "expiry_window": "2028-2031",
-      "years_until_expiry": 2,
-      "urgency": "WITHIN 2 YEARS",
-      "score": 6
+      "company": "Intellicheck, Inc.",
+      "owner": "Glenn Dylan",
+      "owner_type": "DIRECTOR",
+      "signal": {
+        "score": 9,
+        "level": "MEDIUM",
+        "signals": [
+          "DIRECTOR_TRADE",
+          "PURE_BUY",
+          "SMALL_BUY"
+        ],
+        "total_buy": 3149,
+        "total_sell": 0
+      },
+      "transactions": [
+        {
+          "action": "BUY",
+          "date": "2026-07-15",
+          "shares": "3149",
+          "price": "3.97",
+          "owned_after": "91913",
+          "security": "Common Stock, $.001 par value"
+        }
+      ],
+      "edgar_url": "https://www.sec.gov/edgar/data/1040896/0001804366-26-000006.txt"
     },
     {
-      "drug": "empagliflozin",
-      "brand": "Jardiance",
-      "company": "Boehringer/Eli Lilly",
-      "ticker": "LLY",
-      "expiry_window": "2028-2031",
-      "years_until_expiry": 2,
-      "urgency": "WITHIN 2 YEARS",
-      "score": 6
-    },
-    {
-      "drug": "risankizumab",
-      "brand": "Skyrizi",
-      "company": "AbbVie",
-      "ticker": "ABBV",
-      "expiry_window": "2028-2029",
-      "years_until_expiry": 2,
-      "urgency": "WITHIN 2 YEARS",
-      "score": 6
-    },
-    {
-      "drug": "tislelizumab",
-      "brand": "Tevimbra",
-      "company": "Beigene",
-      "ticker": "BGNE",
-      "expiry_window": "2028-2029",
-      "years_until_expiry": 2,
-      "urgency": "WITHIN 2 YEARS",
-      "score": 6
-    },
-    {
-      "drug": "sotorasib",
-      "brand": "Lumakras",
-      "company": "Amgen",
-      "ticker": "AMGN",
-      "expiry_window": "2028-2029",
-      "years_until_expiry": 2,
-      "urgency": "WITHIN 2 YEARS",
-      "score": 6
-    },
-    {
-      "drug": "adagrasib",
-      "brand": "Krazati",
-      "company": "Mirati/BMS",
-      "ticker": "BMY",
-      "expiry_window": "2028-2029",
-      "years_until_expiry": 2,
-      "urgency": "WITHIN 2 YEARS",
-      "score": 6
-    },
-    {
-      "drug": "tirzepatide",
-      "brand": "Mounjaro/Zepbound",
-      "company": "Eli Lilly",
-      "ticker": "LLY",
-      "expiry_window": "2029-2032",
-      "years_until_expiry": 3,
-      "urgency": "WITHIN 3 YEARS",
-      "score": 4
-    },
-    {
-      "drug": "darolutamide",
-      "brand": "Nubeqa",
-      "company": "Bayer/Orion",
-      "ticker": "BAYRY",
-      "expiry_window": "2029-2030",
-      "years_until_expiry": 3,
-      "urgency": "WITHIN 3 YEARS",
-      "score": 4
+      "company": "Intellicheck, Inc.",
+      "owner": "Black Dondi",
+      "owner_type": "DIRECTOR",
+      "signal": {
+        "score": 9,
+        "level": "MEDIUM",
+        "signals": [
+          "DIRECTOR_TRADE",
+          "PURE_BUY",
+          "SMALL_BUY"
+        ],
+        "total_buy": 1259,
+        "total_sell": 0
+      },
+      "transactions": [
+        {
+          "action": "BUY",
+          "date": "2026-07-15",
+          "shares": "1259",
+          "price": "3.97",
+          "owned_after": "24735",
+          "security": "Common Stock, $.001 par value"
+        }
+      ],
+      "edgar_url": "https://www.sec.gov/edgar/data/1040896/0001948433-26-000006.txt"
     }
   ]
-}</script>
-<script>window.INSIDER_DATA = {"insider": {"timestamp": "2026-06-27T12:47:57.205040", "total_scanned": 894, "significant": 21, "high_count": 9, "medium_count": 1, "clusters": {"FEDEX CORP": 9}}};</script>
-</head>
-<!-- SEC-MONITOR: status=no_new_filings updated=2026-06-28T17:46:12.182750 filings=0 -->
-<body>
-<h1>👔 Insider Trading Monitor</h1>
-<div class="meta">894 filings scanned • Last updated: 2026-06-27 06:41 UTC</div>
+}
+        };
 
-<div class="card insider-card"><div class="card insider-card">
-  <h2>👔 Insider Trading Signals</h2>
-  <div class="insider-meta">
-    <span class="badge badge-high">9 HIGH</span>
-    <span class="badge badge-medium">1 MEDIUM</span>
-    <span class="insider-scanned">894 filings scanned • 21 significant — 2026-06-27</span>
-  </div>
-  <div class="insider-list">
-    <div class="insider-row high">
-      <span class="insider-emoji">🔴</span>
-      <span class="insider-company">PETMED EXPRESS INC</span>
-      <span class="insider-owner">KRULIK DOUGLAS (OFFICER)</span>
-      <span class="insider-action buy">BUY 32500 shares</span>
-      <span class="insider-price">@N/A</span>
-      <span class="insider-date">2026-06-26</span>
-    </div>
-    <div class="insider-row high">
-      <span class="insider-emoji">🔴</span>
-      <span class="insider-company">FEDEX CORP</span>
-      <span class="insider-owner">ADAMS GINA F. (OFFICER)</span>
-      <span class="insider-action buy">BUY 4734 shares</span>
-      <span class="insider-price">@N/A</span>
-      <span class="insider-date">2026-06-25</span>
-    </div>
-    <div class="insider-row high">
-      <span class="insider-emoji">🔴</span>
-      <span class="insider-company">FEDEX CORP</span>
-      <span class="insider-owner">Brightman Tracy B (OFFICER)</span>
-      <span class="insider-action buy">BUY 4734 shares</span>
-      <span class="insider-price">@N/A</span>
-      <span class="insider-date">2026-06-25</span>
-    </div>
-    <div class="insider-row high">
-      <span class="insider-emoji">🔴</span>
-      <span class="insider-company">FEDEX CORP</span>
-      <span class="insider-owner">Carere Brie (OFFICER)</span>
-      <span class="insider-action buy">BUY 4734 shares</span>
-      <span class="insider-price">@N/A</span>
-      <span class="insider-date">2026-06-25</span>
-    </div>
-    <div class="insider-row high">
-      <span class="insider-emoji">🔴</span>
-      <span class="insider-company">FEDEX CORP</span>
-      <span class="insider-owner">Preet Kawal (OFFICER)</span>
-      <span class="insider-action buy">BUY 4734 shares</span>
-      <span class="insider-price">@N/A</span>
-      <span class="insider-date">2026-06-25</span>
-    </div>
-    <div class="insider-row high">
-      <span class="insider-emoji">🔴</span>
-      <span class="insider-company">FEDEX CORP</span>
-      <span class="insider-owner">Ray Scott L (OFFICER)</span>
-      <span class="insider-action buy">BUY 4734 shares</span>
-      <span class="insider-price">@N/A</span>
-      <span class="insider-date">2026-06-25</span>
-    </div>
-    <div class="insider-row high">
-      <span class="insider-emoji">🔴</span>
-      <span class="insider-company">FEDEX CORP</span>
-      <span class="insider-owner">Russ Claude F (OFFICER)</span>
-      <span class="insider-action buy">BUY 1635 shares</span>
-      <span class="insider-price">@N/A</span>
-      <span class="insider-date">2026-06-25</span>
-    </div>
-    <div class="insider-row high">
-      <span class="insider-emoji">🔴</span>
-      <span class="insider-company">FEDEX CORP</span>
-      <span class="insider-owner">Subramaniam Rajesh (DIRECTOR)</span>
-      <span class="insider-action buy">BUY 14591 shares</span>
-      <span class="insider-price">@N/A</span>
-      <span class="insider-date">2026-06-25</span>
-    </div>
-    <div class="insider-row high">
-      <span class="insider-emoji">🔴</span>
-      <span class="insider-company">FEDEX CORP</span>
-      <span class="insider-owner">Talwar Vishal (OFFICER)</span>
-      <span class="insider-action buy">BUY 4734 shares</span>
-      <span class="insider-price">@N/A</span>
-      <span class="insider-date">2026-06-25</span>
-    </div>
-    <div class="insider-row medium">
-      <span class="insider-emoji">🟡</span>
-      <span class="insider-company">FEDEX CORP</span>
-      <span class="insider-owner">MARTIN R BRAD (DIRECTOR)</span>
-      <span class="insider-action buy">BUY 8711 shares</span>
-      <span class="insider-price">@N/A</span>
-      <span class="insider-date">2026-06-25</span>
-    </div>
-  </div>
-  <p class="insider-footer">_👔 Insider Monitor — every 3h. Form 4 filed within 2 business days of trade._</p>
-</div></div>
 
-<div class="card high">
-<div class="level high">🔴 HIGH</div>
-<div class="company">PETMED EXPRESS INC</div>
-<div class="owner">KRULIK DOUGLAS — OFFICER</div>
-<div class="tx"><span class="buy">BUY 32500 shares</span> @N/A on 2026-06-26</div>
-<div style="font-size:12px;color:#8b949e;margin-top:4px;">Signals: OFFICER_TRADE, PURE_BUY, MEDIUM_BUY • Owned after: 102500</div>
-</div>
+        // ===== PATENT DATA =====
+        const patentData = {"timestamp":"2026-07-19T14:01:30.470937","status":"found","total_tracked":20,"critical_count":7,"watch_count":10,"critical":[{"drug":"lenalidomide","brand":"Revlimid","company":"BMS/Celgene","ticker":"BMY","expiry_window":"2025-2026","years_until_expiry":-1,"urgency":"EXPIRED/EXPIRING NOW","score":10},{"drug":"rivaroxaban","brand":"Xarelto","company":"Bayer/J&J","ticker":"BAYRY","expiry_window":"2024-2025","years_until_expiry":-2,"urgency":"EXPIRED/EXPIRING NOW","score":10},{"drug":"semaglutide","brand":"Ozempic/Wegovy","company":"Novo Nordisk","ticker":"NVO","expiry_window":"2026-2028","years_until_expiry":0,"urgency":"EXPIRED/EXPIRING NOW","score":10},{"drug":"ibrutinib","brand":"Imbruvica","company":"AbbVie/AbbVie","ticker":"ABBV","expiry_window":"2027-2028","years_until_expiry":1,"urgency":"WITHIN 1 YEAR","score":8},{"drug":"acalabrutinib","brand":"Calquence","company":"AstraZeneca","ticker":"AZN","expiry_window":"2027-2028","years_until_expiry":1,"urgency":"WITHIN 1 YEAR","score":8},{"drug":"dupilumab","brand":"Dupixent","company":"Regeneron/Sanofi","ticker":"REGN","expiry_window":"2027-2028","years_until_expiry":1,"urgency":"WITHIN 1 YEAR","score":8},{"drug":"erdafitinib","brand":"Balversa","company":"J&J","ticker":"JNJ","expiry_window":"2027-2028","years_until_expiry":1,"urgency":"WITHIN 1 YEAR","score":8}],"watch":[{"drug":"pomalidomide","brand":"Pomalyst","company":"BMS/Celgene","ticker":"BMY","expiry_window":"2028-2029","years_until_expiry":2,"urgency":"WITHIN 2 YEARS","score":6},{"drug":"venetoclax","brand":"Venclexta","company":"AbbVie/Genentech","ticker":"ABBV","expiry_window":"2028-2029","years_until_expiry":2,"urgency":"WITHIN 2 YEARS","score":6},{"drug":"apixaban","brand":"Eliquis","company":"BMS/Pfizer","ticker":"BMY","expiry_window":"2028-2031","years_until_expiry":2,"urgency":"WITHIN 2 YEARS","score":6},{"drug":"empagliflozin","brand":"Jardiance","company":"Boehringer/Eli Lilly","ticker":"LLY","expiry_window":"2028-2031","years_until_expiry":2,"urgency":"WITHIN 2 YEARS","score":6},{"drug":"risankizumab","brand":"Skyrizi","company":"AbbVie","ticker":"ABBV","expiry_window":"2028-2029","years_until_expiry":2,"urgency":"WITHIN 2 YEARS","score":6},{"drug":"tislelizumab","brand":"Tevimbra","company":"Beigene","ticker":"BGNE","expiry_window":"2028-2029","years_until_expiry":2,"urgency":"WITHIN 2 YEARS","score":6},{"drug":"sotorasib","brand":"Lumakras","company":"Amgen","ticker":"AMGN","expiry_window":"2028-2029","years_until_expiry":2,"urgency":"WITHIN 2 YEARS","score":6},{"drug":"adagrasib","brand":"Krazati","company":"Mirati/BMS","ticker":"BMY","expiry_window":"2028-2029","years_until_expiry":2,"urgency":"WITHIN 2 YEARS","score":6},{"drug":"tirzepatide","brand":"Mounjaro/Zepbound","company":"Eli Lilly","ticker":"LLY","expiry_window":"2029-2032","years_until_expiry":3,"urgency":"WITHIN 3 YEARS","score":4},{"drug":"darolutamide","brand":"Nubeqa","company":"Bayer/Orion","ticker":"BAYRY","expiry_window":"2029-2030","years_until_expiry":3,"urgency":"WITHIN 3 YEARS","score":4}]};
 
-<div class="card high">
-<div class="level high">🔴 HIGH</div>
-<div class="company">FEDEX CORP</div>
-<div class="owner">ADAMS GINA F. — OFFICER</div>
-<div class="tx"><span class="buy">BUY 4734 shares</span> @N/A on 2026-06-25</div>
-<div style="font-size:12px;color:#8b949e;margin-top:4px;">Signals: OFFICER_TRADE, PURE_BUY, SMALL_BUY • Owned after: 24137</div>
-</div>
+        // ===== RENDER INSIDER SIGNALS =====
+        document.getElementById('insider-meta').innerHTML = `Last updated: ${insiderData.timestamp.replace('T', ' ').substring(0, 19)} UTC | ${insiderData.total_scanned.toLocaleString()} Form 4 filings scanned | ${insiderData.significant} significant signals`;
 
-<div class="card high">
-<div class="level high">🔴 HIGH</div>
-<div class="company">FEDEX CORP</div>
-<div class="owner">Brightman Tracy B — OFFICER</div>
-<div class="tx"><span class="buy">BUY 4734 shares</span> @N/A on 2026-06-25</div>
-<div style="font-size:12px;color:#8b949e;margin-top:4px;">Signals: OFFICER_TRADE, PURE_BUY, SMALL_BUY • Owned after: 15786</div>
-</div>
+        function renderSignal(filing) {
+            const tx = filing.transactions[0];
+            const priceStr = tx.price === "0" ? "N/A (award/option)" : `$${parseFloat(tx.price).toFixed(2)}`;
+            const actionStr = tx.action === "BUY" ? "🟢 BUY" : "🔴 SELL";
+            const companyDisplay = filing.company.replace('\\\\', '').trim();
+            return `
+            <div class="signal ${filing.signal.level}">
+                <div class="signal-header">
+                    <span class="company">${companyDisplay}</span>
+                    <span class="badge ${filing.signal.level}">${filing.signal.level}</span>
+                </div>
+                <div class="details">
+                    <div class="detail-row">
+                        <div class="detail-item"><span class="label">Insider:</span> <span class="value">${filing.owner} (${filing.owner_type})</span></div>
+                        <div class="detail-item"><span class="label">Action:</span> <span class="value">${actionStr} ${parseInt(tx.shares).toLocaleString()} shares</span></div>
+                        <div class="detail-item"><span class="label">Price:</span> <span class="value">${priceStr}</span></div>
+                        <div class="detail-item"><span class="label">Date:</span> <span class="value">${tx.date}</span></div>
+                        <div class="detail-item"><span class="label">Owned after:</span> <span class="value">${parseInt(tx.owned_after).toLocaleString()}</span></div>
+                    </div>
+                </div>
+            </div>`;
+        }
 
-<div class="card high">
-<div class="level high">🔴 HIGH</div>
-<div class="company">FEDEX CORP</div>
-<div class="owner">Carere Brie — OFFICER</div>
-<div class="tx"><span class="buy">BUY 4734 shares</span> @N/A on 2026-06-25</div>
-<div style="font-size:12px;color:#8b949e;margin-top:4px;">Signals: OFFICER_TRADE, PURE_BUY, SMALL_BUY • Owned after: 28296</div>
-</div>
+        const high = insiderData.filings.filter(f => f.signal.level === 'HIGH');
+        const medium = insiderData.filings.filter(f => f.signal.level === 'MEDIUM');
 
-<div class="card high">
-<div class="level high">🔴 HIGH</div>
-<div class="company">FEDEX CORP</div>
-<div class="owner">Preet Kawal — OFFICER</div>
-<div class="tx"><span class="buy">BUY 4734 shares</span> @N/A on 2026-06-25</div>
-<div style="font-size:12px;color:#8b949e;margin-top:4px;">Signals: OFFICER_TRADE, PURE_BUY, SMALL_BUY • Owned after: 15687</div>
-</div>
+        if (high.length > 0) {
+            document.getElementById('high-signals').innerHTML = '<h3>🔴 HIGH Signals (Officer/Director Buying)</h3>' + high.map(renderSignal).join('');
+        }
+        if (medium.length > 0) {
+            const clusters = {};
+            medium.forEach(f => { clusters[f.company] = (clusters[f.company] || 0) + 1; });
+            let mediumHtml = '<h3>🟡 MEDIUM Signals (Director Buying)</h3>';
+            for (const [company, count] of Object.entries(clusters)) {
+                if (count >= 3) {
+                    mediumHtml += `<div class="cluster-note">📊 Cluster buying detected: <strong>${count}</strong> insiders at <strong>${company}</strong> all buying on the same day</div>`;
+                }
+            }
+            mediumHtml += medium.map(renderSignal).join('');
+            document.getElementById('medium-signals').innerHTML = mediumHtml;
+        }
 
-<div class="card high">
-<div class="level high">🔴 HIGH</div>
-<div class="company">FEDEX CORP</div>
-<div class="owner">Ray Scott L — OFFICER</div>
-<div class="tx"><span class="buy">BUY 4734 shares</span> @N/A on 2026-06-25</div>
-<div style="font-size:12px;color:#8b949e;margin-top:4px;">Signals: OFFICER_TRADE, PURE_BUY, SMALL_BUY • Owned after: 19376</div>
-</div>
+        // ===== RENDER PATENT DATA =====
+        document.getElementById('patent-meta').innerHTML = `Last updated: ${patentData.timestamp.replace('T', ' ').substring(0, 19)} UTC | ${patentData.total_tracked} drugs tracked | ${patentData.critical_count} critical | ${patentData.watch_count} watch`;
 
-<div class="card high">
-<div class="level high">🔴 HIGH</div>
-<div class="company">FEDEX CORP</div>
-<div class="owner">Russ Claude F — OFFICER</div>
-<div class="tx"><span class="buy">BUY 1635 shares</span> @N/A on 2026-06-25</div>
-<div style="font-size:12px;color:#8b949e;margin-top:4px;">Signals: OFFICER_TRADE, PURE_BUY, SMALL_BUY • Owned after: 5177</div>
-</div>
+        function urgencyBadge(urgency) {
+            let cls = '';
+            if (urgency.includes('EXPIRED')) cls = 'expired';
+            else if (urgency.includes('1 YEAR')) cls = 'year1';
+            else if (urgency.includes('2 YEARS')) cls = 'year2';
+            else if (urgency.includes('3 YEARS')) cls = 'year3';
+            return `<span class="urgency-badge ${cls}">${urgency}</span>`;
+        }
 
-<div class="card high">
-<div class="level high">🔴 HIGH</div>
-<div class="company">FEDEX CORP</div>
-<div class="owner">Subramaniam Rajesh — DIRECTOR</div>
-<div class="tx"><span class="buy">BUY 14591 shares</span> @N/A on 2026-06-25</div>
-<div style="font-size:12px;color:#8b949e;margin-top:4px;">Signals: DIRECTOR_TRADE, PURE_BUY, MEDIUM_BUY • Owned after: 105683</div>
-</div>
+        function renderPatent(d, level) {
+            return `
+            <div class="patent-card ${level}">
+                <span class="patent-drug">${d.brand}</span> (${d.drug}) ${urgencyBadge(d.urgency)}
+                <br>
+                <span class="label">Company:</span> ${d.company} <span class="patent-ticker">${d.ticker}</span>
+                <span style="float:right" class="label">Expiry: ${d.expiry_window}</span>
+            </div>`;
+        }
 
-<div class="card high">
-<div class="level high">🔴 HIGH</div>
-<div class="company">FEDEX CORP</div>
-<div class="owner">Talwar Vishal — OFFICER</div>
-<div class="tx"><span class="buy">BUY 4734 shares</span> @N/A on 2026-06-25</div>
-<div style="font-size:12px;color:#8b949e;margin-top:4px;">Signals: OFFICER_TRADE, PURE_BUY, SMALL_BUY • Owned after: 14036</div>
-</div>
+        if (patentData.critical && patentData.critical.length > 0) {
+            document.getElementById('patent-critical').innerHTML = '<div class="patent-section-title">🔴 CRITICAL — Patent expired or expiring within 1 year</div>' +
+                patentData.critical.map(d => renderPatent(d, 'critical')).join('');
+        }
 
-<div class="card medium">
-<div class="level medium">🟡 MEDIUM</div>
-<div class="company">FEDEX CORP</div>
-<div class="owner">MARTIN R BRAD — DIRECTOR</div>
-<div class="tx"><span class="buy">BUY 8711 shares</span> @N/A on 2026-06-25</div>
-</div>
+        if (patentData.watch && patentData.watch.length > 0) {
+            document.getElementById('patent-watch').innerHTML = '<div class="patent-section-title">🟡 WATCH — Patent expiring within 2-3 years</div>' +
+                patentData.watch.map(d => renderPatent(d, 'watch')).join('');
+        }
 
-<h2>💊 Patent Expiration Monitor</h2>
-<div class="meta">20 drugs tracked • 7 critical • 10 watch • Updated: 2026-06-27 15:26 UTC</div>
-<div class="level high">🔴 EXPIRED/EXPIRING NOW</div>
-<div class="drug">Revlimid (lenalidomide)</div>
-<div class="ticker">→ BMY</div>
-<div class="expiry">Expired 2025-2026 • BMS/Celgene</div>
-</div>
+        // ===== SEC COMMENT DATA =====
+        const secData = {
+  "timestamp": "2026-07-17T00:57:38.179997",
+  "status": "found",
+  "total_new": 23,
+  "significant_count": 5,
+  "filings": [
+    {
+      "company": "Kuber Resources Corp",
+      "cik": "1081834",
+      "form_type": "UPLOAD",
+      "date": "20260129",
+      "subject": "Kuber Resources Corp",
+      "referenced_filing": "Form 10-K",
+      "materiality": {
+        "score": 30,
+        "level": "HIGH",
+        "keywords": [
+          "concentration",
+          "segment reporting",
+          "confirm",
+          "disclosure"
+        ],
+        "signals": [
+          "MEDIUM_KEYWORD:segment reporting",
+          "MEDIUM_KEYWORD:concentration",
+          "SEC_QUESTIONS:10",
+          "LONG_LETTER",
+          "TOPICS:4"
+        ]
+      },
+      "edgar_url": "https://www.sec.gov/edgar/data/1081834/0000000000-26-001066.txt"
+    },
+    {
+      "company": "Rank One Computing Corp",
+      "cik": "2077709",
+      "form_type": "UPLOAD",
+      "date": "20251209",
+      "subject": "Rank One Computing Corp dba ROC",
+      "referenced_filing": "Form S-1",
+      "materiality": {
+        "score": 15,
+        "level": "HIGH",
+        "keywords": [
+          "pro forma",
+          "disclosure"
+        ],
+        "signals": [
+          "MEDIUM_KEYWORD:pro forma",
+          "SEC_QUESTIONS:3",
+          "LONG_LETTER"
+        ]
+      },
+      "edgar_url": "https://www.sec.gov/edgar/data/2077709/0000000000-25-011399.txt"
+    },
+    {
+      "company": "Rank One Computing Corp",
+      "cik": "2077709",
+      "form_type": "UPLOAD",
+      "date": "20260115",
+      "subject": "Rank One Computing Corp dba ROC",
+      "referenced_filing": "Form S-1",
+      "materiality": {
+        "score": 11,
+        "level": "MEDIUM",
+        "keywords": [],
+        "signals": [
+          "SEC_QUESTIONS:3",
+          "LONG_LETTER",
+          "TOPICS:2"
+        ]
+      },
+      "edgar_url": "https://www.sec.gov/edgar/data/2077709/0000000000-26-000558.txt"
+    },
+    {
+      "company": "Momentus Inc.",
+      "cik": "1781162",
+      "form_type": "UPLOAD",
+      "date": "20260129",
+      "subject": "Momentus Inc.",
+      "referenced_filing": "Unknown filing",
+      "materiality": {
+        "score": 6,
+        "level": "MEDIUM",
+        "keywords": [
+          "disclosure"
+        ],
+        "signals": [
+          "SEC_QUESTIONS:1",
+          "LONG_LETTER"
+        ]
+      },
+      "edgar_url": "https://www.sec.gov/edgar/data/1781162/0000000000-26-001093.txt"
+    },
+    {
+      "company": "Viskase Holdings, Inc.",
+      "cik": "727510",
+      "form_type": "UPLOAD",
+      "date": "20251229",
+      "subject": "Enzon Pharmaceuticals, Inc.",
+      "referenced_filing": "Unknown filing",
+      "materiality": {
+        "score": 6,
+        "level": "MEDIUM",
+        "keywords": [
+          "disclosure"
+        ],
+        "signals": [
+          "SEC_QUESTIONS:1",
+          "LONG_LETTER"
+        ]
+      },
+      "edgar_url": "https://www.sec.gov/edgar/data/727510/0000000000-25-011845.txt"
+    }
+  ],
+  "all_filings_count": 23,
+  "errors": [
+    "No index for 2026-07-17"
+  ]
+};
 
-<div class="card high">
-<div class="level high">🔴 EXPIRED/EXPIRING NOW</div>
-<div class="drug">Xarelto (rivaroxaban)</div>
-<div class="ticker">→ BAYRY</div>
-<div class="expiry">Expired 2024-2025 • Bayer/J&J</div>
-</div>
+        document.getElementById('sec-meta').innerHTML = `Last updated: ${secData.timestamp.replace('T', ' ').substring(0, 19)} UTC | ${secData.total_new} new comment letters | ${secData.significant_count} significant`;
 
-<div class="card high">
-<div class="level high">🔴 EXPIRED/EXPIRING NOW</div>
-<div class="drug">Ozempic/Wegovy (semaglutide)</div>
-<div class="ticker">→ NVO</div>
-<div class="expiry">Expiring 2026-2028 • Novo Nordisk</div>
-</div>
+        function renderSec(f) {
+            const lvl = f.materiality.level;
+            const kw = f.materiality.keywords.length ? f.materiality.keywords.join(', ') : 'disclosure review';
+            return `
+            <div class="signal ${lvl}">
+                <div class="signal-header">
+                    <span class="company">${f.company}</span>
+                    <span class="badge ${lvl}">${lvl}</span>
+                </div>
+                <div class="details">
+                    <div class="detail-row">
+                        <div class="detail-item"><span class="label">Filing:</span> <span class="value">${f.referenced_filing}</span></div>
+                        <div class="detail-item"><span class="label">Keywords:</span> <span class="value">${kw}</span></div>
+                        <div class="detail-item"><span class="label">Date:</span> <span class="value">${f.date}</span></div>
+                    </div>
+                    <div class="detail-row">
+                        <div class="detail-item"><a href="${f.edgar_url}" target="_blank" rel="noopener">🔗 View EDGAR letter</a></div>
+                    </div>
+                </div>
+            </div>`;
+        }
 
-<div class="card high">
-<div class="level high">🔴 WITHIN 1 YEAR</div>
-<div class="drug">Imbruvica (ibrutinib)</div>
-<div class="ticker">→ ABBV</div>
-<div class="expiry">Expiring 2027-2028 • AbbVie</div>
-</div>
+        if (secData.filings && secData.filings.length > 0) {
+            document.getElementById('sec-signals').innerHTML = secData.filings.map(renderSec).join('');
+        } else {
+            document.getElementById('sec-signals').innerHTML = '<div class="meta">No significant SEC comment letters found.</div>';
+        }
 
-<div class="card high">
-<div class="level high">🔴 WITHIN 1 YEAR</div>
-<div class="drug">Calquence (acalabrutinib)</div>
-<div class="ticker">→ AZN</div>
-<div class="expiry">Expiring 2027-2028 • AstraZeneca</div>
-</div>
-
-<div class="card high">
-<div class="level high">🔴 WITHIN 1 YEAR</div>
-<div class="drug">Dupixent (dupilumab)</div>
-<div class="ticker">→ REGN</div>
-<div class="expiry">Expiring 2027-2028 • Regeneron/Sanofi</div>
-</div>
-
-<div class="card high">
-<div class="level high">🔴 WITHIN 1 YEAR</div>
-<div class="drug">Balversa (erdafitinib)</div>
-<div class="ticker">→ JNJ</div>
-<div class="expiry">Expiring 2027-2028 • J&J</div>
-</div>
-
-<div class="card watch">
-<div class="level watch">🟡 WITHIN 2 YEARS</div>
-<div class="drug">Pomalyst (pomalidomide)</div>
-<div class="ticker">→ BMY</div>
-<div class="expiry">Expiring 2028-2029 • BMS/Celgene</div>
-</div>
-
-<div class="card watch">
-<div class="level watch">🟡 WITHIN 2 YEARS</div>
-<div class="drug">Venclexta (venetoclax)</div>
-<div class="ticker">→ ABBV</div>
-<div class="expiry">Expiring 2028-2029 • AbbVie/Genentech</div>
-</div>
-
-<div class="card watch">
-<div class="level watch">🟡 WITHIN 2 YEARS</div>
-<div class="drug">Eliquis (apixaban)</div>
-<div class="ticker">→ BMY</div>
-<div class="expiry">Expiring 2028-2031 • BMS/Pfizer</div>
-</div>
-
-<div class="card watch">
-<div class="level watch">🟡 WITHIN 2 YEARS</div>
-<div class="drug">Jardiance (empagliflozin)</div>
-<div class="ticker">→ LLY</div>
-<div class="expiry">Expiring 2028-2031 • Boehringer/Eli Lilly</div>
-</div>
-
-<div class="card watch">
-<div class="level watch">🟡 WITHIN 2 YEARS</div>
-<div class="drug">Skyrizi (risankizumab)</div>
-<div class="ticker">→ ABBV</div>
-<div class="expiry">Expiring 2028-2029 • AbbVie</div>
-</div>
-
-<div class="card watch">
-<div class="level watch">🟡 WITHIN 2 YEARS</div>
-<div class="drug">Tevimbra (tislelizumab)</div>
-<div class="ticker">→ BGNE</div>
-<div class="expiry">Expiring 2028-2029 • Beigene</div>
-</div>
-
-<div class="card watch">
-<div class="level watch">🟡 WITHIN 2 YEARS</div>
-<div class="drug">Lumakras (sotorasib)</div>
-<div class="ticker">→ AMGN</div>
-<div class="expiry">Expiring 2028-2029 • Amgen</div>
-</div>
-
-<div class="card watch">
-<div class="level watch">🟡 WITHIN 2 YEARS</div>
-<div class="drug">Krazati (adagrasib)</div>
-<div class="ticker">→ BMY</div>
-<div class="expiry">Expiring 2028-2029 • Mirati/BMS</div>
-</div>
-
-<div class="card watch">
-<div class="level watch">🟡 WITHIN 3 YEARS</div>
-<div class="drug">Mounjaro/Zepbound (tirzepatide)</div>
-<div class="ticker">→ LLY</div>
-<div class="expiry">Expiring 2029-2032 • Eli Lilly</div>
-</div>
-
-<div class="card watch">
-<div class="level watch">🟡 WITHIN 3 YEARS</div>
-<div class="drug">Nubeqa (darolutamide)</div>
-<div class="ticker">→ BAYRY</div>
-<div class="expiry">Expiring 2029-2030 • Bayer/Orion</div>
-</div>
-
-<div class="footer">👔 Insider Monitor — every 3h. Form 4 filed within 2 business days of trade.<br>💊 Patent Monitor — every 3h. Data: USPTO + FDA Orange Book.</div>
-
-<div id="insider-trading" class="dashboard-section">
-<h2>👔 Insider Trading Monitor</h2>
-<p class="meta">894 filings scanned | 21 significant signals | Updated: 2026-06-27T09:44:27.692631</p>
-<h3>🔴 HIGH Signals (Director/Officer Buying)</h3>
-<ul>
-<li><strong>PETMED EXPRESS INC</strong> | OFFICER | BUY 32,500 shares @ N/A on 2026-06-26
-<br><strong>FEDEX CORP</strong> | OFFICER (7 execs) + DIRECTOR Rajesh Subramaniam (14,591 sh) | BUY 4,734 shares each on 2026-06-25</li>
-</ul>
-<h3>🟡 MEDIUM Signals</h3>
-<ul>
-<li><strong>FEDEX CORP</strong> | DIRECTOR | BUY 8,711 shares @ N/A on 2026-06-25</li>
-</ul>
-<p class="footer-note"><em>👔 Insider Monitor — every 3h. Form 4 filed within 2 business days of trade.</em></p>
-</div>
-
-<div id="sec-comments"></div>
+    </script>
 </body>
 </html>

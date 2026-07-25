@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SEC Insider & Patent Monitor</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 1000px; margin: 0 auto; padding: 20px; background: #f5f5f5; }
+        .container { background: white; border-radius: 8px; padding: 20px; margin-bottom: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        h1 { color: #1a1a2e; margin-top: 0; }
+        .meta { color: #666; font-size: 14px; margin-bottom: 20px; }
+        .signal { padding: 12px; margin: 10px 0; border-radius: 6px; border-left: 4px solid; }
+        .signal.HIGH { background: #fff5f5; border-color: #e53e3e; }
+        .signal.MEDIUM { background: #fffaf0; border-color: #dd6b20; }
+        .signal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+        .company { font-weight: 600; font-size: 16px; color: #1a1a2e; }
+        .badge { padding: 2px 8px; border-radius: 4px; font-size: 12px; font-weight: 600; }
+        .badge.HIGH { background: #e53e3e; color: white; }
+        .badge.MEDIUM { background: #dd6b20; color: white; }
+        .details { font-size: 14px; color: #444; }
+        .detail-row { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 8px; }
+        .detail-item { font-size: 13px; }
+        .label { color: #666666; }
+        .value { font-weight: 500; }
+        .cluster-note { background: #ebf8ff; border: 1px solid #90cdf4; border-radius: 6px; padding: 10px 14px; margin: 12px 0; font-size: 14px; color: #2b6cb0; }
+        .footer { margin-top: 20px; padding-top: 20px; border-top: 1px solid #eee; color: #666; font-size: 13px; text-align: center; }
+        .patent-card { padding: 10px 14px; margin: 8px 0; border-radius: 6px; border-left: 4px solid; font-size: 14px; }
+        .patent-card.critical { background: #fff5f5; border-color: #e53e3e; }
+        .patent-card.watch { background: #fffaf0; border-color: #dd6b20; }
+        .patent-card.healthy { background: #f0fff4; border-color: #38a169; }
+        .patent-drug { font-weight: 600; }
+        .patent-ticker { font-family: monospace; font-weight: 600; background: #edf2f7; padding: 1px 6px; border-radius: 3px; }
+        .urgency-badge { font-size: 11px; padding: 1px 6px; border-radius: 3px; font-weight: 600; }
+        .urgency-badge.expired { background: #e53e3e; color: white; }
+        .urgency-badge.year1 { background: #dd6b20; color: white; }
+        .urgency-badge.year2 { background: #d69e2e; color: white; }
+        .urgency-badge.year3 { background: #718096; color: white; }
+        .patent-section-title { font-size: 16px; font-weight: 600; margin: 16px 0 8px; }
+        a { color: #3182ce; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Insider Trading Monitor + Patent Expiry Tracker</h1>
+        <div class="meta" id="insider-meta">Loading insider data...</div>
+        <div id="high-signals"></div>
+        <div id="medium-signals"></div>
+        <div class="footer">Insider Monitor - every 3h. Form 4 filed within 2 business days of trade. Insider buying is one of the most reliable bullish signals.</div>
+    </div>
+
+    <div class="container">
+        <h1>Patent Expiration Monitor</h1>
+        P26-07-20T17:15:03.633814</div>
+        <div id="patent-critical"></div>
+        <div id="patent-watch"></div>
+        <div id="patent-healthy"></div>
+        <div class="footer">Patent Monitor - every 3h. Data: USPTO + FDA Orange Book. Patent cliffs predict generic competition 6-18 months ahead.</div>
+    </div>
+
+    <div class="container">
+        <h1>SEC Comment Monitor (OWL)</h1>
+        <div class="meta" id="sec-comment-meta">Loading SEC comment data...</div>
+        <div id="sec-comment-signals"></div>
+        <div class="footer">SEC Comment Monitor - running every 3 hours. Filtered for operating companies only (excludes ETFs/funds).</div>
+    </div>
+
+    <script>
+// ===== PATENT EXPIRY DATA =====
+        const patentData = {
+  "timestamp": "2026-07-24T18:20:39.367531",
+  "status": "found",
+  "total_tracked": 20,
+  "critical_count": 7,
+  "watch_count": 10,
+  "critical": [
+    {
+      "drug": "lenalidomide",
+      "brand": "Revlimid",
+      "company": "BMS/Celgene",
+      "ticker": "BMY",
+      "expiry_window": "2025-2026",
+      "years_until_expiry": -1,
+      "urgency": "EXPIRED/EXPIRING NOW",
+      "score": 10
+    },
+    {
+      "drug": "rivaroxaban",
+      "brand": "Xarelto",
+      "company": "Bayer/J&J",
+      "ticker": "BAYRY",
+      "expiry_window": "2024-2025",
+      "years_until_expiry": -2,
+      "urgency": "EXPIRED/EXPIRING NOW",
+      "score": 10
+    },
+    {
+      "drug": "semaglutide",
+      "brand": "Ozempic/Wegovy",
+      "company": "Novo Nordisk",
+      "ticker": "NVO",
+      "expiry_window": "2026-2028",
+      "years_until_expiry": 0,
+      "urgency": "EXPIRED/EXPIRING NOW",
+      "score": 10
+    },
+    {
+      "drug": "ibrutinib",
+      "brand": "Imbruvica",
+      "company": "AbbVie/AbbVie",
+      "ticker": "ABBV",
+      "expiry_window": "2027-2028",
+      "years_until_expiry": 1,
+      "urgency": "WITHIN 1 YEAR",
+      "score": 8
+    },
+    {
+      "drug": "acalabrutinib",
+      "brand": "Calquence",
+      "company": "AstraZeneca",
+      "ticker": "AZN",
+      "expiry_window": "2027-2028",
+      "years_until_expiry": 1,
+      "urgency": "WITHIN 1 YEAR",
+      "score": 8
+    },
+    {
+      "drug": "dupilumab",
+      "brand": "Dupixent",
+      "company": "Regeneron/Sanofi",
+      "ticker": "REGN",
+      "expiry_window": "2027-2028",
+      "years_until_expiry": 1,
+      "urgency": "WITHIN 1 YEAR",
+      "score": 8
+    },
+    {
+      "drug": "erdafitinib",
+      "brand": "Balversa",
+      "company": "J&J",
+      "ticker": "JNJ",
+      "expiry_window": "2027-2028",
+      "years_until_expiry": 1,
+      "urgency": "WITHIN 1 YEAR",
+      "score": 8
+    }
+  ],
+  "watch": [
+    {
+      "drug": "pomalidomide",
+      "brand": "Pomalyst",
+      "company": "BMS/Celgene",
+      "ticker": "BMY",
+      "expiry_window": "2028-2029",
+      "years_until_expiry": 2,
+      "urgency": "WITHIN 2 YEARS",
+      "score": 6
+    },
+    {
+      "drug": "venetoclax",
+      "brand": "Venclexta",
+      "company": "AbbVie/Genentech",
+      "ticker": "ABBV",
+      "expiry_window": "2028-2029",
+      "years_until_expiry": 2,
+      "urgency": "WITHIN 2 YEARS",
+      "score": 6
+    },
+    {
+      "drug": "apixaban",
+      "brand": "Eliquis",
+      "company": "BMS/Pfizer",
+      "ticker": "BMY",
+      "expiry_window": "2028-2031",
+      "years_until_expiry": 2,
+      "urgency": "WITHIN 2 YEARS",
+      "score": 6
+    },
+    {
+      "drug": "empagliflozin",
+      "brand": "Jardiance",
+      "company": "Boehringer/Eli Lilly",
+      "ticker": "LLY",
+      "expiry_window": "2028-2031",
+      "years_until_expiry": 2,
+      "urgency": "WITHIN 2 YEARS",
+      "score": 6
+    },
+    {
+      "drug": "risankizumab",
+      "brand": "Skyrizi",
+      "company": "AbbVie",
+      "ticker": "ABBV",
+      "expiry_window": "2028-2029",
+      "years_until_expiry": 2,
+      "urgency": "WITHIN 2 YEARS",
+      "score": 6
+    },
+    {
+      "drug": "tislelizumab",
+      "brand": "Tevimbra",
+      "company": "Beigene",
+      "ticker": "BGNE",
+      "expiry_window": "2028-2029",
+      "years_until_expiry": 2,
+      "urgency": "WITHIN 2 YEARS",
+      "score": 6
+    },
+    {
+      "drug": "sotorasib",
+      "brand": "Lumakras",
+      "company": "Amgen",
+      "ticker": "AMGN",
+      "expiry_window": "2028-2029",
+      "years_until_expiry": 2,
+      "urgency": "WITHIN 2 YEARS",
+      "score": 6
+    },
+    {
+      "drug": "adagrasib",
+      "brand": "Krazati",
+      "company": "Mirati/BMS",
+      "ticker": "BMY",
+      "expiry_window": "2028-2029",
+      "years_until_expiry": 2,
+      "urgency": "WITHIN 2 YEARS",
+      "score": 6
+    },
+    {
+      "drug": "tirzepatide",
+      "brand": "Mounjaro/Zepbound",
+      "company": "Eli Lilly",
+      "ticker": "LLY",
+      "expiry_window": "2029-2032",
+      "years_until_expiry": 3,
+      "urgency": "WITHIN 3 YEARS",
+      "score": 4
+    },
+    {
+      "drug": "darolutamide",
+      "brand": "Nubeqa",
+      "company": "Bayer/Orion",
+      "ticker": "BAYRY",
+      "expiry_window": "2029-2030",
+      "years_until_expiry": 3,
+      "urgency": "WITHIN 3 YEARS",
+      "score": 4
+    }
+  ]
+};
+
+                let insiderData = {"timestamp": "2026-07-24T13:36:33.188417", "status": "found", "total_scanned": 525, "significant": 13, "filings": [{"company": "FRANKLIN RESOURCES INC", "owner": "JOHNSON JENNIFER M", "owner_type": "DIRECTOR", "signal": {"score": 13, "level": "HIGH", "signals": ["DIRECTOR_TRADE", "PURE_BUY", "LARGE_BUY"], "total_buy": 229850, "total_sell": 0}, "transactions": [{"action": "BUY", "date": "2026-07-21", "shares": "229850", "price": "32.63", "owned_after": "0", "security": "Common Stock, par value $.10"}], "edgar_url": "https://www.sec.gov/edgar/data/1010270/0000038777-26-000195.txt"}, {"company": "ASTROTECH Corp", "owner": "Badugu Nihanth", "owner_type": "OFFICER", "signal": {"score": 11, "level": "HIGH", "signals": ["OFFICER_TRADE", "PURE_BUY", "SMALL_BUY"], "total_buy": 5000, "total_sell": 0}, "transactions": [{"action": "BUY", "date": "2026-07-22", "shares": "5000", "price": "0", "owned_after": "5000", "security": "Common Stock"}], "edgar_url": "https://www.sec.gov/edgar/data/1001907/0001437749-26-024311.txt"}, {"company": "Rani Therapeutics Holdings, Inc.", "owner": "IMRAN MIR A", "owner_type": "DIRECTOR", "signal": {"score": 11, "level": "HIGH", "signals": ["DIRECTOR_TRADE", "PURE_BUY", "MEDIUM_BUY"], "total_buy": 36000, "total_sell": 0}, "transactions": [{"action": "BUY", "date": "2026-07-21", "shares": "36000", "price": "0.69", "owned_after": "2119334", "security": "Class A Common Stock"}], "edgar_url": "https://www.sec.gov/edgar/data/1031686/0001031686-26-000006.txt"}, {"company": "TAIWAN SEMICONDUCTOR MANUFACTURING CO LTD", "owner": "Tien Bor-Zen", "owner_type": "OFFICER", "signal": {"score": 11, "level": "HIGH", "signals": ["OFFICER_TRADE", "PURE_BUY", "SMALL_BUY"], "total_buy": 4010, "total_sell": 0}, "transactions": [{"action": "BUY", "date": "2026-07-21", "shares": "1000", "price": "74.13", "owned_after": "13051", "security": "Common Shares (2330.TW)"}, {"action": "BUY", "date": "2026-07-20", "shares": "10", "price": "405", "owned_after": "117", "security": "American Depositary Shares (TSM)"}, {"action": "BUY", "date": "2026-07-21", "shares": "1000", "price": "73.98", "owned_after": "2000", "security": "Common Shares (2330.TW)"}, {"action": "BUY", "date": "2026-07-21", "shares": "1000", "price": "74.44", "owned_after": "3000", "security": "Common Shares (2330.TW)"}, {"action": "BUY", "date": "2026-07-21", "shares": "1000", "price": "74.75", "owned_after": "4000", "security": "Common Shares (2330.TW)"}], "edgar_url": "https://www.sec.gov/edgar/data/1046179/0001046179-26-000457.txt"}, {"company": "VirnetX Holding Corp", "owner": "O'BRIEN THOMAS M", "owner_type": "DIRECTOR", "signal": {"score": 9, "level": "MEDIUM", "signals": ["DIRECTOR_TRADE", "PURE_BUY", "SMALL_BUY"], "total_buy": 7500, "total_sell": 0}, "transactions": [{"action": "BUY", "date": "2026-06-11", "shares": "7500", "price": "0", "owned_after": "35457", "security": "Common Stock"}], "edgar_url": "https://www.sec.gov/edgar/data/1082324/0001241556-26-000005.txt"}, {"company": "Salesforce, Inc.", "owner": "Tallapragada Srinivas", "owner_type": "OFFICER", "signal": {"score": 9, "level": "MEDIUM", "signals": ["OFFICER_TRADE", "NET_BUY", "SMALL_BUY"], "total_buy": 1786, "total_sell": 886}, "transactions": [{"action": "BUY", "date": "2026-07-22", "shares": "1786", "price": "0", "owned_after": "71953", "security": "Common Stock"}, {"action": "SELL", "date": "2026-07-22", "shares": "886", "price": "163.00", "owned_after": "71067", "security": "Common Stock"}], "edgar_url": "https://www.sec.gov/edgar/data/1108524/0001108524-26-000156.txt"}, {"company": "Salesforce, Inc.", "owner": "Harris Parker", "owner_type": "DIRECTOR", "signal": {"score": 7, "level": "MEDIUM", "signals": ["DIRECTOR_TRADE", "NET_BUY", "SMALL_BUY"], "total_buy": 1786, "total_sell": 886}, "transactions": [{"action": "BUY", "date": "2026-07-22", "shares": "1786", "price": "0", "owned_after": "164174", "security": "Common Stock"}, {"action": "SELL", "date": "2026-07-22", "shares": "886", "price": "163.00", "owned_after": "163288", "security": "Common Stock"}], "edgar_url": "https://www.sec.gov/edgar/data/1108524/0001108524-26-000154.txt"}, {"company": "PRICESMART INC", "owner": "Bahrambeygui Sherry S.", "owner_type": "DIRECTOR", "signal": {"score": 6, "level": "MEDIUM", "signals": ["DIRECTOR_TRADE", "PURE_SELL"], "total_buy": 0, "total_sell": 800}, "transactions": [{"action": "SELL", "date": "2026-07-22", "shares": "200", "price": "188.93", "owned_after": "39349", "security": "Common Stock, $0.0001 par value per share"}, {"action": "SELL", "date": "2026-07-22", "shares": "200", "price": "189.13", "owned_after": "39149", "security": "Common Stock, $0.0001 par value per share"}, {"action": "SELL", "date": "2026-07-23", "shares": "200", "price": "184.65", "owned_after": "38949", "security": "Common Stock, $0.0001 par value per share"}, {"action": "SELL", "date": "2026-07-23", "shares": "200", "price": "184.33", "owned_after": "38749", "security": "Common Stock, $0.0001 par value per share"}], "edgar_url": "https://www.sec.gov/edgar/data/1041803/0001628280-26-049447.txt"}, {"company": "BEXIL INVESTMENT TRUST", "owner": "WINMILL &amp; CO. INC", "owner_type": "OTHER", "signal": {"score": 6, "level": "MEDIUM", "signals": ["PURE_BUY", "SMALL_BUY"], "total_buy": 8387, "total_sell": 0}, "transactions": [{"action": "BUY", "date": "2026-07-22", "shares": "3887", "price": "17.2", "owned_after": "252943", "security": "Shares of Beneficial Interest"}, {"action": "BUY", "date": "2026-07-23", "shares": "4500", "price": "17.1258", "owned_after": "257443", "security": "Shares of Beneficial Interest"}], "edgar_url": "https://www.sec.gov/edgar/data/1059213/0000052234-26-000009.txt"}, {"company": "CYTOKINETICS INC", "owner": "Malik Fady Ibraham", "owner_type": "OFFICER", "signal": {"score": 6, "level": "MEDIUM", "signals": ["OFFICER_TRADE", "SMALL_BUY"], "total_buy": 3500, "total_sell": 3500}, "transactions": [{"action": "BUY", "date": "2026-07-21", "shares": "3500", "price": "7.80", "owned_after": "157402", "security": "Common Stock"}, {"action": "SELL", "date": "2026-07-21", "shares": "3500", "price": "80.59", "owned_after": "153902", "security": "Common Stock"}], "edgar_url": "https://www.sec.gov/edgar/data/1061983/0001061983-26-000084.txt"}]};
+
+        const secCommentsData = {"timestamp":"2026-07-24T14:11:08.829811","status":"found","total_new":30,"significant_count":13,"filings":[{"company":"Brookfield Asset Management Ltd.","cik":"1937926","form_type":"CORRESP","date":"20250923","subject":"Form 4 - Brookfield Asset Management Ltd.","referenced_filing":"Unknown filing","materiality":{"score":51,"level":"HIGH","keywords":["acknowledge","valuation","represent","related party","fair value","disclosure","revenue recognition"],"signals":["HIGH_KEYWORD:related party","HIGH_KEYWORD:revenue recognition","MEDIUM_KEYWORD:revenue recognition","MEDIUM_KEYWORD:fair value","MEDIUM_KEYWORD:valuation","SEC_QUESTIONS:25","LONG_LETTER"]},"letter_preview":"September 23, 2025\n\n\u00a0\n\nVia EDGAR\n\n\u00a0\n\nUnited States Securities and Exchange Commission\n\nDivision of Corporation Finance\nOffice of Finance\n100 F Street, N.E.\nWashington, D.C. 20549\n\n\u00a0\n\n  Attention: \n  Michael Volley\n\n  \u00a0\n  Amit Pande\n\n\u00a0\n\n  Re:\n  Brookfield Asset Management Ltd.\n\n  \u00a0\n  Form\u00a010-K for th","edgar_url":"https://www.sec.gov/edgar/data/1937926/0001104659-25-092421.txt"},{"company":"Knighted Pastures LLC","cik":"1811775","form_type":"CORRESP","date":"20250618","subject":"Form 4 - Knighted Pastures LLC","referenced_filing":"Form 10-K","materiality":{"score":34,"level":"HIGH","keywords":["confirm","supplement","acknowledge","represent","fair value","disclosure","related-party transactions","late filing"],"signals":["HIGH_KEYWORD:late filing","MEDIUM_KEYWORD:fair value","MEDIUM_KEYWORD:related-party transactions","SEC_QUESTIONS:3","LONG_LETTER"]},"letter_preview":"CORRESP\n1\nfilename1.htm\n\n    O\u00a0\u00a0 L\u00a0\u00a0 S\u00a0\u00a0 H\u00a0\u00a0 A\u00a0\u00a0 N\n    \n1325 AVENUE OF THE AMERICAS \u25cf\u00a0NEW YORK, NEW YORK 10019\n\nTELEPHONE: 212.451.2300\u00a0\u25cf FACSIMILE: 212.451.2222\n\n\u00a0\n\nJune 18, 2025\n\nVIA EDGAR AND ELECTRONIC MAIL\n\nShane Callaghan and Daniel Duchovny\nUnited States Securities and Exchange Commission\nDiv","edgar_url":"https://www.sec.gov/edgar/data/1811775/0000921895-25-001797.txt"},{"company":"DeFi Development Corp.","cik":"1805526","form_type":"UPLOAD","date":"20250930","subject":"DeFi Development Corp.","referenced_filing":"Form S-1 (September 16, 2025)","materiality":{"score":31,"level":"HIGH","keywords":["confirm","supplement","capitalization","hedging","disclosure"],"signals":["MEDIUM_KEYWORD:capitalization","MEDIUM_KEYWORD:hedging","SEC_QUESTIONS:9","LONG_LETTER","TOPICS:10"]},"letter_preview":"LETTER\n1\nfilename1.pdf\n\nbegin 644 filename1\nM)5!$1BTQ+C<*)>+CS],*-2 P(&]B:@H\\/\"]&:6QT97(O1FQA=&5$96-O9&4O\nM3&5N9W1H(#$Q-C<^/G-TG]^A]7'@?;@((0EA47I1DPUV?X7GIO9N+\nMSHKF06B(_!F$?IC\\LOC/^[0X-$US%J*EG[/86?ZNC.C6<-&3MHRHYW'.KVAG%'Q8'E.WH\nMSE#*<5R,A%T+KK]]+[<#!G>F!>D[#B-6#,;?]G[^$K#FJ+E2M-QCSNR8X^UR<&'7@B\"","edgar_url":"https://www.sec.gov/edgar/data/1805526/0000000000-25-010650.txt"},{"company":"Global Gas Corp","cik":"1817232","form_type":"UPLOAD","date":"20251211","subject":"Global Gas Corp","referenced_filing":"Form 10-K","materiality":{"score":27,"level":"HIGH","keywords":["material weakness","disclosure"],"signals":["HIGH_KEYWORD:material weakness","SEC_QUESTIONS:4","LONG_LETTER","TOPICS:3"]},"letter_preview":"LETTER\n1\nfilename1.pdf\n\nbegin 644 filename1\nM)5!$1BTQ+C<*)>+CS],*-2 P(&]B:@H\\/\"]&:6QT97(O1FQA=&5$96-O9&4O\nM3&5N9W1H(#$R.3,^/G-T))%(O<6_XX^/F&L))K\nM!(-KA1M*8ZM[ TM5J>8)9%/Z3[L5$FM5I3?\\=J'K&IO.BK,Q^-R3\nM_+!D%._@#)8L$K/<85$-U;^6G=(-D!!DN58$I[= @K*:WJ375ENK%E28S8J\nM$\"6$JZH&S +NEN[-4D.C.UA@I9!8DJ.04 \\%,X","edgar_url":"https://www.sec.gov/edgar/data/1817232/0000000000-25-011497.txt"},{"company":"Prenetics Global Ltd","cik":"1876431","form_type":"UPLOAD","date":"20250805","subject":"Prenetics Global Limited","referenced_filing":"Unknown filing","materiality":{"score":26,"level":"HIGH","keywords":["pro forma","disclosure","supplement","represent"],"signals":["MEDIUM_KEYWORD:pro forma","SEC_QUESTIONS:9","LONG_LETTER","TOPICS:9"]},"letter_preview":"LETTER\n1\nfilename1.pdf\n\nbegin 644 filename1\nM)5!$1BTQ+C<*)>+CS],*-2 P(&]B:@H\\/\"]&:6QT97(O1FQA=&5$96-O9&4O\nM3&5N9W1H(#$R,S0^/G-T/8N'(\"E\"\nML+]%0O(4LH3@GRR#L@G>WS817*G@6_ 0?)@%[Z<11!1FBR!.<_]N2/\"Y\"MY-\nMNF6G#:0CH\"%-?YW]'5S/3L.R@E\",\"@N2N*@K)N46[E=<+N%[!W_Q3B[?CDW'\nME,2I\"[Y<\";Z ZQ^\\[(QXY/#'8B%*WIZ)SS,2N_\"","edgar_url":"https://www.sec.gov/edgar/data/1876431/0000000000-25-008212.txt"},{"company":"All In FutureTech Alliance, Inc.","cik":"1708341","form_type":"UPLOAD","date":"20241108","subject":"Knighted Pastures, LLC","referenced_filing":"Unknown filing","materiality":{"score":20,"level":"HIGH","keywords":["disclosure","represent"],"signals":["SEC_QUESTIONS:8","LONG_LETTER","TOPICS:14"]},"letter_preview":"LETTER\n1\nfilename1.pdf\n\nbegin 644 filename1\nM)5!$1BTQ+C<*)>+CS],*-2 P(&]B:@H\\/\"]&:6QT97(O1FQA=&5$96-O9&4O\nM3&5N9W1H(#$Q,S8^/G-T(A$2D($$#H!5]1_L!_M0N>)$=R3(5:\\822.SNV;-G%WCPHM0'\nM]TDCDDPAC@C^BV/(2N_C14GAL_*^>@_>IWOOXQ<*-(#[E1=.DVZO3W\"=>^^O\nMU2,OEUQ#.H' #Z+?[[][9_>'AG%* K3S4Q*U=K=J\"XM\"B;?W3VMP16K\nMV)K","edgar_url":"https://www.sec.gov/edgar/data/1708341/0000000000-24-012486.txt"},{"company":"Allied Gaming & Entertainment Inc.","cik":"1708341","form_type":"UPLOAD","date":"20241108","subject":"Knighted Pastures, LLC","referenced_filing":"Unknown filing","materiality":{"score":20,"level":"HIGH","keywords":["disclosure","represent"],"signals":["SEC_QUESTIONS:8","LONG_LETTER","TOPICS:14"]},"letter_preview":"LETTER\n1\nfilename1.pdf\n\nbegin 644 filename1\nM)5!$1BTQ+C<*)>+CS],*-2 P(&]B:@H\\/\"]&:6QT97(O1FQA=&5$96-O9&4O\nM3&5N9W1H(#$Q,S8^/G-T(A$2D($$#H!5]1_L!_M0N>)$=R3(5:\\822.SNV;-G%WCPHM0'\nM]TDCDDPAC@C^BV/(2N_C14GAL_*^>@_>IWOOXQ<*-(#[E1=.DVZO3W\"=>^^O\nMU2,OEUQ#.H' #Z+?[[][9_>'AG%* K3S4Q*U=K=J\"XM\"B;?W3VMP16K\nMV)K","edgar_url":"https://www.sec.gov/edgar/data/1708341/0000000000-24-012486.txt"},{"company":"All In FutureTech Alliance, Inc.","cik":"1708341","form_type":"UPLOAD","date":"20250625","subject":"Knighted Pastures, LLC","referenced_filing":"Form 10-K","materiality":{"score":19,"level":"HIGH","keywords":["disclosure"],"signals":["SEC_QUESTIONS:5","LONG_LETTER","TOPICS:9"]},"letter_preview":"LETTER\n1\nfilename1.pdf\n\nbegin 644 filename1\nM)5!$1BTQ+C<*)>+CS],*-2 P(&]B:@H\\/\"]&:6QT97(O1FQA=&5$96-O9&4O\nM3&5N9W1H(#$Q-S(^/G-TD&P):4+P)4VA;()/%PV%SSKX*[@/3FZ\"3U\\HT ANZB!>9L/9D.!S%1S]\nMUBD.T7(!41@M/]S\\\",YNMJW2G$1H%.8D\\497NH?3E1;OGU\\6$8F7WN /IM@=\nM-WO.9RF)_?'?E;A;M;R\"2V;;SG\"[@*]?3_=8IZ%[<^:TB&.X)G!B-","edgar_url":"https://www.sec.gov/edgar/data/1708341/0000000000-25-006619.txt"},{"company":"Allied Gaming & Entertainment Inc.","cik":"1708341","form_type":"UPLOAD","date":"20250625","subject":"Knighted Pastures, LLC","referenced_filing":"Form 10-K","materiality":{"score":19,"level":"HIGH","keywords":["disclosure"],"signals":["SEC_QUESTIONS:5","LONG_LETTER","TOPICS:9"]},"letter_preview":"LETTER\n1\nfilename1.pdf\n\nbegin 644 filename1\nM)5!$1BTQ+C<*)>+CS],*-2 P(&]B:@H\\/\"]&:6QT97(O1FQA=&5$96-O9&4O\nM3&5N9W1H(#$Q-S(^/G-TD&P):4+P)4VA;()/%PV%SSKX*[@/3FZ\"3U\\HT ANZB!>9L/9D.!S%1S]\nMUBD.T7(!41@M/]S\\\",YNMJW2G$1H%.8D\\497NH?3E1;OGU\\6$8F7WN /IM@=\nM-WO.9RF)_?'?E;A;M;R\"2V;;SG\"[@*]?3_=8IZ%[<^:TB&.X)G!B-","edgar_url":"https://www.sec.gov/edgar/data/1708341/0000000000-25-006619.txt"},{"company":"Prenetics Global Ltd","cik":"1876431","form_type":"UPLOAD","date":"20250905","subject":"Prenetics Global Limited","referenced_filing":"Unknown filing","materiality":{"score":19,"level":"HIGH","keywords":["disclosure"],"signals":["SEC_QUESTIONS:6","LONG_LETTER","TOPICS:4"]},"letter_preview":"LETTER\n1\nfilename1.pdf\n\nbegin 644 filename1\nM)5!$1BTQ+C<*)>+CS],*-2 P(&]B:@H\\/\"]&:6QT97(O1FQA=&5$96-O9&4O\nM3&5N9W1H(#$R,S@^/G-TG'-V@<=94@1\nMOT7\"\\A2RA.%'ED'9S=Y_Z4*XT+.OL\\?9A[O9^\\L0P@CNZEFM>=$MA()U#%$3I+W=_SS[=O8[,\"A9A8%\"PQ 5><*6V<-L(M8*' ?X2@UH=\nMCDT7$8M3%_RQD:*&3]]$.?3R2<\"?=2U+88[$YQF+7?BU$4KTLK3PN","edgar_url":"https://www.sec.gov/edgar/data/1876431/0000000000-25-009633.txt"},{"company":"Knighted Pastures LLC","cik":"1811775","form_type":"CORRESP","date":"20241114","subject":"Form 4 - Knighted Pastures LLC","referenced_filing":"Form 10-K","materiality":{"score":18,"level":"HIGH","keywords":["confirm","supplement","represent","acknowledge","disclosure"],"signals":["SEC_QUESTIONS:10","LONG_LETTER"]},"letter_preview":"CORRESP\n1\nfilename1.htm\n\n\u00a0\n\n    O\u00a0\u00a0 L\u00a0\u00a0 S\u00a0\u00a0 H\u00a0\u00a0 A\u00a0\u00a0 N\n    \n1325 AVENUE OF THE AMERICAS \u25cf\u00a0NEW YORK, NEW YORK 10019\n\nTELEPHONE: 212.451.2300\u00a0\u25cf FACSIMILE: 212.451.2222\n\n\u00a0\n\nEMAIL:\u00a0 AFREEDMAN@OLSHANLAW.COM\n\nDIRECT DIAL:\u00a0 212.451.2250\n\n\u00a0\n\nNovember 14, 2024\n\nVIA EDGAR, FACSIMILE AND ELECTRONIC MAIL\n\nDaniel","edgar_url":"https://www.sec.gov/edgar/data/1811775/0000921895-24-002685.txt"},{"company":"Knighted Pastures LLC","cik":"1811775","form_type":"CORRESP","date":"20250626","subject":"Form 4 - Knighted Pastures LLC","referenced_filing":"Form 10-K","materiality":{"score":17,"level":"HIGH","keywords":["disclosure","acknowledge"],"signals":["SEC_QUESTIONS:6","LONG_LETTER","TOPICS:2"]},"letter_preview":"CORRESP\n1\nfilename1.htm\n\n\u00a0\n\n    O\u00a0\u00a0 L\u00a0\u00a0 S\u00a0\u00a0 H\u00a0\u00a0 A\u00a0\u00a0 N\n    \n1325 AVENUE OF THE AMERICAS \u25cf\u00a0NEW YORK, NEW YORK 10019\n\nTELEPHONE: 212.451.2300\u00a0\u25cf FACSIMILE: 212.451.2222\n\n\u00a0\n\nEMAIL:\u00a0 AFREEDMAN@OLSHANLAW.COM\n\nDIRECT DIAL:\u00a0 212.451.2250\n\n\u00a0\n\nJune 26, 2025\n\nVIA EDGAR AND ELECTRONIC MAIL\n\nShane Callaghan\nDanie","edgar_url":"https://www.sec.gov/edgar/data/1811775/0000921895-25-001847.txt"},{"company":"Global Gas Corp","cik":"1817232","form_type":"UPLOAD","date":"20251229","subject":"Global Gas Corp","referenced_filing":"Form 10-K","materiality":{"score":14,"level":"MEDIUM","keywords":["disclosure"],"signals":["SEC_QUESTIONS:4","LONG_LETTER","TOPICS:2"]},"letter_preview":"LETTER\n1\nfilename1.pdf\n\nbegin 644 filename1\nM)5!$1BTQ+C<*)>+CS],*-2 P(&]B:@H\\/\"]&:6QT97(O1FQA=&5$96-O9&4O\nM3&5N9W1H(#$P.34^/G-T7:^W3M?+@4(%^[GCA=$_5[.:)TZ1^>8\nM8#%# ^[D!%SN!L?W?SD7][N184$7\\SU3\nM.(=+54=25K.&[-M6>L)#;+QL7<0Y3!G>Z\nMQD*:%9PML&P13F#:J@:I:G]/*M\\?V'K NH$;F1?P#:E\\2G&9:Z-2\"9[G<[&=\nMQAW2\"!YU>","edgar_url":"https://www.sec.gov/edgar/data/1817232/0000000000-25-011835.txt"}],"all_filings_count":25,"errors":["No index for 2026-07-24"]};
+
+<!-- SEC COMMENT MONITOR UPDATE -->
+<div id="sec-monitor" class="sec-monitor-section">
+  <h2>🔍 SEC Comment Monitor — Latest Findings</h2>
+  <p class="meta">Last updated: 2026-07-24 14:11:08 UTC | 30 new filings | 13 significant signals</p>
+  <div class="sec-finding signal-high">
+    <div class="finding-header">
+      <span class="company-name">Brookfield Asset Management Ltd.</span>
+      <span class="badge HIGH">HIGH (score: 51)</span>
+    </div>
+    <div class="finding-details">
+      <span class="detail-label">Filing:</span> Unknown filing<br>
+      <span class="detail-label">Keywords:</span> acknowledge, valuation, represent, related party, fair value
+    </div>
+    <a href="https://www.sec.gov/edgar/data/1937926/0001104659-25-092421.txt" target="_blank" class="edgar-link">View on EDGAR →</a>
+  </div>
+  <div class="sec-finding signal-high">
+    <div class="finding-header">
+      <span class="company-name">Knighted Pastures LLC</span>
+      <span class="badge HIGH">HIGH (score: 34)</span>
+    </div>
+    <div class="finding-details">
+      <span class="detail-label">Filing:</span> Form 10-K<br>
+      <span class="detail-label">Keywords:</span> confirm, supplement, acknowledge, represent, fair value
+    </div>
+    <a href="https://www.sec.gov/edgar/data/1811775/0000921895-25-001797.txt" target="_blank" class="edgar-link">View on EDGAR →</a>
+  </div>
+  <div class="sec-finding signal-high">
+    <div class="finding-header">
+      <span class="company-name">DeFi Development Corp.</span>
+      <span class="badge HIGH">HIGH (score: 31)</span>
+    </div>
+    <div class="finding-details">
+      <span class="detail-label">Filing:</span> Form S-1 (September 16, 2025)<br>
+      <span class="detail-label">Keywords:</span> confirm, supplement, capitalization, hedging, disclosure
+    </div>
+    <a href="https://www.sec.gov/edgar/data/1805526/0000000000-25-010650.txt" target="_blank" class="edgar-link">View on EDGAR →</a>
+  </div>
+  <div class="sec-finding signal-high">
+    <div class="finding-header">
+      <span class="company-name">Global Gas Corp</span>
+      <span class="badge HIGH">HIGH (score: 27)</span>
+    </div>
+    <div class="finding-details">
+      <span class="detail-label">Filing:</span> Form 10-K<br>
+      <span class="detail-label">Keywords:</span> material weakness, disclosure
+    </div>
+    <a href="https://www.sec.gov/edgar/data/1817232/0000000000-25-011497.txt" target="_blank" class="edgar-link">View on EDGAR →</a>
+  </div>
+  <div class="sec-finding signal-high">
+    <div class="finding-header">
+      <span class="company-name">Prenetics Global Ltd</span>
+      <span class="badge HIGH">HIGH (score: 26)</span>
+    </div>
+    <div class="finding-details">
+      <span class="detail-label">Filing:</span> Unknown filing<br>
+      <span class="detail-label">Keywords:</span> pro forma, disclosure, supplement, represent
+    </div>
+    <a href="https://www.sec.gov/edgar/data/1876431/0000000000-25-008212.txt" target="_blank" class="edgar-link">View on EDGAR →</a>
+  </div>
+</div>
+<!-- SEC COMMENT MONITOR UPDATE -->
+<div id="sec-monitor" class="sec-monitor-section">
+  <h2>🔍 SEC Comment Monitor — Latest Findings</h2>
+  <div class="monitor-meta">Last updated: 2026-07-24T04:59:12 | Status: found | New filings: 30 | Significant: 13</div>
+  <div class="findings-grid">
+
+    <div class="finding-card high">
+      <div class="finding-header">
+        <span class="company-name">Brookfield Asset Management Ltd.</span>
+        <span class="badge badge-high">HIGH (51)</span>
+      </div>
+      <div class="filing-ref">Unknown filing</div>
+      <div class="keywords">Keywords: represent, fair value, acknowledge, disclosure, related party</div>
+      <a href="https://www.sec.gov/edgar/data/1937926/0001104659-25-092421.txt" target="_blank" class="edgar-link">View on EDGAR →</a>
+    </div>
+    <div class="finding-card high">
+      <div class="finding-header">
+        <span class="company-name">Knighted Pastures LLC</span>
+        <span class="badge badge-high">HIGH (34)</span>
+      </div>
+      <div class="filing-ref">Form 10-K</div>
+      <div class="keywords">Keywords: represent, confirm, fair value, acknowledge, disclosure</div>
+      <a href="https://www.sec.gov/edgar/data/1811775/0000921895-25-001797.txt" target="_blank" class="edgar-link">View on EDGAR →</a>
+    </div>
+    <div class="finding-card high">
+      <div class="finding-header">
+        <span class="company-name">DeFi Development Corp.</span>
+        <span class="badge badge-high">HIGH (31)</span>
+      </div>
+      <div class="filing-ref">Form S-1 (September 16, 2025)</div>
+      <div class="keywords">Keywords: confirm, capitalization, disclosure, hedging, supplement</div>
+      <a href="https://www.sec.gov/edgar/data/1805526/0000000000-25-010650.txt" target="_blank" class="edgar-link">View on EDGAR →</a>
+    </div>
+    <div class="finding-card high">
+      <div class="finding-header">
+        <span class="company-name">Global Gas Corp</span>
+        <span class="badge badge-high">HIGH (27)</span>
+      </div>
+      <div class="filing-ref">Form 10-K</div>
+      <div class="keywords">Keywords: disclosure, material weakness</div>
+      <a href="https://www.sec.gov/edgar/data/1817232/0000000000-25-011497.txt" target="_blank" class="edgar-link">View on EDGAR →</a>
+    </div>
+    <div class="finding-card high">
+      <div class="finding-header">
+        <span class="company-name">Prenetics Global Ltd</span>
+        <span class="badge badge-high">HIGH (26)</span>
+      </div>
+      <div class="filing-ref">Unknown filing</div>
+      <div class="keywords">Keywords: disclosure, represent, supplement, pro forma</div>
+      <a href="https://www.sec.gov/edgar/data/1876431/0000000000-25-008212.txt" target="_blank" class="edgar-link">View on EDGAR →</a>
+    </div>
+  </div>
+  <div class="footer">📊 SEC Comment Monitor — running every 3 hours. Filtered for operating companies only (excludes ETFs/funds).</div>
+</div>
+<!-- END SEC COMMENT MONITOR -->
