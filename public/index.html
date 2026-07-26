@@ -3,599 +3,189 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SEC Insider & Patent Monitor</title>
+    <title>SEC Explorer Dashboard</title>
     <style>
-        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 1000px; margin: 0 auto; padding: 20px; background: #f5f5f5; }
-        .container { background: white; border-radius: 8px; padding: 20px; margin-bottom: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-        h1 { color: #1a1a2e; margin-top: 0; }
-        .meta { color: #666; font-size: 14px; margin-bottom: 20px; }
-        .signal { padding: 12px; margin: 10px 0; border-radius: 6px; border-left: 4px solid; }
-        .signal.HIGH { background: #fff5f5; border-color: #e53e3e; }
-        .signal.MEDIUM { background: #fffaf0; border-color: #dd6b20; }
-        .signal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
-        .company { font-weight: 600; font-size: 16px; color: #1a1a2e; }
-        .badge { padding: 2px 8px; border-radius: 4px; font-size: 12px; font-weight: 600; }
-        .badge.HIGH { background: #e53e3e; color: white; }
-        .badge.MEDIUM { background: #dd6b20; color: white; }
-        .details { font-size: 14px; color: #444; }
-        .detail-row { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 8px; }
-        .detail-item { font-size: 13px; }
-        .label { color: #666666; }
-        .value { font-weight: 500; }
-        .cluster-note { background: #ebf8ff; border: 1px solid #90cdf4; border-radius: 6px; padding: 10px 14px; margin: 12px 0; font-size: 14px; color: #2b6cb0; }
-        .footer { margin-top: 20px; padding-top: 20px; border-top: 1px solid #eee; color: #666; font-size: 13px; text-align: center; }
-        .patent-card { padding: 10px 14px; margin: 8px 0; border-radius: 6px; border-left: 4px solid; font-size: 14px; }
-        .patent-card.critical { background: #fff5f5; border-color: #e53e3e; }
-        .patent-card.watch { background: #fffaf0; border-color: #dd6b20; }
-        .patent-card.healthy { background: #f0fff4; border-color: #38a169; }
-        .patent-drug { font-weight: 600; }
-        .patent-ticker { font-family: monospace; font-weight: 600; background: #edf2f7; padding: 1px 6px; border-radius: 3px; }
-        .urgency-badge { font-size: 11px; padding: 1px 6px; border-radius: 3px; font-weight: 600; }
-        .urgency-badge.expired { background: #e53e3e; color: white; }
-        .urgency-badge.year1 { background: #dd6b20; color: white; }
-        .urgency-badge.year2 { background: #d69e2e; color: white; }
-        .urgency-badge.year3 { background: #718096; color: white; }
-        .patent-section-title { font-size: 16px; font-weight: 600; margin: 16px 0 8px; }
-        a { color: #3182ce; text-decoration: none; }
-        a:hover { text-decoration: underline; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0f0f12; color: #e4e4e7; min-height: 100vh; padding: 24px; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        header { margin-bottom: 32px; border-bottom: 1px solid #27272a; padding-bottom: 16px; }
+        h1 { font-size: 1.5rem; font-weight: 600; color: #fafafa; }
+        .subtitle { color: #71717a; font-size: 0.875rem; margin-top: 4px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: 20px; }
+        .card { background: #18181b; border: 1px solid #27272a; border-radius: 12px; padding: 20px; }
+        .card h2 { font-size: 1rem; font-weight: 600; color: #fafafa; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+        .card h2::before { content: ''; width: 8px; height: 8px; border-radius: 2px; }
+        .card.sec h2::before { background: #22c55e; }
+        .card.patent h2::before { background: #f59e0b; }
+        .card.insider h2::before { background: #ef4444; }
+        .finding { border-left: 3px solid #3f3f46; padding-left: 12px; margin-bottom: 16px; transition: border-color 0.2s; }
+        .finding.high { border-left-color: #ef4444; }
+        .finding.medium { border-left-color: #f59e0b; }
+        .finding.low { border-left-color: #22c55e; }
+        .finding-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; }
+        .company { font-weight: 600; color: #fafafa; font-size: 0.95rem; }
+        .materiality { font-size: 0.7rem; font-weight: 700; padding: 2px 8px; border-radius: 4px; text-transform: uppercase; }
+        .materiality.high { background: rgba(239, 68, 68, 0.2); color: #ef4444; }
+        .materiality.medium { background: rgba(245, 158, 11, 0.2); color: #f59e0b; }
+        .materiality.low { background: rgba(34, 197, 94, 0.2); color: #22c55e; }
+        .filing { font-size: 0.8rem; color: #a1a1aa; margin-bottom: 8px; }
+        .keywords { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 8px; }
+        .keyword { font-size: 0.65rem; background: #27272a; color: #a1a1aa; padding: 2px 6px; border-radius: 3px; }
+        .url { font-size: 0.75rem; color: #22c55e; text-decoration: none; word-break: break-all; }
+        .url:hover { text-decoration: underline; }
+        .empty { color: #71717a; font-size: 0.875rem; text-align: center; padding: 24px; }
+        .footer { margin-top: 32px; padding-top: 16px; border-top: 1px solid #27272a; text-align: center; color: #71717a; font-size: 0.75rem; }
+        .last-updated { color: #a1a1aa; font-size: 0.75rem; margin-top: 8px; }
+        .stat { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #27272a; }
+        .stat:last-child { border-bottom: none; }
+        .stat-label { color: #a1a1aa; font-size: 0.8rem; }
+        .stat-value { font-weight: 600; color: #fafafa; font-size: 0.8rem; }
+        .stat-value.high { color: #ef4444; }
+        .stat-value.medium { color: #f59e0b; }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Insider Trading Monitor + Patent Expiry Tracker</h1>
-        <div class="meta" id="insider-meta">Loading insider data...</div>
-        <div id="high-signals"></div>
-        <div id="medium-signals"></div>
-        <div class="footer">Insider Monitor - every 3h. Form 4 filed within 2 business days of trade. Insider buying is one of the most reliable bullish signals.</div>
+        <header>
+            <h1>SEC Explorer Dashboard</h1>
+            <div class="subtitle">Monitoring SEC EDGAR for material signals</div>
+        </header>
+        
+        <div class="grid">
+            <!-- SEC Comment Letters -->
+            <div class="card sec">
+                <h2>SEC Comment Letters</h2>
+                <div id="sec-comments">
+                    <div class="empty">Loading...</div>
+                </div>
+            </div>
+            
+            <!-- Patent Expiry -->
+            <div class="card patent">
+                <h2>Patent Expiry Signals</h2>
+                <div id="patent-expiry">
+                    <div class="empty">No patent expiry data available</div>
+                </div>
+            </div>
+            
+            <!-- Insider Signals -->
+            <div class="card insider">
+                <h2>Insider Trading Signals</h2>
+                <div id="insider-signals">
+                    <div class="empty">No insider data available</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <div class="last-updated" id="last-updated">Last updated: --</div>
+            <div>📊 SEC Comment Monitor — running every 3 hours. Filtered for operating companies only (excludes ETFs/funds).</div>
+        </div>
     </div>
-
-    <div class="container">
-        <h1>Patent Expiration Monitor</h1>
-        P26-07-20T17:15:03.633814</div>
-        <div id="patent-critical"></div>
-        <div id="patent-watch"></div>
-        <div id="patent-healthy"></div>
-        <div class="footer">Patent Monitor - every 3h. Data: USPTO + FDA Orange Book. Patent cliffs predict generic competition 6-18 months ahead.</div>
-    </div>
-
-    <div class="container">
-        <h1>SEC Comment Monitor (OWL)</h1>
-        <div class="meta" id="sec-comment-meta">Loading SEC comment data...</div>
-        <div id="sec-comment-signals"></div>
-        <div class="footer">SEC Comment Monitor - running every 3 hours. Filtered for operating companies only (excludes ETFs/funds).</div>
-    </div>
-
+    
     <script>
-// ===== PATENT EXPIRY DATA =====
-        const patentData =   {
-  "timestamp": "2026-07-25T03:32:28.499676",
-  "status": "found",
-  "total_tracked": 20,
-  "critical_count": 7,
-  "watch_count": 10,
-  "critical": [
-    {
-      "drug": "lenalidomide",
-      "brand": "Revlimid",
-      "company": "BMS/Celgene",
-      "ticker": "BMY",
-      "expiry_window": "2025-2026",
-      "years_until_expiry": -1,
-      "urgency": "EXPIRED/EXPIRING NOW",
-      "score": 10
-    },
-    {
-      "drug": "rivaroxaban",
-      "brand": "Xarelto",
-      "company": "Bayer/J&J",
-      "ticker": "BAYRY",
-      "expiry_window": "2024-2025",
-      "years_until_expiry": -2,
-      "urgency": "EXPIRED/EXPIRING NOW",
-      "score": 10
-    },
-    {
-      "drug": "semaglutide",
-      "brand": "Ozempic/Wegovy",
-      "company": "Novo Nordisk",
-      "ticker": "NVO",
-      "expiry_window": "2026-2028",
-      "years_until_expiry": 0,
-      "urgency": "EXPIRED/EXPIRING NOW",
-      "score": 10
-    },
-    {
-      "drug": "ibrutinib",
-      "brand": "Imbruvica",
-      "company": "AbbVie/AbbVie",
-      "ticker": "ABBV",
-      "expiry_window": "2027-2028",
-      "years_until_expiry": 1,
-      "urgency": "WITHIN 1 YEAR",
-      "score": 8
-    },
-    {
-      "drug": "acalabrutinib",
-      "brand": "Calquence",
-      "company": "AstraZeneca",
-      "ticker": "AZN",
-      "expiry_window": "2027-2028",
-      "years_until_expiry": 1,
-      "urgency": "WITHIN 1 YEAR",
-      "score": 8
-    },
-    {
-      "drug": "dupilumab",
-      "brand": "Dupixent",
-      "company": "Regeneron/Sanofi",
-      "ticker": "REGN",
-      "expiry_window": "2027-2028",
-      "years_until_expiry": 1,
-      "urgency": "WITHIN 1 YEAR",
-      "score": 8
-    },
-    {
-      "drug": "erdafitinib",
-      "brand": "Balversa",
-      "company": "J&J",
-      "ticker": "JNJ",
-      "expiry_window": "2027-2028",
-      "years_until_expiry": 1,
-      "urgency": "WITHIN 1 YEAR",
-      "score": 8
-    }
-  ],
-  "watch": [
-    {
-      "drug": "pomalidomide",
-      "brand": "Pomalyst",
-      "company": "BMS/Celgene",
-      "ticker": "BMY",
-      "expiry_window": "2028-2029",
-      "years_until_expiry": 2,
-      "urgency": "WITHIN 2 YEARS",
-      "score": 6
-    },
-    {
-      "drug": "venetoclax",
-      "brand": "Venclexta",
-      "company": "AbbVie/Genentech",
-      "ticker": "ABBV",
-      "expiry_window": "2028-2029",
-      "years_until_expiry": 2,
-      "urgency": "WITHIN 2 YEARS",
-      "score": 6
-    },
-    {
-      "drug": "apixaban",
-      "brand": "Eliquis",
-      "company": "BMS/Pfizer",
-      "ticker": "BMY",
-      "expiry_window": "2028-2031",
-      "years_until_expiry": 2,
-      "urgency": "WITHIN 2 YEARS",
-      "score": 6
-    },
-    {
-      "drug": "empagliflozin",
-      "brand": "Jardiance",
-      "company": "Boehringer/Eli Lilly",
-      "ticker": "LLY",
-      "expiry_window": "2028-2031",
-      "years_until_expiry": 2,
-      "urgency": "WITHIN 2 YEARS",
-      "score": 6
-    },
-    {
-      "drug": "risankizumab",
-      "brand": "Skyrizi",
-      "company": "AbbVie",
-      "ticker": "ABBV",
-      "expiry_window": "2028-2029",
-      "years_until_expiry": 2,
-      "urgency": "WITHIN 2 YEARS",
-      "score": 6
-    },
-    {
-      "drug": "tislelizumab",
-      "brand": "Tevimbra",
-      "company": "Beigene",
-      "ticker": "BGNE",
-      "expiry_window": "2028-2029",
-      "years_until_expiry": 2,
-      "urgency": "WITHIN 2 YEARS",
-      "score": 6
-    },
-    {
-      "drug": "sotorasib",
-      "brand": "Lumakras",
-      "company": "Amgen",
-      "ticker": "AMGN",
-      "expiry_window": "2028-2029",
-      "years_until_expiry": 2,
-      "urgency": "WITHIN 2 YEARS",
-      "score": 6
-    },
-    {
-      "drug": "adagrasib",
-      "brand": "Krazati",
-      "company": "Mirati/BMS",
-      "ticker": "BMY",
-      "expiry_window": "2028-2029",
-      "years_until_expiry": 2,
-      "urgency": "WITHIN 2 YEARS",
-      "score": 6
-    },
-    {
-      "drug": "tirzepatide",
-      "brand": "Mounjaro/Zepbound",
-      "company": "Eli Lilly",
-      "ticker": "LLY",
-      "expiry_window": "2029-2032",
-      "years_until_expiry": 3,
-      "urgency": "WITHIN 3 YEARS",
-      "score": 4
-    },
-    {
-      "drug": "darolutamide",
-      "brand": "Nubeqa",
-      "company": "Bayer/Orion",
-      "ticker": "BAYRY",
-      "expiry_window": "2029-2030",
-      "years_until_expiry": 3,
-      "urgency": "WITHIN 3 YEARS",
-      "score": 4
-    }
-  ]
-};
-
-                let insiderData = {
-  "timestamp": "2026-07-25T04:57:44.780323",
-  "status": "found",
-  "total_scanned": 835,
-  "significant": 16,
-  "filings": [
-    {
-      "company": "SM Energy Co",
-      "owner": "PURSELL A WADE",
-      "owner_type": "OFFICER",
-      "signal": {
-        "score": 11,
-        "level": "HIGH",
-        "signals": [
-          "OFFICER_TRADE",
-          "NET_BUY",
-          "MEDIUM_BUY"
-        ],
-        "total_buy": 16917,
-        "total_sell": 7403
-      },
-      "transactions": [
-        {
-          "action": "BUY",
-          "date": "2026-07-24",
-          "shares": "16917",
-          "price": "0",
-          "owned_after": "438934",
-          "security": "Common Stock, $.01 Par Value"
-        },
-        {
-          "action": "SELL",
-          "date": "2026-07-24",
-          "shares": "7403",
-          "price": "26.10",
-          "owned_after": "431531",
-          "security": "Common Stock, $.01 Par Value"
+        async function loadData() {
+            try {
+                const [secRes, patentRes, insiderRes] = await Promise.all([
+                    fetch('data/sec_comments.json').catch(() => null),
+                    fetch('data/patent_expiry.json').catch(() => null),
+                    fetch('data/insider.json').catch(() => null)
+                ]);
+                
+                const secData = secRes?.ok ? await secRes.json() : null;
+                const patentData = patentRes?.ok ? await patentRes.json() : null;
+                const insiderData = insiderRes?.ok ? await insiderRes.json() : null;
+                
+                renderSEC(secData);
+                renderPatent(patentData);
+                renderInsider(insiderData);
+                updateTimestamp();
+            } catch (e) {
+                console.error('Failed to load data:', e);
+            }
         }
-      ],
-      "edgar_url": "https://www.sec.gov/edgar/data/1041812/0000893538-26-000114.txt"
-    },
-    {
-      "company": "Pinnacle Financial Partners, Inc.",
-      "owner": "MCCABE ROBERT A JR",
-      "owner_type": "DIRECTOR",
-      "signal": {
-        "score": 11,
-        "level": "HIGH",
-        "signals": [
-          "DIRECTOR_TRADE",
-          "PURE_BUY",
-          "MEDIUM_BUY"
-        ],
-        "total_buy": 10013,
-        "total_sell": 0
-      },
-      "transactions": [
-        {
-          "action": "BUY",
-          "date": "2026-07-24",
-          "shares": "10013",
-          "price": "99.90",
-          "owned_after": "324233",
-          "security": "Common Stock"
+        
+        function renderSEC(data) {
+            const container = document.getElementById('sec-comments');
+            const findings = data.findings || data.filings || [];
+            if (!data || findings.length === 0) {
+                container.innerHTML = '<div class="empty">No significant SEC comment letters found</div>';
+                return;
+            }
+            
+            const highMedium = findings.filter(f => f.materiality.level === 'HIGH' || f.materiality.level === 'MEDIUM').slice(0, 5);
+            
+            if (highMedium.length === 0) {
+                container.innerHTML = '<div class="empty">No HIGH/MEDIUM materiality findings</div>';
+                return;
+            }
+            
+            container.innerHTML = highMedium.map(f => `
+                <div class="finding ${f.materiality.level.toLowerCase()}">
+                    <div class="finding-header">
+                        <span class="company"><strong>${escapeHtml(f.company)}</strong></span>
+                        <span class="materiality ${f.materiality.level.toLowerCase()}">${f.materiality.level}</span>
+                    </div>
+                    <div class="filing">${escapeHtml(f.referenced_filing)}</div>
+                    <div class="keywords">
+                        ${f.materiality.keywords.map(k => `<span class="keyword">${escapeHtml(k)}</span>`).join('')}
+                    </div>
+                    <a href="${escapeHtml(f.edgar_url)}" class="url" target="_blank" rel="noopener">${escapeHtml(f.edgar_url)}</a>
+                </div>
+            `).join('');
         }
-      ],
-      "edgar_url": "https://www.sec.gov/edgar/data/1079428/0001079428-26-000004.txt"
-    },
-    {
-      "company": "VALMONT INDUSTRIES INC",
-      "owner": "Schwietz John L",
-      "owner_type": "OFFICER",
-      "signal": {
-        "score": 10,
-        "level": "HIGH",
-        "signals": [
-          "OFFICER_TRADE",
-          "PURE_BUY"
-        ],
-        "total_buy": 208,
-        "total_sell": 0
-      },
-      "transactions": [
-        {
-          "action": "BUY",
-          "date": "2026-07-23",
-          "shares": "208",
-          "price": "486.145",
-          "owned_after": "2992",
-          "security": "Common Stock"
+        
+        function renderPatent(data) {
+            const container = document.getElementById('patent-expiry');
+            if (!data || !data.expiries || data.expiries.length === 0) {
+                container.innerHTML = '<div class="empty">No patent expiry signals</div>';
+                return;
+            }
+            container.innerHTML = data.expiries.slice(0, 5).map(p => `
+                <div class="finding ${p.risk_level?.toLowerCase() || 'low'}">
+                    <div class="finding-header">
+                        <span class="company"><strong>${escapeHtml(p.company)}</strong></span>
+                        <span class="materiality ${p.risk_level?.toLowerCase() || 'low'}">${p.risk_level || 'LOW'}</span>
+                    </div>
+                    <div class="filing">Patent: ${escapeHtml(p.patent_number)} — Expires: ${escapeHtml(p.expiry_date)}</div>
+                    <div class="filing">Revenue at risk: ${escapeHtml(p.revenue_at_risk || 'Unknown')}</div>
+                </div>
+            `).join('');
         }
-      ],
-      "edgar_url": "https://www.sec.gov/edgar/data/102729/0002129863-26-000008.txt"
-    },
-    {
-      "company": "Angel Studios, Inc.",
-      "owner": "GAY ROBERT C",
-      "owner_type": "DIRECTOR",
-      "signal": {
-        "score": 9,
-        "level": "MEDIUM",
-        "signals": [
-          "DIRECTOR_TRADE",
-          "PURE_BUY",
-          "SMALL_BUY"
-        ],
-        "total_buy": 2648,
-        "total_sell": 0
-      },
-      "transactions": [
-        {
-          "action": "BUY",
-          "date": "2026-07-23",
-          "shares": "2648",
-          "price": "0",
-          "owned_after": "7944",
-          "security": "Class A Common Stock, par value $0.0001 per share"
+        
+        function renderInsider(data) {
+            const container = document.getElementById('insider-signals');
+            if (!data || !data.signals || data.signals.length === 0) {
+                container.innerHTML = '<div class="empty">No insider signals detected</div>';
+                return;
+            }
+            container.innerHTML = data.signals.slice(0, 5).map(s => `
+                <div class="finding ${s.signal_type?.toLowerCase() || 'low'}">
+                    <div class="finding-header">
+                        <span class="company"><strong>${escapeHtml(s.company)}</strong></span>
+                        <span class="materiality ${s.signal_type?.toLowerCase() || 'low'}">${s.signal_type || 'SIGNAL'}</span>
+                    </div>
+                    <div class="filing">Insider: ${escapeHtml(s.insider)} (${escapeHtml(s.title)})</div>
+                    <div class="filing">Transaction: ${escapeHtml(s.transaction_type)} — ${escapeHtml(s.shares)} shares @ $${escapeHtml(s.price)}</div>
+                    <div class="filing">Date: ${escapeHtml(s.date)}</div>
+                </div>
+            `).join('');
         }
-      ],
-      "edgar_url": "https://www.sec.gov/edgar/data/1032566/0001865200-26-000059.txt"
-    },
-    {
-      "company": "Total Return Securities Fund",
-      "owner": "SELL MORITZ A",
-      "owner_type": "DIRECTOR",
-      "signal": {
-        "score": 9,
-        "level": "MEDIUM",
-        "signals": [
-          "DIRECTOR_TRADE",
-          "PURE_BUY",
-          "SMALL_BUY"
-        ],
-        "total_buy": 2517,
-        "total_sell": 0
-      },
-      "transactions": [
-        {
-          "action": "BUY",
-          "date": "2026-07-22",
-          "shares": "517",
-          "price": "5.90",
-          "owned_after": "22246",
-          "security": "Common Stock"
-        },
-        {
-          "action": "BUY",
-          "date": "2026-07-23",
-          "shares": "2000",
-          "price": "5.86",
-          "owned_after": "24246",
-          "security": "Common Stock"
+        
+        function updateTimestamp() {
+            const now = new Date();
+            document.getElementById('last-updated').textContent = 'Last updated: ' + now.toLocaleString();
         }
-      ],
-      "edgar_url": "https://www.sec.gov/edgar/data/1053116/0001398344-26-012674.txt"
-    },
-    {
-      "company": "GENESCO INC",
-      "owner": "MARTINEZ ANGEL R",
-      "owner_type": "DIRECTOR",
-      "signal": {
-        "score": 9,
-        "level": "MEDIUM",
-        "signals": [
-          "DIRECTOR_TRADE",
-          "PURE_BUY",
-          "SMALL_BUY"
-        ],
-        "total_buy": 3905,
-        "total_sell": 0
-      },
-      "transactions": [
-        {
-          "action": "BUY",
-          "date": "2026-07-24",
-          "shares": "3905",
-          "price": "0.00",
-          "owned_after": "24250",
-          "security": "Common Stock"
+        
+        function escapeHtml(text) {
+            if (!text) return '';
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
         }
-      ],
-      "edgar_url": "https://www.sec.gov/edgar/data/1067999/0001193125-26-316048.txt"
-    },
-    {
-      "company": "UNITED RENTALS, INC.",
-      "owner": "Grace William E.",
-      "owner_type": "OFFICER",
-      "signal": {
-        "score": 8,
-        "level": "MEDIUM",
-        "signals": [
-          "OFFICER_TRADE",
-          "PURE_SELL"
-        ],
-        "total_buy": 0,
-        "total_sell": 1500
-      },
-      "transactions": [
-        {
-          "action": "SELL",
-          "date": "2026-07-24",
-          "shares": "1500",
-          "price": "1133.1544",
-          "owned_after": "0",
-          "security": "Common Stock"
-        }
-      ],
-      "edgar_url": "https://www.sec.gov/edgar/data/1067701/0001193125-26-316294.txt"
-    },
-    {
-      "company": "ASE Technology Holding Co., Ltd.",
-      "owner": "Uang Du-Tsuen",
-      "owner_type": "OFFICER",
-      "signal": {
-        "score": 8,
-        "level": "MEDIUM",
-        "signals": [
-          "OFFICER_TRADE",
-          "PURE_SELL"
-        ],
-        "total_buy": 0,
-        "total_sell": 3000
-      },
-      "transactions": [
-        {
-          "action": "SELL",
-          "date": "2026-07-22",
-          "shares": "3000",
-          "price": "665",
-          "owned_after": "751000",
-          "security": "Ordinary Shares"
-        }
-      ],
-      "edgar_url": "https://www.sec.gov/edgar/data/1122411/0000950103-26-011125.txt"
-    },
-    {
-      "company": "SOUTHERN COPPER CORP/",
-      "owner": "PALOMINO BONILLA LUIS MIGUEL",
-      "owner_type": "DIRECTOR",
-      "signal": {
-        "score": 6,
-        "level": "MEDIUM",
-        "signals": [
-          "DIRECTOR_TRADE",
-          "PURE_SELL"
-        ],
-        "total_buy": 0,
-        "total_sell": 100
-      },
-      "transactions": [
-        {
-          "action": "SELL",
-          "date": "2026-07-24",
-          "shares": "100",
-          "price": "179",
-          "owned_after": "1603",
-          "security": "Common Stock"
-        }
-      ],
-      "edgar_url": "https://www.sec.gov/edgar/data/1001838/0001284489-26-000022.txt"
-    },
-    {
-      "company": "PG&E Corp",
-      "owner": "Cooper Kerry Whorton",
-      "owner_type": "DIRECTOR",
-      "signal": {
-        "score": 6,
-        "level": "MEDIUM",
-        "signals": [
-          "DIRECTOR_TRADE",
-          "PURE_SELL"
-        ],
-        "total_buy": 0,
-        "total_sell": 1250
-      },
-      "transactions": [
-        {
-          "action": "SELL",
-          "date": "2026-07-22",
-          "shares": "1250",
-          "price": "18",
-          "owned_after": "0",
-          "security": "Common Stock"
-        }
-      ],
-      "edgar_url": "https://www.sec.gov/edgar/data/1004980/0001628280-26-049606.txt"
-    }
-  ]
-};
-
-        const secCommentsData = {"timestamp":"2026-07-25T05:40:40.231813","status":"found","total_new":35,"significant_count":6,"filings":[{"company":"Iveda Solutions, Inc.","cik":"1397183","form_type":"UPLOAD","date":"20260127","subject":"Iveda Solutions, Inc.","referenced_filing":"Form S-1 (January 23, 2026)","materiality":{"score":6,"level":"MEDIUM","keywords":["disclosure"],"signals":["SEC_QUESTIONS:1","LONG_LETTER"]},"letter_preview":"LETTER\n1\nfilename1.pdf\n\nbegin 644 filename1\nM)5!$1BTQ+C<*)>+CS],*-2 P(&]B:@H\\/\"]&:6QT97(O1FQA=&5$96-O9&4O\nM3&5N9W1H(#@Q,#X^O&29'N\nM3]O8:*]I:11S(9&.2#GK/DT>=8>4; 1)7:6V84@VS\\RGPT/R/DB*$-R[2%B>\nM0I8P^LHR=UUUP;N;CL-2!U^#^^\"/=?#NF@./8-T$<9J/PT-6IK\"N@S>?A!I$\nM?X H6T 41MG;];_!U?JE,BM81,*P9'P4+L5>UO#7X=>\"M","edgar_url":"https://www.sec.gov/edgar/data/1397183/0000000000-26-000961.txt"},{"company":"bioAffinity Technologies, Inc.","cik":"1712762","form_type":"UPLOAD","date":"20260507","subject":"bioAffinity Technologies, Inc.","referenced_filing":"Form S-1 (April 30, 2026)","materiality":{"score":6,"level":"MEDIUM","keywords":["disclosure"],"signals":["SEC_QUESTIONS:1","LONG_LETTER"]},"letter_preview":"\n\n LETTER\n 1\n filename1.pdf\n\n \nbegin 644 filename1\nM)5!$1BTQ+C +CS],*-2 P(&]B:@H\\/\"]&:6QT97(O1FQA=&5$96-O9&4O\nM3&5N9W1H(#$P.3 ^/G-T B+=!C\nM@?Q DFD.!09%__]2+21%*[*=&:! ,=#$BT1Q>7RD_&> V9S2WPSCA* -4IIMQP=/Y9?AHC#?& !B#\nM-Y-O[\"7^WND:X^#?Y=/YU_#U_\"@US*.+0LTRV@>A WY4U>=S*W*P#'N@P\nM3:-AXX\",PBC,P5I@-NI6-F>","edgar_url":"https://www.sec.gov/edgar/data/1712762/0000000000-26-004703.txt"},{"company":"SOCIETY PASS INCORPORATED.","cik":"1817511","form_type":"UPLOAD","date":"20260127","subject":"SOCIETY PASS INCORPORATED.","referenced_filing":"Form S-1 (January 20, 2026)","materiality":{"score":6,"level":"MEDIUM","keywords":["disclosure"],"signals":["SEC_QUESTIONS:1","LONG_LETTER"]},"letter_preview":"LETTER\n1\nfilename1.pdf\n\nbegin 644 filename1\nM)5!$1BTQ+C<*)>+CS],*-2 P(&]B:@H\\/\"]&:6QT97(O1FQA=&5$96-O9&4O\nM3&5N9W1H(#@R,SX^0)01_LLR=UWWP_JZG,%?!;\\%3\\*$*WM]2H!%4;1\"G^;@\\)&4*51.\\^Y7)\nM@>D]1/D$HC#*?JK^\"A;5.3(K2(3 L\"1T!\"[97K*A:^\"38/+Q^[\"TC GUJ-E&\nM\\!867W@]6/',X;YM1DW!D7=W/[A;5G_!PLUK!W>?9_?+A?GE3+>;D\nM2","edgar_url":"https://www.sec.gov/edgar/data/1817511/0000000000-26-001007.txt"},{"company":"Nuburu, Inc.","cik":"1814215","form_type":"UPLOAD","date":"20260206","subject":"Nuburu, Inc.","referenced_filing":"Form S-1 (January 30, 2026)","materiality":{"score":6,"level":"MEDIUM","keywords":["disclosure"],"signals":["SEC_QUESTIONS:1","LONG_LETTER"]},"letter_preview":"LETTER\n1\nfilename1.pdf\n\nbegin 644 filename1\nM)5!$1BTQ+C<*)>+CS],*-2 P(&]B:@H\\/\"]&:6QT97(O1FQA=&5$96-O9&4O\nM3&5N9W1H(#IM\\JA=@)(G$]6A)8U^<78_G#V$GJ*LBL'?JXR5\nM.109HZ>B\\._;,7I_-W+8ZNB/Z\"GZN(O>WW+@\">SZ*,W+>7G,ZAQV7?3N%ALS\nM\"7.\"8@5)G!0_[?Z.;G;7RJ)B\"0GCFO%9^&% :X7JC(:_Q-AH)7\\LS>N4\\:#<\nMZ/5F+[&'FW^QG9Q\\1OC","edgar_url":"https://www.sec.gov/edgar/data/1814215/0000000000-26-001287.txt"},{"company":"Envoy Medical, Inc.","cik":"1840877","form_type":"UPLOAD","date":"20250902","subject":"Envoy Medical, Inc.","referenced_filing":"Form S-1 (August 27, 2025)","materiality":{"score":6,"level":"MEDIUM","keywords":["disclosure"],"signals":["SEC_QUESTIONS:1","LONG_LETTER"]},"letter_preview":"LETTER\n1\nfilename1.pdf\n\nbegin 644 filename1\nM)5!$1BTQ+C<*)>+CS],*-2 P(&]B:@H\\/\"]&:6QT97(O1FQA=&5$96-O9&4O\nM3&5N9W1H(#@S-SX^2<]15L7@WU5&RAR*\nMC.!'40#OH\\^W/86YCOZ)GJ.K5?3YA@)-8-5&:5Z.8V.\"STWT:2FV3O1K82\"9\nM01(G^1^K?Z/%ZCVRJ$B\"P+@B60!>&:$@1>QO'IM5..WO&^D$7 EF\nMX!LS3WMV.(//LLFF(^17]B1F<'4YI_)8@F0AH7 8&^N","edgar_url":"https://www.sec.gov/edgar/data/1840877/0000000000-25-009438.txt"},{"company":"BioRestorative Therapies, Inc.","cik":"1505497","form_type":"CORRESP","date":"20260210","subject":"Form 4 - BioRestorative Therapies, Inc.","referenced_filing":"Form S-1","materiality":{"score":5,"level":"MEDIUM","keywords":["disclosure","acknowledge"],"signals":["LONG_LETTER"]},"letter_preview":"CORRESP\n1\nfilename1.htm\n\n \n  \n \n \n  \n   BioRestorative Therapies, Inc.\n  \n\n  \n   40 Marcus Drive, Suite One\n  \n\n  \n   Melville, New York 11747\n  \n\n  \u00a0\n  \n\n  \u00a0\n  \n\n  \n   \n    \n     \u00a0\n     \n\n    \n    \n     \u00a0\n     \n\n    \n    \n     \n      February 10, 2026\n     \n\n    \n   \n\n  \u00a0\n  \n\n  \n    \n     \u00a0\n    \n\n ","edgar_url":"https://www.sec.gov/edgar/data/1505497/0001021771-26-000020.txt"}],"all_filings_count":25,"errors":["No index for 2026-07-25"]};
-
-<!-- SEC COMMENT MONITOR UPDATE -->
-<div id="sec-monitor" class="sec-monitor-section">
-  <h2>🔍 SEC Comment Monitor — Latest Findings</h2>
-  <div class="monitor-meta">Last updated: 2026-07-25T05:40:40.231813 | Status: found | New filings: 35 | Significant: 6</div>
-  <div class="findings-grid">
-
-    <div class="finding-card medium">
-      <div class="finding-header">
-        <span class="company-name">Iveda Solutions, Inc.</span>
-        <span class="badge badge-medium">MEDIUM (6)</span>
-      </div>
-      <div class="filing-ref">Form S-1 (January 23, 2026)</div>
-      <div class="keywords">Keywords: disclosure</div>
-      <a href="https://www.sec.gov/edgar/data/1397183/0000000000-26-000961.txt" target="_blank" class="edgar-link">View on EDGAR →</a>
-    </div>
-    <div class="finding-card medium">
-      <div class="finding-header">
-        <span class="company-name">bioAffinity Technologies, Inc.</span>
-        <span class="badge badge-medium">MEDIUM (6)</span>
-      </div>
-      <div class="filing-ref">Form S-1 (April 30, 2026)</div>
-      <div class="keywords">Keywords: disclosure</div>
-      <a href="https://www.sec.gov/edgar/data/1712762/0000000000-26-004703.txt" target="_blank" class="edgar-link">View on EDGAR →</a>
-    </div>
-    <div class="finding-card medium">
-      <div class="finding-header">
-        <span class="company-name">SOCIETY PASS INCORPORATED.</span>
-        <span class="badge badge-medium">MEDIUM (6)</span>
-      </div>
-      <div class="filing-ref">Form S-1 (January 20, 2026)</div>
-      <div class="keywords">Keywords: disclosure</div>
-      <a href="https://www.sec.gov/edgar/data/1817511/0000000000-26-001007.txt" target="_blank" class="edgar-link">View on EDGAR →</a>
-    </div>
-    <div class="finding-card medium">
-      <div class="finding-header">
-        <span class="company-name">Nuburu, Inc.</span>
-        <span class="badge badge-medium">MEDIUM (6)</span>
-      </div>
-      <div class="filing-ref">Form S-1 (January 30, 2026)</div>
-      <div class="keywords">Keywords: disclosure</div>
-      <a href="https://www.sec.gov/edgar/data/1814215/0000000000-26-001287.txt" target="_blank" class="edgar-link">View on EDGAR →</a>
-    </div>
-    <div class="finding-card medium">
-      <div class="finding-header">
-        <span class="company-name">Envoy Medical, Inc.</span>
-        <span class="badge badge-medium">MEDIUM (6)</span>
-      </div>
-      <div class="filing-ref">Form S-1 (August 27, 2025)</div>
-      <div class="keywords">Keywords: disclosure</div>
-      <a href="https://www.sec.gov/edgar/data/1840877/0000000000-25-009438.txt" target="_blank" class="edgar-link">View on EDGAR →</a>
-    </div>
-  </div>
-  <div class="footer">📊 SEC Comment Monitor — running every 3 hours. Filtered for operating companies only (excludes ETFs/funds).</div>
-</div>
-<!-- END SEC COMMENT MONITOR -->
-</script>
+        
+        loadData();
+        setInterval(loadData, 60000);
+    </script>
 </body>
 </html>

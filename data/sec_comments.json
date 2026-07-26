@@ -1,7 +1,7 @@
 {
-  "timestamp": "2026-07-25T05:40:40.231813",
+  "timestamp": "2026-07-26T16:07:01.879168",
   "status": "found",
-  "total_new": 35,
+  "total_new": 30,
   "significant_count": 6,
   "filings": [
     {
@@ -47,27 +47,6 @@
       "edgar_url": "https://www.sec.gov/edgar/data/1712762/0000000000-26-004703.txt"
     },
     {
-      "company": "SOCIETY PASS INCORPORATED.",
-      "cik": "1817511",
-      "form_type": "UPLOAD",
-      "date": "20260127",
-      "subject": "SOCIETY PASS INCORPORATED.",
-      "referenced_filing": "Form S-1 (January 20, 2026)",
-      "materiality": {
-        "score": 6,
-        "level": "MEDIUM",
-        "keywords": [
-          "disclosure"
-        ],
-        "signals": [
-          "SEC_QUESTIONS:1",
-          "LONG_LETTER"
-        ]
-      },
-      "letter_preview": "LETTER\n1\nfilename1.pdf\n\nbegin 644 filename1\nM)5!$1BTQ+C<*)>+CS],*-2 P(&]B:@H\\/\"]&:6QT97(O1FQA=&5$96-O9&4O\nM3&5N9W1H(#@R,SX^0)01_LLR=UWWP_JZG,%?!;\\%3\\*$*WM]2H!%4;1\"G^;@\\)&4*51.\\^Y7)\nM@>D]1/D$HC#*?JK^\"A;5.3(K2(3 L\"1T!\"[97K*A:^\"38/+Q^[\"TC GUJ-E&\nM\\!867W@]6/',X;YM1DW!D7=W/[A;5G_!PLUK!W>?9_?+A?GE3+>;D\nM2",
-      "edgar_url": "https://www.sec.gov/edgar/data/1817511/0000000000-26-001007.txt"
-    },
-    {
       "company": "Nuburu, Inc.",
       "cik": "1814215",
       "form_type": "UPLOAD",
@@ -87,6 +66,27 @@
       },
       "letter_preview": "LETTER\n1\nfilename1.pdf\n\nbegin 644 filename1\nM)5!$1BTQ+C<*)>+CS],*-2 P(&]B:@H\\/\"]&:6QT97(O1FQA=&5$96-O9&4O\nM3&5N9W1H(#IM\\JA=@)(G$]6A)8U^<78_G#V$GJ*LBL'?JXR5\nM.109HZ>B\\._;,7I_-W+8ZNB/Z\"GZN(O>WW+@\">SZ*,W+>7G,ZAQV7?3N%ALS\nM\"7.\"8@5)G!0_[?Z.;G;7RJ)B\"0GCFO%9^&% :X7JC(:_Q-AH)7\\LS>N4\\:#<\nMZ/5F+[&'FW^QG9Q\\1OC",
       "edgar_url": "https://www.sec.gov/edgar/data/1814215/0000000000-26-001287.txt"
+    },
+    {
+      "company": "SOCIETY PASS INCORPORATED.",
+      "cik": "1817511",
+      "form_type": "UPLOAD",
+      "date": "20260127",
+      "subject": "SOCIETY PASS INCORPORATED.",
+      "referenced_filing": "Form S-1 (January 20, 2026)",
+      "materiality": {
+        "score": 6,
+        "level": "MEDIUM",
+        "keywords": [
+          "disclosure"
+        ],
+        "signals": [
+          "SEC_QUESTIONS:1",
+          "LONG_LETTER"
+        ]
+      },
+      "letter_preview": "LETTER\n1\nfilename1.pdf\n\nbegin 644 filename1\nM)5!$1BTQ+C<*)>+CS],*-2 P(&]B:@H\\/\"]&:6QT97(O1FQA=&5$96-O9&4O\nM3&5N9W1H(#@R,SX^0)01_LLR=UWWP_JZG,%?!;\\%3\\*$*WM]2H!%4;1\"G^;@\\)&4*51.\\^Y7)\nM@>D]1/D$HC#*?JK^\"A;5.3(K2(3 L\"1T!\"[97K*A:^\"38/+Q^[\"TC GUJ-E&\nM\\!867W@]6/',X;YM1DW!D7=W/[A;5G_!PLUK!W>?9_?+A?GE3+>;D\nM2",
+      "edgar_url": "https://www.sec.gov/edgar/data/1817511/0000000000-26-001007.txt"
     },
     {
       "company": "Envoy Medical, Inc.",
@@ -120,8 +120,8 @@
         "score": 5,
         "level": "MEDIUM",
         "keywords": [
-          "disclosure",
-          "acknowledge"
+          "acknowledge",
+          "disclosure"
         ],
         "signals": [
           "LONG_LETTER"
@@ -133,6 +133,7 @@
   ],
   "all_filings_count": 25,
   "errors": [
+    "No index for 2026-07-26",
     "No index for 2026-07-25"
   ]
 }

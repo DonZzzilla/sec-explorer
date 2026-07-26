@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-07-24T18:20:39.367531",
+  "timestamp": "2026-07-26T13:51:45.350514",
   "status": "found",
   "total_tracked": 20,
   "critical_count": 7,
@@ -38,7 +38,7 @@
     {
       "drug": "ibrutinib",
       "brand": "Imbruvica",
-      "company": "AbbVie/AbbVie",
+      "company": "AbbVie",
       "ticker": "ABBV",
       "expiry_window": "2027-2028",
       "years_until_expiry": 1,

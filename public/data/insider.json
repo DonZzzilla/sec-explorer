@@ -1,205 +1,47 @@
-/usr/lib/python3/dist-packages/requests/__init__.py:109: RequestsDependencyWarning: urllib3 (2.7.0) or chardet (5.1.0)/charset_normalizer (3.0.1) doesn't match a supported version!
-  warnings.warn(
-/home/donzzz/.local/lib/python3.11/site-packages/urllib3/poolmanager.py:329: FutureWarning: The 'strict' parameter is no longer needed on Python 3+. This will raise an error in urllib3 v3.0.
-  warnings.warn(
 {
-  "timestamp": "2026-06-28T02:42:17.562237",
+  "timestamp": "2026-07-26T15:10:13.934927",
   "status": "found",
-  "total_scanned": 446,
-  "significant": 21,
+  "total_scanned": 310,
+  "significant": 16,
   "filings": [
     {
-      "company": "PETMED EXPRESS INC",
-      "owner": "KRULIK DOUGLAS",
+      "company": "SM Energy Co",
+      "owner": "PURSELL A WADE",
       "owner_type": "OFFICER",
       "signal": {
-        "score": 13,
+        "score": 11,
         "level": "HIGH",
         "signals": [
           "OFFICER_TRADE",
-          "PURE_BUY",
+          "NET_BUY",
           "MEDIUM_BUY"
         ],
-        "total_buy": 32500,
-        "total_sell": 0
+        "total_buy": 16917,
+        "total_sell": 7403
       },
       "transactions": [
         {
           "action": "BUY",
-          "date": "2026-06-26",
-          "shares": "32500",
+          "date": "2026-07-24",
+          "shares": "16917",
           "price": "0",
-          "owned_after": "102500",
-          "security": "Common Stock"
-        }
-      ],
-      "edgar_url": "https://www.sec.gov/edgar/data/1040130/0002035815-26-000002.txt"
-    },
-    {
-      "company": "FEDEX CORP",
-      "owner": "ADAMS GINA F.",
-      "owner_type": "OFFICER",
-      "signal": {
-        "score": 11,
-        "level": "HIGH",
-        "signals": [
-          "OFFICER_TRADE",
-          "PURE_BUY",
-          "SMALL_BUY"
-        ],
-        "total_buy": 4734,
-        "total_sell": 0
-      },
-      "transactions": [
+          "owned_after": "438934",
+          "security": "Common Stock, $.01 Par Value"
+        },
         {
-          "action": "BUY",
-          "date": "2026-06-25",
-          "shares": "4734",
-          "price": "0",
-          "owned_after": "24137",
-          "security": "Common Stock"
+          "action": "SELL",
+          "date": "2026-07-24",
+          "shares": "7403",
+          "price": "26.10",
+          "owned_after": "431531",
+          "security": "Common Stock, $.01 Par Value"
         }
       ],
-      "edgar_url": "https://www.sec.gov/edgar/data/1048911/0001048911-26-000052.txt"
+      "edgar_url": "https://www.sec.gov/edgar/data/1041812/0000893538-26-000114.txt"
     },
     {
-      "company": "FEDEX CORP",
-      "owner": "Brightman Tracy B",
-      "owner_type": "OFFICER",
-      "signal": {
-        "score": 11,
-        "level": "HIGH",
-        "signals": [
-          "OFFICER_TRADE",
-          "PURE_BUY",
-          "SMALL_BUY"
-        ],
-        "total_buy": 4734,
-        "total_sell": 0
-      },
-      "transactions": [
-        {
-          "action": "BUY",
-          "date": "2026-06-25",
-          "shares": "4734",
-          "price": "0",
-          "owned_after": "15786",
-          "security": "Common Stock"
-        }
-      ],
-      "edgar_url": "https://www.sec.gov/edgar/data/1048911/0001048911-26-000054.txt"
-    },
-    {
-      "company": "FEDEX CORP",
-      "owner": "Carere Brie",
-      "owner_type": "OFFICER",
-      "signal": {
-        "score": 11,
-        "level": "HIGH",
-        "signals": [
-          "OFFICER_TRADE",
-          "PURE_BUY",
-          "SMALL_BUY"
-        ],
-        "total_buy": 4734,
-        "total_sell": 0
-      },
-      "transactions": [
-        {
-          "action": "BUY",
-          "date": "2026-06-25",
-          "shares": "4734",
-          "price": "0",
-          "owned_after": "28296",
-          "security": "Common Stock"
-        }
-      ],
-      "edgar_url": "https://www.sec.gov/edgar/data/1048911/0001048911-26-000056.txt"
-    },
-    {
-      "company": "FEDEX CORP",
-      "owner": "Preet Kawal",
-      "owner_type": "OFFICER",
-      "signal": {
-        "score": 11,
-        "level": "HIGH",
-        "signals": [
-          "OFFICER_TRADE",
-          "PURE_BUY",
-          "SMALL_BUY"
-        ],
-        "total_buy": 4734,
-        "total_sell": 0
-      },
-      "transactions": [
-        {
-          "action": "BUY",
-          "date": "2026-06-25",
-          "shares": "4734",
-          "price": "0",
-          "owned_after": "15687",
-          "security": "Common Stock"
-        }
-      ],
-      "edgar_url": "https://www.sec.gov/edgar/data/1048911/0001048911-26-000062.txt"
-    },
-    {
-      "company": "FEDEX CORP",
-      "owner": "Ray Scott L",
-      "owner_type": "OFFICER",
-      "signal": {
-        "score": 11,
-        "level": "HIGH",
-        "signals": [
-          "OFFICER_TRADE",
-          "PURE_BUY",
-          "SMALL_BUY"
-        ],
-        "total_buy": 4734,
-        "total_sell": 0
-      },
-      "transactions": [
-        {
-          "action": "BUY",
-          "date": "2026-06-25",
-          "shares": "4734",
-          "price": "0",
-          "owned_after": "19376",
-          "security": "Common Stock"
-        }
-      ],
-      "edgar_url": "https://www.sec.gov/edgar/data/1048911/0001048911-26-000064.txt"
-    },
-    {
-      "company": "FEDEX CORP",
-      "owner": "Russ Claude F",
-      "owner_type": "OFFICER",
-      "signal": {
-        "score": 11,
-        "level": "HIGH",
-        "signals": [
-          "OFFICER_TRADE",
-          "PURE_BUY",
-          "SMALL_BUY"
-        ],
-        "total_buy": 1635,
-        "total_sell": 0
-      },
-      "transactions": [
-        {
-          "action": "BUY",
-          "date": "2026-06-25",
-          "shares": "1635",
-          "price": "0",
-          "owned_after": "5177",
-          "security": "Common Stock"
-        }
-      ],
-      "edgar_url": "https://www.sec.gov/edgar/data/1048911/0001048911-26-000066.txt"
-    },
-    {
-      "company": "FEDEX CORP",
-      "owner": "Subramaniam Rajesh",
+      "company": "Pinnacle Financial Partners, Inc.",
+      "owner": "MCCABE ROBERT A JR",
       "owner_type": "DIRECTOR",
       "signal": {
         "score": 11,
@@ -209,51 +51,50 @@
           "PURE_BUY",
           "MEDIUM_BUY"
         ],
-        "total_buy": 14591,
+        "total_buy": 10013,
         "total_sell": 0
       },
       "transactions": [
         {
           "action": "BUY",
-          "date": "2026-06-25",
-          "shares": "14591",
-          "price": "0",
-          "owned_after": "105683",
+          "date": "2026-07-24",
+          "shares": "10013",
+          "price": "99.90",
+          "owned_after": "324233",
           "security": "Common Stock"
         }
       ],
-      "edgar_url": "https://www.sec.gov/edgar/data/1048911/0001048911-26-000070.txt"
+      "edgar_url": "https://www.sec.gov/edgar/data/1079428/0001079428-26-000004.txt"
     },
     {
-      "company": "FEDEX CORP",
-      "owner": "Talwar Vishal",
+      "company": "VALMONT INDUSTRIES INC",
+      "owner": "Schwietz John L",
       "owner_type": "OFFICER",
       "signal": {
-        "score": 11,
+        "score": 10,
         "level": "HIGH",
         "signals": [
           "OFFICER_TRADE",
-          "PURE_BUY",
-          "SMALL_BUY"
+          "PURE_BUY"
         ],
-        "total_buy": 4734,
+        "total_buy": 208,
         "total_sell": 0
       },
       "transactions": [
         {
           "action": "BUY",
-          "date": "2026-06-25",
-          "shares": "4734",
-          "price": "0",
-          "owned_after": "14036",
+          "date": "2026-07-23",
+          "shares": "208",
+          "price": "486.145",
+          "owned_after": "2992",
           "security": "Common Stock"
         }
       ],
-      "edgar_url": "https://www.sec.gov/edgar/data/1048911/0001048911-26-000072.txt"
+      "edgar_url": "https://www.sec.gov/edgar/data/102729/0002129863-26-000008.txt"
     },
     {
-      "company": "FEDEX CORP",
-      "owner": "MARTIN R BRAD",
+      "company": "Angel Studios, Inc.",
+      "owner": "GAY ROBERT C",
       "owner_type": "DIRECTOR",
       "signal": {
         "score": 9,
@@ -263,20 +104,186 @@
           "PURE_BUY",
           "SMALL_BUY"
         ],
-        "total_buy": 8711,
+        "total_buy": 2648,
         "total_sell": 0
       },
       "transactions": [
         {
           "action": "BUY",
-          "date": "2026-06-25",
-          "shares": "8711",
+          "date": "2026-07-23",
+          "shares": "2648",
           "price": "0",
-          "owned_after": "49550",
+          "owned_after": "7944",
+          "security": "Class A Common Stock, par value $0.0001 per share"
+        }
+      ],
+      "edgar_url": "https://www.sec.gov/edgar/data/1032566/0001865200-26-000059.txt"
+    },
+    {
+      "company": "Total Return Securities Fund",
+      "owner": "SELL MORITZ A",
+      "owner_type": "DIRECTOR",
+      "signal": {
+        "score": 9,
+        "level": "MEDIUM",
+        "signals": [
+          "DIRECTOR_TRADE",
+          "PURE_BUY",
+          "SMALL_BUY"
+        ],
+        "total_buy": 2517,
+        "total_sell": 0
+      },
+      "transactions": [
+        {
+          "action": "BUY",
+          "date": "2026-07-22",
+          "shares": "517",
+          "price": "5.90",
+          "owned_after": "22246",
+          "security": "Common Stock"
+        },
+        {
+          "action": "BUY",
+          "date": "2026-07-23",
+          "shares": "2000",
+          "price": "5.86",
+          "owned_after": "24246",
           "security": "Common Stock"
         }
       ],
-      "edgar_url": "https://www.sec.gov/edgar/data/1048911/0001048911-26-000060.txt"
+      "edgar_url": "https://www.sec.gov/edgar/data/1053116/0001398344-26-012674.txt"
+    },
+    {
+      "company": "GENESCO INC",
+      "owner": "MARTINEZ ANGEL R",
+      "owner_type": "DIRECTOR",
+      "signal": {
+        "score": 9,
+        "level": "MEDIUM",
+        "signals": [
+          "DIRECTOR_TRADE",
+          "PURE_BUY",
+          "SMALL_BUY"
+        ],
+        "total_buy": 3905,
+        "total_sell": 0
+      },
+      "transactions": [
+        {
+          "action": "BUY",
+          "date": "2026-07-24",
+          "shares": "3905",
+          "price": "0.00",
+          "owned_after": "24250",
+          "security": "Common Stock"
+        }
+      ],
+      "edgar_url": "https://www.sec.gov/edgar/data/1067999/0001193125-26-316048.txt"
+    },
+    {
+      "company": "UNITED RENTALS, INC.",
+      "owner": "Grace William E.",
+      "owner_type": "OFFICER",
+      "signal": {
+        "score": 8,
+        "level": "MEDIUM",
+        "signals": [
+          "OFFICER_TRADE",
+          "PURE_SELL"
+        ],
+        "total_buy": 0,
+        "total_sell": 1500
+      },
+      "transactions": [
+        {
+          "action": "SELL",
+          "date": "2026-07-24",
+          "shares": "1500",
+          "price": "1133.1544",
+          "owned_after": "0",
+          "security": "Common Stock"
+        }
+      ],
+      "edgar_url": "https://www.sec.gov/edgar/data/1067701/0001193125-26-316294.txt"
+    },
+    {
+      "company": "ASE Technology Holding Co., Ltd.",
+      "owner": "Uang Du-Tsuen",
+      "owner_type": "OFFICER",
+      "signal": {
+        "score": 8,
+        "level": "MEDIUM",
+        "signals": [
+          "OFFICER_TRADE",
+          "PURE_SELL"
+        ],
+        "total_buy": 0,
+        "total_sell": 3000
+      },
+      "transactions": [
+        {
+          "action": "SELL",
+          "date": "2026-07-22",
+          "shares": "3000",
+          "price": "665",
+          "owned_after": "751000",
+          "security": "Ordinary Shares"
+        }
+      ],
+      "edgar_url": "https://www.sec.gov/edgar/data/1122411/0000950103-26-011125.txt"
+    },
+    {
+      "company": "SOUTHERN COPPER CORP/",
+      "owner": "PALOMINO BONILLA LUIS MIGUEL",
+      "owner_type": "DIRECTOR",
+      "signal": {
+        "score": 6,
+        "level": "MEDIUM",
+        "signals": [
+          "DIRECTOR_TRADE",
+          "PURE_SELL"
+        ],
+        "total_buy": 0,
+        "total_sell": 100
+      },
+      "transactions": [
+        {
+          "action": "SELL",
+          "date": "2026-07-24",
+          "shares": "100",
+          "price": "179",
+          "owned_after": "1603",
+          "security": "Common Stock"
+        }
+      ],
+      "edgar_url": "https://www.sec.gov/edgar/data/1001838/0001284489-26-000022.txt"
+    },
+    {
+      "company": "PG&amp;E Corp",
+      "owner": "Cooper Kerry Whorton",
+      "owner_type": "DIRECTOR",
+      "signal": {
+        "score": 6,
+        "level": "MEDIUM",
+        "signals": [
+          "DIRECTOR_TRADE",
+          "PURE_SELL"
+        ],
+        "total_buy": 0,
+        "total_sell": 1250
+      },
+      "transactions": [
+        {
+          "action": "SELL",
+          "date": "2026-07-22",
+          "shares": "1250",
+          "price": "18",
+          "owned_after": "0",
+          "security": "Common Stock"
+        }
+      ],
+      "edgar_url": "https://www.sec.gov/edgar/data/1004980/0001628280-26-049606.txt"
     }
   ]
 }
