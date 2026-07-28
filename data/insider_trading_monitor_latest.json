@@ -1,0 +1,322 @@
+{
+  "timestamp": "2026-07-23T18:51:27.148872",
+  "status": "found",
+  "total_scanned": 495,
+  "significant": 23,
+  "filings": [
+    {
+      "company": "PIXELWORKS, INC",
+      "owner": "Aman Haley F",
+      "owner_type": "OFFICER",
+      "signal": {
+        "score": 13,
+        "level": "HIGH",
+        "signals": [
+          "OFFICER_TRADE",
+          "PURE_BUY",
+          "MEDIUM_BUY"
+        ],
+        "total_buy": 34000,
+        "total_sell": 0
+      },
+      "transactions": [
+        {
+          "action": "BUY",
+          "date": "2026-07-01",
+          "shares": "34000",
+          "price": "0",
+          "owned_after": "102291",
+          "security": "Common Stock"
+        }
+      ],
+      "edgar_url": "https://www.sec.gov/edgar/data/1040161/0001511701-26-000009.txt"
+    },
+    {
+      "company": "ChargePoint Holdings, Inc.",
+      "owner": "CHIZEN BRUCE R",
+      "owner_type": "DIRECTOR",
+      "signal": {
+        "score": 11,
+        "level": "HIGH",
+        "signals": [
+          "DIRECTOR_TRADE",
+          "PURE_BUY",
+          "MEDIUM_BUY"
+        ],
+        "total_buy": 30060,
+        "total_sell": 0
+      },
+      "transactions": [
+        {
+          "action": "BUY",
+          "date": "2026-07-21",
+          "shares": "18370",
+          "price": "0",
+          "owned_after": "39189",
+          "security": "Common Stock"
+        },
+        {
+          "action": "BUY",
+          "date": "2026-07-21",
+          "shares": "6680",
+          "price": "0",
+          "owned_after": "45869",
+          "security": "Common Stock"
+        },
+        {
+          "action": "BUY",
+          "date": "2026-07-21",
+          "shares": "5010",
+          "price": "0",
+          "owned_after": "50879",
+          "security": "Common Stock"
+        }
+      ],
+      "edgar_url": "https://www.sec.gov/edgar/data/1032834/0001032834-26-000006.txt"
+    },
+    {
+      "company": "PIXELWORKS, INC",
+      "owner": "DEBONIS TODD",
+      "owner_type": "DIRECTOR",
+      "signal": {
+        "score": 11,
+        "level": "HIGH",
+        "signals": [
+          "DIRECTOR_TRADE",
+          "PURE_BUY",
+          "MEDIUM_BUY"
+        ],
+        "total_buy": 50000,
+        "total_sell": 0
+      },
+      "transactions": [
+        {
+          "action": "BUY",
+          "date": "2026-07-01",
+          "shares": "50000",
+          "price": "0",
+          "owned_after": "264309",
+          "security": "Common Stock"
+        }
+      ],
+      "edgar_url": "https://www.sec.gov/edgar/data/1040161/0001198818-26-000009.txt"
+    },
+    {
+      "company": "TAIWAN SEMICONDUCTOR MANUFACTURING CO LTD",
+      "owner": "Lin Shyue-Shyh",
+      "owner_type": "OFFICER",
+      "signal": {
+        "score": 11,
+        "level": "HIGH",
+        "signals": [
+          "OFFICER_TRADE",
+          "PURE_BUY",
+          "SMALL_BUY"
+        ],
+        "total_buy": 2000,
+        "total_sell": 0
+      },
+      "transactions": [
+        {
+          "action": "BUY",
+          "date": "2026-07-20",
+          "shares": "1000",
+          "price": "72.65",
+          "owned_after": "29269",
+          "security": "Common Shares (2330.TW)"
+        },
+        {
+          "action": "BUY",
+          "date": "2026-07-21",
+          "shares": "1000",
+          "price": "74.13",
+          "owned_after": "30269",
+          "security": "Common Shares (2330.TW)"
+        }
+      ],
+      "edgar_url": "https://www.sec.gov/edgar/data/1046179/0001046179-26-000455.txt"
+    },
+    {
+      "company": "AMKOR TECHNOLOGY, INC.",
+      "owner": "KIM JAMES J",
+      "owner_type": "10% OWNER",
+      "signal": {
+        "score": 10,
+        "level": "HIGH",
+        "signals": [
+          "PURE_BUY",
+          "LARGE_BUY"
+        ],
+        "total_buy": 450000,
+        "total_sell": 0
+      },
+      "transactions": [
+        {
+          "action": "BUY",
+          "date": "2026-07-20",
+          "shares": "200000",
+          "price": "9.86",
+          "owned_after": "261645",
+          "security": "Common Stock"
+        },
+        {
+          "action": "BUY",
+          "date": "2026-07-20",
+          "shares": "250000",
+          "price": "9.48",
+          "owned_after": "511645",
+          "security": "Common Stock"
+        }
+      ],
+      "edgar_url": "https://www.sec.gov/edgar/data/1047127/0001158839-26-000001.txt"
+    },
+    {
+      "company": "AMKOR TECHNOLOGY, INC.",
+      "owner": "KIM AGNES C",
+      "owner_type": "OTHER",
+      "signal": {
+        "score": 10,
+        "level": "HIGH",
+        "signals": [
+          "PURE_BUY",
+          "LARGE_BUY"
+        ],
+        "total_buy": 450000,
+        "total_sell": 0
+      },
+      "transactions": [
+        {
+          "action": "BUY",
+          "date": "2026-07-20",
+          "shares": "200000",
+          "price": "9.86",
+          "owned_after": "10937355",
+          "security": "Common Stock"
+        },
+        {
+          "action": "BUY",
+          "date": "2026-07-20",
+          "shares": "250000",
+          "price": "9.48",
+          "owned_after": "11187355",
+          "security": "Common Stock"
+        }
+      ],
+      "edgar_url": "https://www.sec.gov/edgar/data/1047127/0001158840-26-000001.txt"
+    },
+    {
+      "company": "RICHARDSON ELECTRONICS, LTD.",
+      "owner": "PLANTE PAUL J",
+      "owner_type": "DIRECTOR",
+      "signal": {
+        "score": 9,
+        "level": "MEDIUM",
+        "signals": [
+          "DIRECTOR_TRADE",
+          "PURE_BUY",
+          "SMALL_BUY"
+        ],
+        "total_buy": 3020,
+        "total_sell": 0
+      },
+      "transactions": [
+        {
+          "action": "BUY",
+          "date": "2026-07-20",
+          "shares": "3020",
+          "price": "0",
+          "owned_after": "21188",
+          "security": "Common Stock"
+        }
+      ],
+      "edgar_url": "https://www.sec.gov/edgar/data/1033714/0001193125-26-312334.txt"
+    },
+    {
+      "company": "Total Return Securities Fund",
+      "owner": "SELL MORITZ A",
+      "owner_type": "DIRECTOR",
+      "signal": {
+        "score": 9,
+        "level": "MEDIUM",
+        "signals": [
+          "DIRECTOR_TRADE",
+          "PURE_BUY",
+          "SMALL_BUY"
+        ],
+        "total_buy": 1483,
+        "total_sell": 0
+      },
+      "transactions": [
+        {
+          "action": "BUY",
+          "date": "2026-07-20",
+          "shares": "1000",
+          "price": "5.93",
+          "owned_after": "21246",
+          "security": "Common Stock"
+        },
+        {
+          "action": "BUY",
+          "date": "2026-07-21",
+          "shares": "483",
+          "price": "5.90",
+          "owned_after": "21729",
+          "security": "Common Stock"
+        }
+      ],
+      "edgar_url": "https://www.sec.gov/edgar/data/1053116/0001398344-26-012496.txt"
+    },
+    {
+      "company": "VERISIGN INC/CA",
+      "owner": "DESCH MATTHEW J",
+      "owner_type": "DIRECTOR",
+      "signal": {
+        "score": 8,
+        "level": "MEDIUM",
+        "signals": [
+          "DIRECTOR_TRADE",
+          "PURE_BUY"
+        ],
+        "total_buy": 900,
+        "total_sell": 0
+      },
+      "transactions": [
+        {
+          "action": "BUY",
+          "date": "2026-07-20",
+          "shares": "900",
+          "price": "0",
+          "owned_after": "1628",
+          "security": "Common Stock"
+        }
+      ],
+      "edgar_url": "https://www.sec.gov/edgar/data/1014473/0001178032-26-000008.txt"
+    },
+    {
+      "company": "VERISIGN INC/CA",
+      "owner": "COTE KATHLEEN A",
+      "owner_type": "DIRECTOR",
+      "signal": {
+        "score": 8,
+        "level": "MEDIUM",
+        "signals": [
+          "DIRECTOR_TRADE",
+          "PURE_BUY"
+        ],
+        "total_buy": 900,
+        "total_sell": 0
+      },
+      "transactions": [
+        {
+          "action": "BUY",
+          "date": "2026-07-20",
+          "shares": "900",
+          "price": "0",
+          "owned_after": "29125",
+          "security": "Common Stock"
+        }
+      ],
+      "edgar_url": "https://www.sec.gov/edgar/data/1014473/0001181540-26-000002.txt"
+    }
+  ]
+}

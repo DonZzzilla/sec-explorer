@@ -1,47 +1,39 @@
 {
-  "timestamp": "2026-07-26T15:10:13.934927",
+  "timestamp": "2026-07-27T21:25:47.692287",
   "status": "found",
-  "total_scanned": 310,
-  "significant": 16,
+  "total_scanned": 282,
+  "significant": 25,
   "filings": [
     {
-      "company": "SM Energy Co",
-      "owner": "PURSELL A WADE",
+      "company": "PROVIDENT FINANCIAL HOLDINGS INC",
+      "owner": "Van Stockum Michael Scott",
       "owner_type": "OFFICER",
       "signal": {
         "score": 11,
         "level": "HIGH",
         "signals": [
           "OFFICER_TRADE",
-          "NET_BUY",
-          "MEDIUM_BUY"
+          "PURE_BUY",
+          "SMALL_BUY"
         ],
-        "total_buy": 16917,
-        "total_sell": 7403
+        "total_buy": 6000,
+        "total_sell": 0
       },
       "transactions": [
         {
           "action": "BUY",
-          "date": "2026-07-24",
-          "shares": "16917",
+          "date": "2026-07-23",
+          "shares": "6000",
           "price": "0",
-          "owned_after": "438934",
-          "security": "Common Stock, $.01 Par Value"
-        },
-        {
-          "action": "SELL",
-          "date": "2026-07-24",
-          "shares": "7403",
-          "price": "26.10",
-          "owned_after": "431531",
-          "security": "Common Stock, $.01 Par Value"
+          "owned_after": "10323",
+          "security": "Common Stock, PAR Value $0.01"
         }
       ],
-      "edgar_url": "https://www.sec.gov/edgar/data/1041812/0000893538-26-000114.txt"
+      "edgar_url": "https://www.sec.gov/edgar/data/1010470/0000939057-26-000141.txt"
     },
     {
-      "company": "Pinnacle Financial Partners, Inc.",
-      "owner": "MCCABE ROBERT A JR",
+      "company": "Sharplink, Inc.",
+      "owner": "GUTKOWSKI ROBERT M",
       "owner_type": "DIRECTOR",
       "signal": {
         "score": 11,
@@ -51,24 +43,24 @@
           "PURE_BUY",
           "MEDIUM_BUY"
         ],
-        "total_buy": 10013,
+        "total_buy": 24999,
         "total_sell": 0
       },
       "transactions": [
         {
           "action": "BUY",
           "date": "2026-07-24",
-          "shares": "10013",
-          "price": "99.90",
-          "owned_after": "324233",
+          "shares": "24999",
+          "price": "0",
+          "owned_after": "74996",
           "security": "Common Stock"
         }
       ],
-      "edgar_url": "https://www.sec.gov/edgar/data/1079428/0001079428-26-000004.txt"
+      "edgar_url": "https://www.sec.gov/edgar/data/1032469/0001493152-26-034902.txt"
     },
     {
-      "company": "VALMONT INDUSTRIES INC",
-      "owner": "Schwietz John L",
+      "company": "QUEST DIAGNOSTICS INC",
+      "owner": "DELANEY MARK E",
       "owner_type": "OFFICER",
       "signal": {
         "score": 10,
@@ -77,86 +69,137 @@
           "OFFICER_TRADE",
           "PURE_BUY"
         ],
-        "total_buy": 208,
-        "total_sell": 0
-      },
-      "transactions": [
-        {
-          "action": "BUY",
-          "date": "2026-07-23",
-          "shares": "208",
-          "price": "486.145",
-          "owned_after": "2992",
-          "security": "Common Stock"
-        }
-      ],
-      "edgar_url": "https://www.sec.gov/edgar/data/102729/0002129863-26-000008.txt"
-    },
-    {
-      "company": "Angel Studios, Inc.",
-      "owner": "GAY ROBERT C",
-      "owner_type": "DIRECTOR",
-      "signal": {
-        "score": 9,
-        "level": "MEDIUM",
-        "signals": [
-          "DIRECTOR_TRADE",
-          "PURE_BUY",
-          "SMALL_BUY"
-        ],
-        "total_buy": 2648,
-        "total_sell": 0
-      },
-      "transactions": [
-        {
-          "action": "BUY",
-          "date": "2026-07-23",
-          "shares": "2648",
-          "price": "0",
-          "owned_after": "7944",
-          "security": "Class A Common Stock, par value $0.0001 per share"
-        }
-      ],
-      "edgar_url": "https://www.sec.gov/edgar/data/1032566/0001865200-26-000059.txt"
-    },
-    {
-      "company": "Total Return Securities Fund",
-      "owner": "SELL MORITZ A",
-      "owner_type": "DIRECTOR",
-      "signal": {
-        "score": 9,
-        "level": "MEDIUM",
-        "signals": [
-          "DIRECTOR_TRADE",
-          "PURE_BUY",
-          "SMALL_BUY"
-        ],
-        "total_buy": 2517,
+        "total_buy": 34,
         "total_sell": 0
       },
       "transactions": [
         {
           "action": "BUY",
           "date": "2026-07-22",
-          "shares": "517",
-          "price": "5.90",
-          "owned_after": "22246",
+          "shares": "34",
+          "price": "206.807",
+          "owned_after": "11935",
           "security": "Common Stock"
+        }
+      ],
+      "edgar_url": "https://www.sec.gov/edgar/data/1022079/0001022079-26-000079.txt"
+    },
+    {
+      "company": "QUEST DIAGNOSTICS INC",
+      "owner": "SAMAD SAM",
+      "owner_type": "OFFICER",
+      "signal": {
+        "score": 10,
+        "level": "HIGH",
+        "signals": [
+          "OFFICER_TRADE",
+          "PURE_BUY"
+        ],
+        "total_buy": 102,
+        "total_sell": 0
+      },
+      "transactions": [
+        {
+          "action": "BUY",
+          "date": "2026-07-22",
+          "shares": "102",
+          "price": "206.807",
+          "owned_after": "33478",
+          "security": "Common Stock"
+        }
+      ],
+      "edgar_url": "https://www.sec.gov/edgar/data/1022079/0001022079-26-000081.txt"
+    },
+    {
+      "company": "QUEST DIAGNOSTICS INC",
+      "owner": "Plewman Patrick",
+      "owner_type": "OFFICER",
+      "signal": {
+        "score": 10,
+        "level": "HIGH",
+        "signals": [
+          "OFFICER_TRADE",
+          "PURE_BUY"
+        ],
+        "total_buy": 46,
+        "total_sell": 0
+      },
+      "transactions": [
+        {
+          "action": "BUY",
+          "date": "2026-07-22",
+          "shares": "46",
+          "price": "206.807",
+          "owned_after": "15293",
+          "security": "Common Stock"
+        }
+      ],
+      "edgar_url": "https://www.sec.gov/edgar/data/1022079/0001022079-26-000083.txt"
+    },
+    {
+      "company": "QUEST DIAGNOSTICS INC",
+      "owner": "KUPPUSAMY KARTHIK",
+      "owner_type": "OFFICER",
+      "signal": {
+        "score": 10,
+        "level": "HIGH",
+        "signals": [
+          "OFFICER_TRADE",
+          "PURE_BUY"
+        ],
+        "total_buy": 37,
+        "total_sell": 0
+      },
+      "transactions": [
+        {
+          "action": "BUY",
+          "date": "2026-07-22",
+          "shares": "37",
+          "price": "206.807",
+          "owned_after": "13557",
+          "security": "Common Stock"
+        }
+      ],
+      "edgar_url": "https://www.sec.gov/edgar/data/1022079/0001022079-26-000086.txt"
+    },
+    {
+      "company": "BENTLEY SYSTEMS INC",
+      "owner": "BENTLEY GREGORY S",
+      "owner_type": "DIRECTOR",
+      "signal": {
+        "score": 9,
+        "level": "MEDIUM",
+        "signals": [
+          "DIRECTOR_TRADE",
+          "NET_BUY",
+          "MEDIUM_BUY"
+        ],
+        "total_buy": 61037,
+        "total_sell": 26698
+      },
+      "transactions": [
+        {
+          "action": "BUY",
+          "date": "2026-07-23",
+          "shares": "61037",
+          "price": "30.12",
+          "owned_after": "7717545",
+          "security": "Class B Common Stock"
         },
         {
-          "action": "BUY",
+          "action": "SELL",
           "date": "2026-07-23",
-          "shares": "2000",
-          "price": "5.86",
-          "owned_after": "24246",
-          "security": "Common Stock"
+          "shares": "26698",
+          "price": "30.12",
+          "owned_after": "7690847",
+          "security": "Class B Common Stock"
         }
       ],
-      "edgar_url": "https://www.sec.gov/edgar/data/1053116/0001398344-26-012674.txt"
+      "edgar_url": "https://www.sec.gov/edgar/data/1031308/0001104659-26-087097.txt"
     },
     {
-      "company": "GENESCO INC",
-      "owner": "MARTINEZ ANGEL R",
+      "company": "5C Lending Partners Corp.",
+      "owner": "LAWRY SETH W",
       "owner_type": "DIRECTOR",
       "signal": {
         "score": 9,
@@ -166,124 +209,72 @@
           "PURE_BUY",
           "SMALL_BUY"
         ],
-        "total_buy": 3905,
+        "total_buy": 2275,
         "total_sell": 0
       },
       "transactions": [
         {
           "action": "BUY",
           "date": "2026-07-24",
-          "shares": "3905",
-          "price": "0.00",
-          "owned_after": "24250",
-          "security": "Common Stock"
+          "shares": "2275",
+          "price": "24.29",
+          "owned_after": "15286",
+          "security": "Shares of Common Stock, par value $0.001 per share"
         }
       ],
-      "edgar_url": "https://www.sec.gov/edgar/data/1067999/0001193125-26-316048.txt"
+      "edgar_url": "https://www.sec.gov/edgar/data/1058827/0000930413-26-002192.txt"
     },
     {
-      "company": "UNITED RENTALS, INC.",
-      "owner": "Grace William E.",
-      "owner_type": "OFFICER",
+      "company": "QUEST DIAGNOSTICS INC",
+      "owner": "Lassiter Wright III",
+      "owner_type": "DIRECTOR",
       "signal": {
         "score": 8,
         "level": "MEDIUM",
         "signals": [
-          "OFFICER_TRADE",
-          "PURE_SELL"
+          "DIRECTOR_TRADE",
+          "PURE_BUY"
         ],
-        "total_buy": 0,
-        "total_sell": 1500
+        "total_buy": 6,
+        "total_sell": 0
       },
       "transactions": [
         {
-          "action": "SELL",
-          "date": "2026-07-24",
-          "shares": "1500",
-          "price": "1133.1544",
-          "owned_after": "0",
+          "action": "BUY",
+          "date": "2026-07-22",
+          "shares": "6",
+          "price": "206.813",
+          "owned_after": "10323",
           "security": "Common Stock"
         }
       ],
-      "edgar_url": "https://www.sec.gov/edgar/data/1067701/0001193125-26-316294.txt"
+      "edgar_url": "https://www.sec.gov/edgar/data/1022079/0001022079-26-000080.txt"
     },
     {
-      "company": "ASE Technology Holding Co., Ltd.",
-      "owner": "Uang Du-Tsuen",
-      "owner_type": "OFFICER",
+      "company": "QUEST DIAGNOSTICS INC",
+      "owner": "MAIN TIMOTHY L",
+      "owner_type": "DIRECTOR",
       "signal": {
         "score": 8,
         "level": "MEDIUM",
         "signals": [
-          "OFFICER_TRADE",
-          "PURE_SELL"
-        ],
-        "total_buy": 0,
-        "total_sell": 3000
-      },
-      "transactions": [
-        {
-          "action": "SELL",
-          "date": "2026-07-22",
-          "shares": "3000",
-          "price": "665",
-          "owned_after": "751000",
-          "security": "Ordinary Shares"
-        }
-      ],
-      "edgar_url": "https://www.sec.gov/edgar/data/1122411/0000950103-26-011125.txt"
-    },
-    {
-      "company": "SOUTHERN COPPER CORP/",
-      "owner": "PALOMINO BONILLA LUIS MIGUEL",
-      "owner_type": "DIRECTOR",
-      "signal": {
-        "score": 6,
-        "level": "MEDIUM",
-        "signals": [
           "DIRECTOR_TRADE",
-          "PURE_SELL"
+          "PURE_BUY"
         ],
-        "total_buy": 0,
-        "total_sell": 100
+        "total_buy": 21,
+        "total_sell": 0
       },
       "transactions": [
         {
-          "action": "SELL",
-          "date": "2026-07-24",
-          "shares": "100",
-          "price": "179",
-          "owned_after": "1603",
+          "action": "BUY",
+          "date": "2026-07-22",
+          "shares": "21",
+          "price": "206.81",
+          "owned_after": "22460",
           "security": "Common Stock"
         }
       ],
-      "edgar_url": "https://www.sec.gov/edgar/data/1001838/0001284489-26-000022.txt"
-    },
-    {
-      "company": "PG&amp;E Corp",
-      "owner": "Cooper Kerry Whorton",
-      "owner_type": "DIRECTOR",
-      "signal": {
-        "score": 6,
-        "level": "MEDIUM",
-        "signals": [
-          "DIRECTOR_TRADE",
-          "PURE_SELL"
-        ],
-        "total_buy": 0,
-        "total_sell": 1250
-      },
-      "transactions": [
-        {
-          "action": "SELL",
-          "date": "2026-07-22",
-          "shares": "1250",
-          "price": "18",
-          "owned_after": "0",
-          "security": "Common Stock"
-        }
-      ],
-      "edgar_url": "https://www.sec.gov/edgar/data/1004980/0001628280-26-049606.txt"
+      "edgar_url": "https://www.sec.gov/edgar/data/1022079/0001022079-26-000082.txt"
     }
   ]
 }
